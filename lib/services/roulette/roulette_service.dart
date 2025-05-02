@@ -128,7 +128,7 @@ class RouletteService {
       throw Exception("Unable to get iframe src for game: $e");
     }
 
-    iframeSrc = iframeSrc.trim();
+    iframeSrc = iframeSrc.replaceAll('"', '').trim();
     if (!iframeSrc.startsWith("http")) {
       throw Exception("Invalid iframe src: $iframeSrc");
     }

@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _initWebView();
+    getIt<WebViewService>().startLoginProcess(_onLoginSuccess);
   }
 
   void _initWebView() {
