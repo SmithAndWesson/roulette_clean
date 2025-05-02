@@ -83,23 +83,12 @@ class RouletteService {
 
   Future<Map<String, dynamic>> _fetchGameRestrictions() async {
     final url = "$BASE_URL$BATCH_RESTRICTIONS";
-    try {
-      final resp = await http.get(Uri.parse(url));
-      if (resp.statusCode != 200) return {};
-      final root = json.decode(resp.body);
-      if (root is Map<String, dynamic>) {
-        final restrictKey = root.keys.firstWhere(
-            (k) => k.toLowerCase().contains('restrictions'),
-            orElse: () => '');
-        if (restrictKey.isNotEmpty) {
-          return root[restrictKey]['data'] ?? {};
-        }
-      }
-      return {};
-    } catch (e) {
-      Logger.error("Failed to fetch restrictions", e);
-      return {};
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode != 200) {
+      throw Exception('Ошибка получения ограничений: ${response.statusCode}');
     }
+    final Map<String, dynamic> jsonData = json.decode(response.body);
+    return jsonData['restrictions'] ?? {};
   }
 
   Future<WebSocketParams> extractWebSocketParams(RouletteGame game) async {
@@ -152,15 +141,16 @@ class RouletteService {
     final gameUrl = launchOpts['game_url'] as String;
     Logger.debug("Parsed game_url: $gameUrl");
 
+    // Парсим params из gameUrl
     final gameUri = Uri.parse(gameUrl);
     final paramsEncoded = gameUri.queryParameters['params'];
     if (paramsEncoded == null) {
-      throw Exception("Missing 'params' in game_url");
+      throw Exception('Параметр params не найден в game_url');
     }
-
-    final paramsJson =
-        utf8.decode(base64.decode(_normalizeBase64(paramsEncoded)));
+    final paramsNorm = _normalizeBase64(paramsEncoded);
+    final paramsJson = utf8.decode(base64.decode(paramsNorm));
     final paramsMap = _parseKeyValueString(paramsJson);
+
     final tableId = paramsMap['table_id']!;
     final vtId = paramsMap['vt_id']!;
     final uaLaunchId = paramsMap['ua_launch_id'] ?? '';
@@ -192,22 +182,23 @@ class RouletteService {
     );
   }
 
-  String _normalizeBase64(String b64) {
-    final padLength = (4 - b64.length % 4) % 4;
-    return b64.replaceAll('-', '+').replaceAll('_', '/') + ('=' * padLength);
+  String _normalizeBase64(String input) {
+    var cleaned = input.replaceAll(RegExp(r'[^A-Za-z0-9+/]'), '');
+    final mod = cleaned.length % 4;
+    if (mod != 0) cleaned += '=' * (4 - mod);
+    return cleaned;
   }
 
   Map<String, String> _parseKeyValueString(String input) {
-    final map = <String, String>{};
-    for (var pair in input.split(';')) {
-      if (pair.isEmpty) continue;
-      final idx = pair.indexOf('=');
-      if (idx == -1) continue;
-      final key = pair.substring(0, idx).trim();
-      final value = pair.substring(idx + 1).trim();
-      if (key.isNotEmpty) map[key] = value;
+    final Map<String, String> result = {};
+    for (var line in input.split('\n')) {
+      if (!line.contains('=')) continue;
+      final idx = line.indexOf('=');
+      final key = line.substring(0, idx).trim();
+      final value = line.substring(idx + 1).trim();
+      result[key] = value;
     }
-    return map;
+    return result;
   }
 
   Future<String> _waitForEvoSessionId(WebViewController controller) async {
