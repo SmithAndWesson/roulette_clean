@@ -1,0 +1,1122 @@
+Project Setup and Architecture Overview
+In this task, we will create a new Flutter project and apply a Clean Architecture structure, reusing logic from the existing GitHub project roulette_signals. We will carefully separate concerns into layers and services, ensuring that business logic is not entangled with the UI. The process will involve generating a fresh Flutter project, defining a new folder architecture, copying over essential code (with some refactoring), and establishing dependency injection for our services. Platform-specific code for Windows will be removed (Android-only target), and any UI-specific logic will be moved into appropriate service classes. Key functionality such as retrieving game data, connecting via WebSocket, and analyzing roulette results for signals will be preserved using the original implementation.
+project link if needed https://github.com/SmithAndWesson/roulette_signals/tree/main.
+Step 1: Initialize New Flutter Project
+Create a Flutter Project – Use the Flutter CLI to create a new app (e.g., flutter create roulette_clean). This generates the basic Flutter structure.
+Remove Unneeded Platforms – Delete platform directories not targeted (e.g., windows/, linux/, macos/) since the app will focus on Android (and optionally web). Remove any conditional code for these platforms.
+Update Pubspec Dependencies – In pubspec.yaml, add the packages needed for our architecture and services:
+get_it for dependency injection (service locator pattern).
+provider for state management (optional, for notifying UI of changes).
+http for REST API calls.
+web_socket_channel for WebSocket connections.
+webview_flutter for the embedded WebView (Android WebView controller).
+shared_preferences for local storage of session tokens (JWT, cookies).
+Ensure to run flutter pub get after adding these.
+Step 2: Define Clean Architecture Structure
+Organize the lib/ directory into a Clean Architecture style layout. Create the following folders and files:
+markdown
+Копировать
+Редактировать
+lib/
+├── core/
+│   ├── di/
+│   │   └── **service_locator.dart**
+│   └── constants/
+│       └── **app_constants.dart**
+├── services/
+│   ├── session/
+│   │   └── **session_manager.dart**
+│   ├── webview/
+│   │   └── **webview_service.dart**
+│   ├── websocket/
+│   │   └── **websocket_service.dart**
+│   ├── roulette/
+│   │   ├── **roulette_service.dart**
+│   │   └── **number_analyzer.dart**
+│   └── signals/
+│       └── **signals_service.dart**
+├── models/
+│   ├── roulette/
+│   │   ├── **roulette_game.dart**
+│   │   └── **roulette_models.dart** (if needed, e.g., restrictions)
+│   ├── websocket/
+│   │   ├── **websocket_params.dart**
+│   │   └── **recent_results.dart**
+│   └── **signal.dart**
+├── presentation/
+│   ├── screens/
+│   │   ├── login/
+│   │   │   └── **login_screen.dart**
+│   │   └── main/
+│   │       └── **main_screen.dart**
+│   └── widgets/
+│       └── **roulette_card.dart** (and other UI components)
+└── utils/
+    ├── **logger.dart**
+    ├── **sound_player.dart**
+    └── **expiry_watcher.dart** (optional, if needed for session timeout)
+This structure separates core infrastructure (constants, DI), service logic, data models, UI screens, and utility helpers. We will next fill these with the appropriate content.
+Step 3: Core Setup (Constants and DI)
+App Constants (core/constants/app_constants.dart): Define application-wide constants here. For example:
+dart
+Копировать
+Редактировать
+const String BASE_URL = "https://gizbo.casino";
+const String GAMES_ENDPOINT = "/api/cms/v2/games/UAH";
+const String BATCH_RESTRICTIONS = "/api/v2/games/restrictions?country=UA";
+const String WS_ORIGIN = "https://royal.evo-games.com";
+const String JWT_STORAGE_KEY = "JWT_AUTH";
+const Duration WS_TIMEOUT = Duration(seconds: 10);
+Include any keys or URLs that multiple components might use (base URLs, keys for localStorage, timeouts, etc.). Centralizing these avoids magic strings in the code.
+Service Locator (core/di/service_locator.dart): Set up a global GetIt instance and register our services as singletons:
+dart
+Копировать
+Редактировать
+import 'package:get_it/get_it.dart';
+import 'package:roulette_clean/services/session/session_manager.dart';
+import 'package:roulette_clean/services/webview/webview_service.dart';
+import 'package:roulette_clean/services/websocket/websocket_service.dart';
+import 'package:roulette_clean/services/roulette/roulette_service.dart';
+import 'package:roulette_clean/services/signals/signals_service.dart';
+
+final getIt = GetIt.instance;
+
+void setupServiceLocator() {
+  // Core singletons
+  getIt.registerLazySingleton<SessionManager>(() => SessionManager());
+  getIt.registerLazySingleton<WebViewService>(() => WebViewService());
+  getIt.registerLazySingleton<WebSocketService>(() => WebSocketService());
+  // Register RouletteService with dependencies
+  getIt.registerLazySingleton<RouletteService>(() => RouletteService(
+        sessionManager: getIt<SessionManager>(),
+        webViewService: getIt<WebViewService>(),
+      ));
+  getIt.registerLazySingleton<SignalsService>(() => SignalsService());
+}
+Here we inject SessionManager and WebViewService into RouletteService via its constructor for better decoupling and testability. After calling setupServiceLocator() in main.dart, we can retrieve instances anywhere by getIt<YourService>(). This avoids needing global variables or passing references through widgets.
+Step 4: Session Management
+Create SessionManager in services/session/session_manager.dart. This class will manage user session data (JWT token and cookies) globally:
+dart
+Копировать
+Редактировать
+class SessionManager {
+  String? _jwtToken;
+  String? _cookieHeader;
+
+  String? get jwtToken => _jwtToken;
+  String? get cookieHeader => _cookieHeader;
+
+  /// Save JWT token and cookie string after login
+  void saveSession({required String jwtToken, required String cookieHeader}) {
+    _jwtToken = jwtToken;
+    _cookieHeader = cookieHeader;
+    // Optionally, persist to local storage for app restart
+    // (e.g., using SharedPreferences)
+  }
+
+  /// Load session from storage on app start (if persisted)
+  void loadSession() {
+    // e.g., SharedPreferences to retrieve saved JWT and cookies.
+  }
+
+  /// Check if there's a valid session
+  bool get isLoggedIn {
+    if (_jwtToken == null) return false;
+    // Optionally verify JWT exp claim or cookie expiration.
+    return true;
+  }
+
+  /// Clear session data (e.g., on logout or token expiry)
+  void clearSession() {
+    _jwtToken = null;
+    _cookieHeader = null;
+    // Also clear persisted storage if used.
+  }
+}
+Responsibilities: SessionManager holds authentication credentials from a successful login. After the WebView login, we will supply this manager with the JWT token and all cookies. The _cookieHeader will store a concatenated cookie string (including crucial cookies like original_user_id, session cookies, etc.) for reuse in web requests or WebSocket connections.
+Integration: Other services (e.g., RouletteService, WebViewService, WebSocketService) can query SessionManager for the JWT or cookies. For instance, if future HTTP requests require auth, RouletteService could attach SessionManager.jwtToken as a bearer token or use cookies.
+Step 5: WebView Integration via Service
+Create WebViewService in services/webview/webview_service.dart. This service manages a single WebViewController instance that we reuse across the app for hidden web interactions (login and game parameter extraction):
+dart
+Копировать
+Редактировать
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/foundation.dart';  // for ChangeNotifier if needed
+
+class WebViewService {
+  late final WebViewController _controller;
+  bool _initialized = false;
+
+  WebViewController get controller => _controller;
+
+  WebViewService() {
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..enableZoom(false); // additional config as needed
+  }
+
+  /// Initializes the WebView and loads the initial login page.
+  Future<void> initialize() async {
+    if (_initialized) return;
+    _initialized = true;
+    // Set up any required settings or cookies here if needed.
+    // (We will handle cookies in SessionManager or during login.)
+  }
+
+  /// Load the login page and wait for user authentication.
+  Future<void> startLoginProcess(Function(String jwt, String cookies) onLoginSuccess) async {
+    await initialize();
+    // Load the casino login URL
+    await _controller.loadRequest(Uri.parse("https://gizbo.casino"));  // base login page URL
+    // Monitor page navigation events to detect when login is complete.
+    _controller.setNavigationDelegate(NavigationDelegate(
+      onPageFinished: (url) async {
+        // When login redirect finishes, attempt to retrieve JWT and cookies
+        final jsJwt = await _controller.runJavaScriptReturningResult('localStorage.getItem("$JWT_STORAGE_KEY")');
+        final jsCookies = await _controller.runJavaScriptReturningResult('document.cookie');
+        String jwt = _cleanResult(jsJwt);
+        String cookieStr = _cleanResult(jsCookies);
+        final hasAuth = jwt.isNotEmpty && cookieStr.contains("original_user_id=");
+        if (hasAuth) {
+          onLoginSuccess(jwt, cookieStr);
+        }
+      },
+    ));
+  }
+
+  /// Utility to strip quotes from JS result
+  String _cleanResult(Object? result) {
+    if (result == null) return "";
+    return result.toString().replaceAll('"', '').trim();
+  }
+
+  /// Optionally, a method to set cookies prior to loading a page (for auto-login).
+  Future<void> setCookies(String cookieHeader, {required String domain}) async {
+    final cookieManager = WebViewCookieManager();
+    for (var cookie in cookieHeader.split(';')) {
+      final parts = cookie.split('=');
+      if (parts.length != 2) continue;
+      final name = parts[0].trim(), value = parts[1].trim();
+      await cookieManager.setCookie(
+        WebViewCookie(name: name, value: value, domain: domain, path: "/")
+      );
+    }
+  }
+}
+Key Points:
+We create one WebViewController (_controller) for the app. We do not dispose of it after login; instead, we keep it alive (potentially offstage in the widget tree) to reuse for subsequent operations (like loading game pages in RouletteService). This avoids re-initializing WebView and cookies each time.
+startLoginProcess loads the login page and sets a NavigationDelegate to listen for page completion. When the login is done (user enters credentials and the page redirects, presumably to a logged-in state or dashboard), we execute JavaScript to retrieve the JWT token from localStorage and all cookies via document.cookie.
+_cleanResult removes any wrapping quotes from the JavaScript return values (since runJavaScriptReturningResult may return values as JSON strings).
+When credentials are obtained (jwt and cookies), we invoke a callback onLoginSuccess(jwt, cookies) to hand these values to the app (likely to save in SessionManager and proceed to main content).
+Cookie Handling: The setCookies method can be used at app startup. If SessionManager has cookies from a previous session, we can set them in the WebView before loading the login page to attempt automatic login (single sign-on). We would call WebViewService.setCookies(savedCookies, domain: ".gizbo.casino") for each relevant domain (like .gizbo.casino and possibly .evo-games.com) before calling startLoginProcess. This mirrors the original code’s behavior of injecting cookies (see original RouletteService.extractWebSocketParams which sets cookies for gizbo.casino and evo-games.com).
+By encapsulating WebView logic here, LoginScreen UI will simply trigger WebViewService.startLoginProcess and wait for success, instead of containing the above logic.
+Step 6: Roulette Service (Games and WebSocket Parameters)
+Create RouletteService in services/roulette/roulette_service.dart. This service will handle:
+Fetching the list of live roulette games from the casino API.
+Filtering available games and excluding restricted ones.
+Extracting the parameters needed to connect to a game’s WebSocket feed (using the WebView to parse game page).
+We will reuse and adapt the logic from the original RouletteService class:
+dart
+Копировать
+Редактировать
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
+import 'package:roulette_clean/core/constants/app_constants.dart';
+import 'package:roulette_clean/models/roulette/roulette_game.dart';
+import 'package:roulette_clean/models/websocket/websocket_params.dart';
+import 'package:roulette_clean/models/websocket/recent_results.dart';
+import 'package:roulette_clean/services/webview/webview_service.dart';
+import 'package:roulette_clean/services/session/session_manager.dart';
+import 'package:roulette_clean/utils/logger.dart';
+
+class RouletteService {
+  final SessionManager _sessionManager;
+  final WebViewService _webViewService;
+  List<RouletteGame>? _cachedGames;
+  DateTime? _lastFetchTime;
+  static const _cacheDuration = Duration(minutes: 5);
+
+  RouletteService({required SessionManager sessionManager, required WebViewService webViewService})
+      : _sessionManager = sessionManager,
+        _webViewService = webViewService;
+
+  /// Fetches and returns the list of live roulette games, with caching.
+  Future<List<RouletteGame>> fetchLiveRouletteGames() async {
+    // Return cached list if it's still fresh
+    if (_cachedGames != null && _lastFetchTime != null &&
+        DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
+      return _cachedGames!;
+    }
+    // Throttle rapid successive calls (wait 2s between requests to avoid server overload)
+    if (_lastFetchTime != null) {
+      final elapsed = DateTime.now().difference(_lastFetchTime!);
+      if (elapsed < Duration(seconds: 2)) {
+        await Future.delayed(Duration(seconds: 2) - elapsed);
+      }
+    }
+    // Construct URL and fetch data
+    final url = "$BASE_URL$GAMES_ENDPOINT";  // Using batch endpoint if needed
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 429) {
+      // Too many requests: wait and retry once
+      await Future.delayed(Duration(seconds: 5));
+      return await fetchLiveRouletteGames();
+    }
+    if (response.statusCode != 200) {
+      throw Exception("Error fetching games: ${response.statusCode}");
+    }
+    final root = json.decode(response.body) as Map<String, dynamic>;
+    // The batch response might nest the actual data under keys:
+    // e.g., "CmsApiCmsV2GamesUAH" -> "data"
+    Map<String, dynamic> data;
+    if (root.containsKey('CmsApiCmsV2GamesUAH')) {
+      data = (root['CmsApiCmsV2GamesUAH']['data'] as Map<String, dynamic>);
+    } else {
+      data = root['data'] ?? root; // fallback if structure is different
+    }
+    // Parse and filter games
+    final allGames = data.values.map((g) => RouletteGame.fromJson(g)).toList();
+    final rouletteGames = allGames.where((game) =>
+        game.collections.contains('online_live_casino') &&
+        game.collections.contains('live_roulette') &&
+        game.slug.contains('online-live-casino')
+    ).toList();
+    // Fetch restrictions (country or user-based restrictions)
+    final restrictions = await _fetchGameRestrictions();
+    final restrictedProviders = List<String>.from(restrictions['producers'] ?? []);
+    final restrictedGames = List<String>.from(restrictions['games'] ?? []);
+    // Filter out restricted games
+    final filteredGames = rouletteGames.where((game) {
+      final gameKey = game.identifier.replaceFirst('/', ':');
+      final isRestricted = restrictedGames.contains(gameKey) || restrictedProviders.contains(game.provider);
+      return !isRestricted;
+    }).toList();
+    // Update cache and timestamp
+    _cachedGames = filteredGames;
+    _lastFetchTime = DateTime.now();
+    return filteredGames;
+  }
+
+  /// Internal helper to fetch game restrictions (which games/providers are unavailable).
+  Future<Map<String, dynamic>> _fetchGameRestrictions() async {
+    final url = "$BASE_URL$BATCH_RESTRICTIONS";
+    try {
+      final resp = await http.get(Uri.parse(url));
+      if (resp.statusCode != 200) return {};
+      final root = json.decode(resp.body);
+      // The batch response likely contains restrictions under some key:
+      // e.g., "GamesRestrictions" or similar structure. Extract accordingly.
+      // For simplicity, assume it merges into a single map:
+      if (root is Map<String, dynamic>) {
+        // Try to find a key containing 'restrictions'
+        final restrictKey = root.keys.firstWhere((k) => k.toLowerCase().contains('restrictions'), orElse: () => '');
+        if (restrictKey.isNotEmpty) {
+          return root[restrictKey]['data'] ?? {};
+        }
+      }
+      return {};
+    } catch (e) {
+      Logger.error("Failed to fetch restrictions", e);
+      return {};
+    }
+  }
+
+  /// Extracts WebSocket connection parameters for a given roulette game by loading its web page.
+  /// Returns a [WebSocketParams] object containing all necessary fields for connection.
+  Future<WebSocketParams> extractWebSocketParams(RouletteGame game) async {
+    // Ensure WebView is initialized and logged in
+    await _webViewService.initialize();
+    final controller = _webViewService.controller;
+    // If we have session cookies saved, set them for relevant domains before loading
+    final cookies = _sessionManager.cookieHeader;
+    if (cookies != null && cookies.isNotEmpty) {
+      // Set cookies for gizbo.casino and evo-games.com domains
+      await _webViewService.setCookies(cookies, domain: ".gizbo.casino");
+      await _webViewService.setCookies(cookies, domain: ".evo-games.com");
+    }
+    // 1. Load the game's page (which contains an iframe)
+    final gamePageUrl = "${BASE_URL}${game.playUrl}";
+    Logger.info("Loading game page: $gamePageUrl");
+    await controller.loadRequest(Uri.parse(gamePageUrl));
+    // 2. Wait for the page (and its iframe) to finish loading
+    await controller.setNavigationDelegate(NavigationDelegate(
+      onPageFinished: (url) {},
+    ));
+    // Alternatively, use a stream to wait for NavigationCompleted state if available.
+    // 3. Retrieve the iframe src from the loaded page
+    String iframeSrc = "";
+    try {
+      iframeSrc = (await controller.runJavaScriptReturningResult(
+          """
+          (function() {
+            const iframe = document.querySelector('iframe');
+            return iframe && iframe.src ? iframe.src : '';
+          })();
+          """
+      )).toString();
+    } catch (e) {
+      throw Exception("Unable to get iframe src for game: $e");
+    }
+    iframeSrc = iframeSrc.trim();
+    if (!iframeSrc.startsWith("http")) {
+      throw Exception("Invalid iframe src: $iframeSrc");
+    }
+    Logger.debug("Game iframe src: $iframeSrc");
+    // 4. Parse iframe URL to get `options` parameter and decode it (Base64 -> JSON)
+    final iframeUri = Uri.parse(iframeSrc);
+    final optionsEncoded = iframeUri.queryParameters['options'];
+    if (optionsEncoded == null) {
+      throw Exception("Missing 'options' param in iframe URL");
+    }
+    final optionsJson = utf8.decode(base64.decode(_normalizeBase64(optionsEncoded)));
+    final optionsMap = json.decode(optionsJson) as Map<String, dynamic>;
+    final launchOpts = optionsMap['launch_options'] as Map<String, dynamic>?;
+    if (launchOpts == null || launchOpts['game_url'] == null) {
+      throw Exception("No game_url in launch_options");
+    }
+    final gameUrl = launchOpts['game_url'] as String;
+    Logger.debug("Parsed game_url: $gameUrl");
+    // 5. Parse game_url to get `params` parameter and decode it
+    final gameUri = Uri.parse(gameUrl);
+    final paramsEncoded = gameUri.queryParameters['params'];
+    if (paramsEncoded == null) {
+      throw Exception("Missing 'params' in game_url");
+    }
+    final paramsJson = utf8.decode(base64.decode(_normalizeBase64(paramsEncoded)));
+    final paramsMap = _parseKeyValueString(paramsJson);
+    final tableId = paramsMap['table_id']!;
+    final vtId = paramsMap['vt_id']!;
+    final uaLaunchId = paramsMap['ua_launch_id'] ?? '';
+    // 6. Load the provider's URL in WebView to establish session (EVO platform)
+    Logger.info("Loading provider URL to obtain session...");
+    await controller.loadRequest(Uri.parse(gameUrl));
+    // Wait for localStorage `evo.video.sessionId` to appear (with timeout)
+    final evoSessionId = await _waitForEvoSessionId(controller);
+    // 7. Get cookies from the provider domain and ensure EVOSESSIONID is present
+    final rawCookies = (await controller.runJavaScriptReturningResult('document.cookie')).toString();
+    String cookieHeader = rawCookies;
+    if (!rawCookies.contains('EVOSESSIONID=')) {
+      // If EVOSESSIONID cookie wasn't set by normal means, append it manually
+      cookieHeader = "$rawCookies; EVOSESSIONID=$evoSessionId";
+    }
+    // 8. Generate an instance identifier for WebSocket (random + session + vtId)
+    final rnd = Random().nextInt(1 << 20).toRadixString(36);
+    final shortSess = evoSessionId.substring(0, 16);
+    final instance = "$rnd-$shortSess-$vtId";
+    // 9. Build and return the WebSocketParams
+    return WebSocketParams(
+      tableId: tableId,
+      vtId: vtId,
+      uaLaunchId: uaLaunchId,
+      clientVersion: "6.20250415.70424.51183-8793aee83a",  // use the same static version as original
+      evoSessionId: evoSessionId,
+      instance: instance,
+      cookieHeader: cookieHeader,
+    );
+  }
+
+  // Helper to normalize Base64 strings (handle URL-safe encoding)
+  String _normalizeBase64(String b64) {
+    // Pad with '=' if necessary
+    final padLength = (4 - b64.length % 4) % 4;
+    return b64.replaceAll('-', '+').replaceAll('_', '/') + ('=' * padLength);
+  }
+
+  // Helper to parse "key=value;key2=value2;..." into Map
+  Map<String, String> _parseKeyValueString(String input) {
+    final map = <String, String>{};
+    for (var pair in input.split(';')) {
+      if (pair.isEmpty) continue;
+      final idx = pair.indexOf('=');
+      if (idx == -1) continue;
+      final key = pair.substring(0, idx).trim();
+      final value = pair.substring(idx + 1).trim();
+      if (key.isNotEmpty) map[key] = value;
+    }
+    return map;
+  }
+
+  // Helper to wait for localStorage item 'evo.video.sessionId'
+  Future<String> _waitForEvoSessionId(WebViewController controller) async {
+    const timeout = Duration(seconds: 10);
+    final deadline = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(deadline)) {
+      final sessionId = (await controller.runJavaScriptReturningResult(
+          'localStorage.getItem("evo.video.sessionId") ?? ""'
+      )).toString().replaceAll('"', '');
+      if (sessionId.isNotEmpty) {
+        return sessionId;
+      }
+      await Future.delayed(Duration(milliseconds: 250));
+    }
+    throw Exception("Timeout waiting for evo.video.sessionId");
+  }
+}
+Notes on the above implementation:
+We directly copied the complex logic from the original extractWebSocketParams, with adjustments:
+Use _webViewService.controller instead of creating a new WebViewController locally. This leverages the singleton WebView that persists cookies and state.
+Remove platform checks for Windows: in the original, there was an if (Platform.isAndroid) {...} else {...} block to set cookies. We use our WebViewService.setCookies for Android and simply don't support Windows (no Windows-specific code needed).
+After obtaining WebSocketParams, we do not dispose the WebView controller (the original code called controller.dispose() in a finally block). Since our WebView is a persistent singleton, we want to keep it alive. We remove the dispose call so the WebView can be reused for subsequent game connections.
+_fetchGameRestrictions() uses the batch endpoint to retrieve restricted game IDs and providers for the user’s region, similar to the original code. This ensures we only display playable games.
+_waitForEvoSessionId replicates waiting for the localStorage session item, with a loop and timeout of 10 seconds, matching the original logic.
+We maintain the original static clientVersion string for consistency (this might be updated in the future; for now we keep the same one from the original code).
+Dependency Injection: Note the constructor of RouletteService requires SessionManager and WebViewService. We pass these via GetIt in service_locator.dart. The service then uses _sessionManager.cookieHeader when setting up cookies, and _webViewService.controller to load pages.
+With RouletteService in place, the UI (MainScreen or SignalsService) will use it to get game list (fetchLiveRouletteGames) and to get WebSocketParams for a selected game (extractWebSocketParams).
+Step 7: WebSocket Service (Live Results)
+Create WebSocketService in services/websocket/websocket_service.dart. We'll reuse the original implementation, which connects to the WebSocket and listens for the roulette.recentResults message:
+dart
+Копировать
+Редактировать
+import 'dart:async';
+import 'dart:convert';
+import 'package:web_socket_channel/io.dart';
+import 'package:roulette_clean/models/websocket/websocket_params.dart';
+import 'package:roulette_clean/models/websocket/recent_results.dart';
+import 'package:roulette_clean/utils/logger.dart';
+
+class WebSocketService {
+  IOWebSocketChannel? _channel;
+  Timer? _timeoutTimer;
+
+  /// Connects to the roulette WebSocket using [params] and waits for the recentResults message.
+  /// Returns a [RecentResults] object if successful, or null on timeout/failure.
+  Future<RecentResults?> fetchRecentResults(WebSocketParams params) async {
+    try {
+      // Open WebSocket connection to the URL from params
+      _channel = IOWebSocketChannel.connect(Uri.parse(params.webSocketUrl), headers: {
+        'Cookie': params.cookieHeader,
+        'Origin': WS_ORIGIN,  // e.g., "https://royal.evo-games.com"
+      });
+      final completer = Completer<RecentResults?>();
+      // Set up a timeout timer (e.g., 10 seconds) to abort if no message
+      _timeoutTimer = Timer(WS_TIMEOUT, () {
+        if (!completer.isCompleted) {
+          Logger.warning("WebSocket recentResults timeout");
+          completer.complete(null);
+          _channel?.sink.close();
+        }
+      });
+      // Listen for messages from WebSocket
+      _channel!.stream.listen((message) {
+        Logger.debug("WS ⇠ $message");
+        // Attempt to decode JSON
+        Map<String, dynamic>? decoded;
+        try {
+          final tmp = jsonDecode(message);
+          if (tmp is Map<String, dynamic>) decoded = tmp;
+        } catch (_) {
+          // If message is not valid JSON (could be ping string), ignore it
+          return;
+        }
+        if (decoded == null) return;
+        if (decoded['type'] != 'roulette.recentResults') return;
+        // We found a recentResults message, parse it
+        try {
+          final results = RecentResults.fromJson(decoded);
+          if (!completer.isCompleted) {
+            completer.complete(results);
+          }
+          // Once we got the recentResults, we can decide to close the connection (one-shot).
+        } catch (e, st) {
+          Logger.error("Failed to parse recentResults", e, st);
+          // Parsing error, but we keep listening until timeout or data comes correctly.
+        }
+      }, onError: (error, st) {
+        Logger.error("WebSocket error", error, st);
+        if (!completer.isCompleted) completer.complete(null);
+      }, onDone: () {
+        Logger.info("WebSocket closed");
+        if (!completer.isCompleted) completer.complete(null);
+      });
+      // Wait for the completer to finish (either with data or null)
+      return await completer.future;
+    } catch (e) {
+      Logger.error("WebSocket connection failed", e);
+      rethrow;
+    } finally {
+      _timeoutTimer?.cancel();
+      // Ensure the socket is closed after use
+      _channel?.sink.close();
+    }
+  }
+}
+Details:
+We open the WebSocket using IOWebSocketChannel.connect with the URL from params.webSocketUrl (the URL is constructed in WebSocketParams and includes tableId, instance, etc.). We also pass the cookies in the header and a valid Origin.
+We listen to the _channel.stream and parse incoming messages. We specifically wait for a JSON where "type": "roulette.recentResults".
+Once that message is received, we create a RecentResults model via RecentResults.fromJson(decoded) (the original parsing logic is used, which handles the nested structure of the message).
+We use a Completer<RecentResults?> to manage the asynchronous result, and a _timeoutTimer to enforce a timeout (10 seconds defined by WS_TIMEOUT in constants). If timed out, we close the connection and return null.
+The function returns the RecentResults if available, or null if none received (or an error occurred).
+In practice, we expect fetchRecentResults to be called when the user triggers a connection (e.g., tapping a game in the UI). After getting the results, this service closes the connection (one connection per fetch to get the latest results snapshot).
+Step 8: Signals Service (Result Analysis and Notifications)
+Now we centralize the roulette results analysis in SignalsService (services/signals/signals_service.dart). This service will:
+Accept new spin results for a game and analyze them using the NumberAnalyzer (and other algorithms).
+Store current signals per game.
+Notify the UI of new signals (could be via ChangeNotifier, or simply by providing getters and using Provider).
+Handle side effects like playing alert sounds or sending notifications when signals appear.
+dart
+Копировать
+Редактировать
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:roulette_clean/models/signal.dart';
+import 'package:roulette_clean/services/roulette/number_analyzer.dart';
+import 'package:roulette_clean/utils/sound_player.dart';
+
+class SignalsService extends ChangeNotifier {
+  final NumberAnalyzer _numberAnalyzer = NumberAnalyzer();
+  final Map<String, List<Signal>> _gameSignals = {};
+
+  /// Get current signals for a given game by its ID.
+  List<Signal> getSignalsForGame(String gameId) {
+    return _gameSignals[gameId] ?? [];
+  }
+
+  /// Process new spin results for a game, update signals and trigger notifications.
+  void processResults(String gameId, List<int> recentNumbers) {
+    // Analyze results using NumberAnalyzer (e.g., missing dozens/columns pattern)
+    final signals = _numberAnalyzer.detectMissingDozenOrRow(recentNumbers);
+    if (signals.isNotEmpty) {
+      _gameSignals[gameId] = signals;
+      // Handle each new signal: play sound, show notifications, etc.
+      for (Signal signal in signals) {
+        // Play alert sound for each signal (ping)
+        SoundPlayer.play("alert.wav");  // assuming SoundPlayer has a static play method
+        // (Optional) trigger a toast/snackbar or send through other channels (like Telegram)
+        // This example uses UI SnackBars via notifier; actual UI can listen to notifyListeners.
+      }
+      notifyListeners();  // notify UI that signals data changed
+    } else {
+      // If no signals, we could clear previous signals or leave as is
+      _gameSignals.remove(gameId);
+      notifyListeners();
+    }
+  }
+
+  /// (Optional) Auto-analysis: schedule periodic checks for all games.
+  Timer? _autoTimer;
+  void startAutoAnalysis(Duration interval, List<String> gameIds, Future<List<int>> Function(String) fetchResults) {
+    // Periodically fetch results for each game and analyze.
+    _autoTimer?.cancel();
+    _autoTimer = Timer.periodic(interval, (_) async {
+      for (String id in gameIds) {
+        try {
+          final numbers = await fetchResults(id);
+          processResults(id, numbers);
+        } catch (_) {
+          // ignore fetch errors in auto mode
+        }
+      }
+    });
+  }
+  void stopAutoAnalysis() {
+    _autoTimer?.cancel();
+    _autoTimer = null;
+  }
+}
+Explanation:
+SignalsService extends ChangeNotifier so that UI widgets (via Provider/Consumer) can listen for changes in signals data.
+_gameSignals holds the latest signals for each game (by gameId).
+processResults(gameId, recentNumbers) calls the _numberAnalyzer.detectMissingDozenOrRow to determine if any signal conditions are met for the sequence of recent numbers. We use the original NumberAnalyzer (which we will set up in a moment) for pattern detection.
+If signals are found, we store them and then perform side effects:
+Playing a ping sound (SoundPlayer.play("alert.wav") – we'll implement SoundPlayer in utils to play a predefined sound asset).
+We mention showing a SnackBar or notification – in practice, the UI layer can display a SnackBar when it observes new signals via the notifier. We keep that responsibility in UI (e.g., the UI can check when getSignalsForGame changes from empty to non-empty and then display a SnackBar with signal.message). However, we've triggered notifyListeners() so any UI bound to SignalsService via Provider will update (e.g., to show an icon or highlight).
+If no signals, we remove any existing entry for that game (meaning previous signals have expired) and notify as well, so UI can clear any indicators.
+We also included an optional auto-analysis mechanism: startAutoAnalysis which can periodically fetch results for all active games and call processResults on each. This mimics the behavior of the original RoulettesPoller if we want automated background updates. The fetchResults function would typically call RouletteService and WebSocketService to get fresh data. This is off by default, but can be enabled via UI toggle if desired.
+Using SignalsService, the MainScreen can be greatly simplified: instead of doing analysis and signal handling itself, it would call signalsService.processResults(gameId, numbers) after receiving new results, and then rely on the service’s state (via Provider) to show signals.
+Step 9: Data Models
+We will reuse the existing data model classes for consistency. Create the following in lib/models/:
+roulette_game.dart (in models/roulette/roulette_game.dart): The RouletteGame model, representing a roulette table.
+dart
+Копировать
+Редактировать
+class RouletteGame {
+  final String id;
+  final String title;
+  final String provider;
+  final String identifier;
+  final String playUrl;
+  final String slug;
+  final List<String> collections;
+  bool isAnalyzing;
+
+  RouletteGame({
+    required this.id,
+    required this.title,
+    required this.provider,
+    required this.identifier,
+    required this.playUrl,
+    required this.slug,
+    required this.collections,
+    this.isAnalyzing = false,
+  });
+
+  factory RouletteGame.fromJson(Map<String, dynamic> json) {
+    return RouletteGame(
+      id: json['id'].toString(),
+      title: json['title'] as String,
+      provider: json['provider'] as String,
+      identifier: json['identifier'] as String,
+      playUrl: json['play_url']?['UAH'] ?? '',
+      slug: json['slug'] as String,
+      collections: List<String>.from(json['collections'] ?? []),
+    );
+  }
+}
+This matches the original model, with a factory to parse JSON from the API. The isAnalyzing field can be used in UI to mark a game that’s currently being analyzed (optional state flag).
+websocket_params.dart (in models/websocket/websocket_params.dart): The parameters needed for WebSocket connection.
+dart
+Копировать
+Редактировать
+class WebSocketParams {
+  final String tableId;
+  final String vtId;
+  final String uaLaunchId;
+  final String clientVersion;
+  final String evoSessionId;
+  final String instance;
+  final String cookieHeader;
+
+  WebSocketParams({
+    required this.tableId,
+    required this.vtId,
+    required this.uaLaunchId,
+    required this.clientVersion,
+    required this.evoSessionId,
+    required this.instance,
+    required this.cookieHeader,
+  });
+
+  // Compute full WebSocket URL using the parameters
+  String get webSocketUrl {
+    return "wss://royal.evo-games.com/public/roulette/player/game/$tableId/socket"
+           "?messageFormat=json"
+           "&tableConfig=$vtId"
+           "&EVOSESSIONID=$evoSessionId"
+           "&client_version=$clientVersion"
+           "&instance=$instance";
+  }
+}
+The webSocketUrl getter concatenates all required query parameters (this logic was present in the original WebSocketParams and ensures we have the correct endpoint URL).
+recent_results.dart (in models/websocket/recent_results.dart): Represents the recent roulette outcomes received from the WebSocket.
+dart
+Копировать
+Редактировать
+class RecentResults {
+  final List<int> numbers;
+  final DateTime timestamp;
+
+  RecentResults({required this.numbers, required this.timestamp});
+
+  // Parse the JSON message from WebSocket (expects 'roulette.recentResults' format)
+  factory RecentResults.fromJson(Map<String, dynamic> json) {
+    // The JSON typically has structure: { type: 'roulette.recentResults', args: { recentResults: [ [ "12x1" ], [ "5x1" ], ... ] } }
+    if (!json.containsKey('args')) {
+      throw FormatException("Invalid recentResults format");
+    }
+    final args = json['args'] as Map<String, dynamic>;
+    final rawList = args['recentResults'] as List? ?? [];
+    // Extract the first element of each sub-list, split on 'x' to get the number part
+    final numbers = rawList.whereType<List>().map((item) {
+      if (item.isNotEmpty) {
+        String entry = item.first.toString(); // e.g., "12x1"
+        if (entry.contains('x')) {
+          return int.parse(entry.split('x').first);
+        }
+        return int.tryParse(entry) ?? -1;
+      }
+      return -1;
+    }).where((n) => n >= 0).toList();
+    return RecentResults(numbers: numbers, timestamp: DateTime.now());
+  }
+}
+This corresponds to the original parsing logic: it navigates the nested list structure to pull out the recent 10 numbers (the original code took up to 9 numbers; we take all provided but our analysis threshold will typically use last 9 anyway).
+signal.dart (in models/signal.dart): Defines the signal structure and types for pattern detection:
+dart
+Копировать
+Редактировать
+enum SignalType { patternDozen9, patternRow9 /*, other patterns if any */ }
+
+class Signal {
+  final SignalType type;
+  final String message;
+  final List<int> lastNumbers;
+  final DateTime timestamp;
+
+  Signal({
+    required this.type,
+    required this.message,
+    required this.lastNumbers,
+    required this.timestamp,
+  });
+}
+We include SignalType.patternDozen9 and SignalType.patternRow9 as per the patterns implemented in NumberAnalyzer (detecting a dozen or a column missing in the last 9). The Signal holds a human-readable message, the sequence of numbers considered, and a timestamp for when it was generated.
+roulette_models.dart (optional): If there are other related models (like restrictions data structure or provider info), you can define them here or include in roulette_game.dart. In this case, we mostly use a Map for restrictions, so an explicit model may not be needed.
+By keeping model classes simple (mostly data holders with factory constructors), we ensure they're easily serializable and usable across services and UI.
+Step 10: Utility Classes
+Under lib/utils/, implement some helper utilities:
+logger.dart: A simple logger to replicate the Logger.info, Logger.error usage in the code.
+dart
+Копировать
+Редактировать
+class Logger {
+  static void debug(String message) {
+    // For debugging: print verbose logs if needed
+    // print("[DEBUG] $message");
+  }
+  static void info(String message) {
+    print("[INFO] $message");
+  }
+  static void warning(String message) {
+    print("[WARN] $message");
+  }
+  static void error(String message, [Object? error, StackTrace? stackTrace]) {
+    print("[ERROR] $message");
+    if (error != null) print("   Error: $error");
+    if (stackTrace != null) print("   Stack: $stackTrace");
+  }
+}
+This simply prints to the console with a tag. In a real project, you might integrate a proper logging framework; for now this suffices to trace the flow as in the original code.
+sound_player.dart: A utility to play a sound alert when a signal is detected.
+dart
+Копировать
+Редактировать
+import 'package:audioplayers/audioplayers.dart';  // ensure audioplayers in pubspec if using
+class SoundPlayer {
+  static final AudioPlayer _player = AudioPlayer();
+  static Future<void> play(String assetFileName) async {
+    try {
+      // Assuming the sound file is placed in assets/ (and declared in pubspec)
+      await _player.play(AssetSource(assetFileName));
+    } catch (e) {
+      Logger.error("Failed to play sound $assetFileName", e);
+    }
+  }
+}
+(Make sure to include the sound file in pubspec under assets, e.g., assets/sounds/alert.wav). This uses audioplayers package to play a sound from assets. Alternatively, for simplicity, one could use SystemSound.play if just default notification sounds.
+expiry_watcher.dart (optional): In case we want to automatically detect JWT expiration. The original had an ExpiryWatcher that likely checked token TTL. We might not need it if we check on app launch and use SessionManager’s isLoggedIn to redirect to login. If implementing, it could start a timer for JWT expiry based on token’s exp claim.
+Step 11: UI Layer Adjustments
+With the services in place, the UI code will be much cleaner:
+LoginScreen (presentation/screens/login/login_screen.dart): The login screen widget should contain the WebView for user login. We can embed the WebView widget provided by webview_flutter. The logic of capturing tokens is now in WebViewService, so the screen mainly instructs the WebView to load and monitors the login state:
+dart
+Копировать
+Редактировать
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+class _LoginScreenState extends State<LoginScreen> {
+  bool _loggingIn = false;
+  @override
+  void initState() {
+    super.initState();
+    // Optionally pre-load cookies to WebView for auto login:
+    final session = getIt<SessionManager>();
+    if (session.cookieHeader != null) {
+      getIt<WebViewService>().setCookies(session.cookieHeader!, domain: ".gizbo.casino");
+    }
+  }
+  void _onLoginSuccess(String jwt, String cookies) {
+    // Save session data
+    final sessionManager = getIt<SessionManager>();
+    sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
+    // Navigate to main screen
+    Navigator.pushReplacementNamed(context, "/main");
+  }
+  @override
+  Widget build(BuildContext context) {
+    final webViewService = getIt<WebViewService>();
+    return Scaffold(
+      appBar: AppBar(title: Text("Login")),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: webViewService.controller),
+          if (_loggingIn)
+            Center(child: CircularProgressIndicator()),
+        ],
+      ),
+    );
+  }
+}
+We rely on WebViewWidget, a widget from webview_flutter that attaches to our WebViewController. We call getIt<WebViewService>().controller which has been configured. The NavigationDelegate to detect login success was set in WebViewService.startLoginProcess. Alternatively, we might avoid using startLoginProcess and instead directly manage it here via NavigationDelegate. But since we have the callback mechanism, we could call something like:
+dart
+Копировать
+Редактировать
+@override
+void initState() {
+  super.initState();
+  final webViewService = getIt<WebViewService>();
+  webViewService.startLoginProcess(_onLoginSuccess);
+}
+This would load the login page and handle logic internally, invoking _onLoginSuccess when done. In either approach, the UI doesn’t handle the scraping of JWT/cookies itself.
+MainScreen (presentation/screens/main/main_screen.dart): This screen shows the list of roulette games and their signal status.
+On screen init, fetch the games via RouletteService.fetchLiveRouletteGames().
+Display the list (e.g., Grid or ListView of RouletteCard).
+When user taps "Connect" on a game, perform:
+Call rouletteService.extractWebSocketParams(game) (async).
+Call webSocketService.fetchRecentResults(params) (async).
+Once results are obtained, hand them to signalsService.processResults(game.id, results.numbers).
+Subscribe to SignalsService (via Provider or getIt) to get updates on signals for each game (e.g., show an icon or different color on the card if signals exist).
+Pseudocode for MainScreen (assuming use of Provider for SignalsService and a simple setState for games list):
+dart
+Копировать
+Редактировать
+class MainScreen extends StatefulWidget { ... }
+class _MainScreenState extends State<MainScreen> {
+  List<RouletteGame> _games = [];
+  bool _loadingGames = false;
+  bool _connectingGame = false;
+  String? _activeGameId;  // ID of game currently being connected (to show loading indicator on that card)
+
+  @override
+  void initState() {
+    super.initState();
+    _loadGames();
+  }
+
+  Future<void> _loadGames() async {
+    setState(() { _loadingGames = true; });
+    try {
+      _games = await getIt<RouletteService>().fetchLiveRouletteGames();
+    } catch (e) {
+      Logger.error("Failed to load games", e);
+    }
+    setState(() { _loadingGames = false; });
+  }
+
+  Future<void> _connectGame(RouletteGame game) async {
+    setState(() {
+      _connectingGame = true;
+      _activeGameId = game.id;
+    });
+    final rouletteService = getIt<RouletteService>();
+    final wsService = getIt<WebSocketService>();
+    final signalsService = getIt<SignalsService>();
+    try {
+      final params = await rouletteService.extractWebSocketParams(game);
+      final results = await wsService.fetchRecentResults(params);
+      if (results != null) {
+        signalsService.processResults(game.id, results.numbers);
+      } else {
+        // handle no result (timeout or failure)
+      }
+    } catch (e) {
+      Logger.error("Error connecting to game ${game.title}", e);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to get results for ${game.title}")));
+    }
+    setState(() {
+      _connectingGame = false;
+      _activeGameId = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final signalsService = context.watch<SignalsService>();
+    return Scaffold(
+      appBar: AppBar(title: Text("Roulette Signals")),
+      body: _loadingGames 
+        ? Center(child: CircularProgressIndicator())
+        : GridView.builder(
+            itemCount: _games.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (context, index) {
+              final game = _games[index];
+              final signals = signalsService.getSignalsForGame(game.id);
+              return RouletteCard(
+                game: game,
+                signals: signals,
+                isConnecting: _connectingGame && _activeGameId == game.id,
+                onConnect: () => _connectGame(game),
+              );
+            },
+          ),
+    );
+  }
+}
+This shows how UI delegates to services:
+_loadGames uses RouletteService.
+_connectGame orchestrates calls to extractWebSocketParams and fetchRecentResults and then passes the result to SignalsService.
+The UI doesn't implement analysis or WebView logic directly; it just shows loading spinners and error SnackBars accordingly.
+RouletteCard widget (presentation/widgets/roulette_card.dart): Displays game info and a "Connect" button. It should also indicate if any signals are present for that game (e.g., change color or show an icon) and if a connection is in progress.
+dart
+Копировать
+Редактировать
+class RouletteCard extends StatelessWidget {
+  final RouletteGame game;
+  final List<Signal> signals;
+  final bool isConnecting;
+  final VoidCallback onConnect;
+
+  RouletteCard({required this.game, required this.signals, required this.isConnecting, required this.onConnect});
+
+  @override
+  Widget build(BuildContext context) {
+    final hasSignal = signals.isNotEmpty;
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(game.title, style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(game.provider),
+            if (hasSignal) 
+              Text("SIGNAL!", style: TextStyle(color: Colors.red)),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: isConnecting ? null : onConnect,
+              child: isConnecting ? CircularProgressIndicator(color: Colors.white) : Text("Connect"),
+            ),
+          ],
+        ),
+      ),
+      color: hasSignal ? Colors.yellow[100] : Colors.white,
+    );
+  }
+}
+This widget remains fairly dumb: it shows a “SIGNAL!” indicator if signals list is not empty (meaning SignalsService detected something for this game), and the Connect button triggers the passed callback. The button is disabled and shows a spinner if currently connecting to this game.
+With this setup, the UI will dynamically update when signalsService.notifyListeners() is called (because we used context.watch<SignalsService>() to rebuild MainScreen when signals change).
+Step 12: Main.dart and Dependency Injection
+In main.dart, set up the service locator and initial route:
+dart
+Копировать
+Редактировать
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();  // register all singletons
+  // Attempt to load session from storage, so we know if user is logged in
+  final sessionManager = getIt<SessionManager>();
+  sessionManager.loadSession();
+  
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => getIt<SignalsService>()),
+        // We can provide SessionManager or others if UI needs them
+      ],
+      child: MaterialApp(
+        title: 'Roulette Signals',
+        initialRoute: getIt<SessionManager>().isLoggedIn ? '/main' : '/login',
+        routes: {
+          '/login': (context) => LoginScreen(),
+          '/main': (context) => MainScreen(),
+        },
+      ),
+    );
+  }
+}
+What happens here:
+We call setupServiceLocator() before runApp to ensure all services (especially WebViewService) are ready.
+We optionally call SessionManager.loadSession() to restore any saved JWT/cookie (if the user logged in previously and the app was restarted).
+We use MultiProvider from the Provider package to make SignalsService (and potentially other services or managers) available to the widget tree for reactive updates. SignalsService is a ChangeNotifier, so we provide it as such.
+The initial route is determined by whether the user is logged in (SessionManager.isLoggedIn). If true, we skip straight to MainScreen; if not, we start at LoginScreen.
+Navigation between Login and Main is handled after a successful login (Navigator.pushReplacementNamed(context, "/main") in _onLoginSuccess).
+Conclusion and Verification
+By following these steps, we modularize the app into clear layers:
+Services: encapsulate business logic (API calls, WebView operations, WebSocket handling, analysis algorithms).
+Models: define data structures for games, results, and signals.
+Core: handles dependency setup and constants (so services aren’t hardcoding strings).
+UI: simply coordinates user input and displays data from services, with minimal internal logic.
+We have reused verified code from the original project for critical operations:
+RouletteService.extractWebSocketParams contains the exact logic from the original, adapted for our new architecture.
+WebSocketService.fetchRecentResults is copied with minor contextual tweaks.
+NumberAnalyzer.detectMissingDozenOrRow (in the NumberAnalyzer class, not explicitly shown in this prompt section yet) will be ported over exactly as is.
+Porting NumberAnalyzer:
+Create number_analyzer.dart in services/roulette/number_analyzer.dart, using the original implementation:
+dart
+Копировать
+Редактировать
+import 'package:roulette_clean/models/signal.dart';
+
+class NumberAnalyzer {
+  static const int _numbersToAnalyze = 300;
+  
+  /// Detects "Pattern 9 unique" for dozens or columns.
+  /// Returns a list of Signal if either a dozen or a column has 9 unique numbers without two same in a row.
+  List<Signal> detectMissingDozenOrRow(List<int> numbers) {
+    if (numbers.length < _numbersToAnalyze) return [];
+    final slice = numbers.take(_numbersToAnalyze).toList();
+    final result = <Signal>[];
+    // Check dozens (0=1st dozen, 1=2nd, 2=3rd)
+    for (int dz = 0; dz < 3; dz++) {
+      final uniq = <int>{};
+      bool lastWasCurrent = false;
+      for (int n in slice) {
+        bool isCurrentDozen = _getDozenIndex(n) == dz;
+        if (isCurrentDozen) {
+          if (lastWasCurrent) {
+            // two same-dozen in a row breaks the pattern, reset
+            uniq.clear();
+            lastWasCurrent = false;
+            continue;
+          }
+          uniq.add(n);
+        }
+        lastWasCurrent = isCurrentDozen;
+        if (uniq.length >= 9) {
+          // Found a dozen with 9 unique numbers (non-consecutive)
+          result.add(_buildDozenSignal(dz, uniq, slice));
+          break; // one signal per dozen is enough
+        }
+      }
+    }
+    // Check columns (0=first column, 1=second, 2=third)
+    for (int col = 0; col < 3; col++) {
+      final uniq = <int>{};
+      bool lastWasCurrent = false;
+      for (int n in slice) {
+        bool isCurrentCol = _getColumnIndex(n) == col;
+        if (isCurrentCol) {
+          if (lastWasCurrent) {
+            uniq.clear();
+            lastWasCurrent = false;
+            continue;
+          }
+          uniq.add(n);
+        }
+        lastWasCurrent = isCurrentCol;
+      }
+      if (uniq.length >= 9) {
+        result.add(_buildColumnSignal(col, uniq, slice));
+        break;
+      }
+    }
+    return result;
+  }
+  
+  int _getDozenIndex(int n) => (n - 1) ~/ 12;   // 0 for 1-12, 1 for 13-24, 2 for 25-36
+  int _getColumnIndex(int n) => (n - 1) % 3;    // 0 for 1st column, 1 for 2nd, 2 for 3rd
+  
+  Signal _buildDozenSignal(int dozenIndex, Set<int> uniq, List<int> lastNums) {
+    final dozenLabel = "${dozenIndex + 1}-я дюжина";
+    return Signal(
+      type: SignalType.patternDozen9,
+      message: "Шаблон 9 уникальных ($dozenLabel): ${uniq.join(", ")}",
+      lastNumbers: List.from(lastNums), 
+      timestamp: DateTime.now(),
+    );
+  }
+  
+  Signal _buildColumnSignal(int colIndex, Set<int> uniq, List<int> lastNums) {
+    final colLabel = "${colIndex + 1}-й ряд";
+    return Signal(
+      type: SignalType.patternRow9,
+      message: "Шаблон 9 уникальных ($colLabel): ${uniq.join(", ")}",
+      lastNumbers: List.from(lastNums),
+      timestamp: DateTime.now(),
+    );
+  }
+}
+This is directly from the original logic (which was partially in NumberAnalyzer and similar to what SignalEngine did, though SignalEngine focused on "not appeared in last 9 spins" which is an alternative signal type; our NumberAnalyzer covers the "pattern of 9 unique numbers" signal as indicated by the Russian comments in code). The messages are kept in Russian as per original (you can internationalize or keep them for now).
+Verification:
+After implementing all the above:
+The app should compile without errors.
+On running, the login WebView should appear. Logging in populates SessionManager and navigates to MainScreen.
+MainScreen lists available roulette games. Tapping "Connect" on one game should fetch recent results (via WebSocket) and highlight any signals (if conditions met). It should also print logs about the process in the console.
+No functionality should be lost compared to the original project: we still can login via WebView, retrieve game list, connect to game feeds, and detect signals with the same criteria. The difference is a cleaner codebase that’s easier to maintain and extend.
