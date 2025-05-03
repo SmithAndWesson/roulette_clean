@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:roulette_clean/core/di/service_locator.dart';
 import 'package:roulette_clean/services/session/session_manager.dart';
 import 'package:roulette_clean/services/webview/webview_service.dart';
+import 'package:roulette_clean/presentation/screens/main/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _initWebView();
+    // setState(() {
+    //   _loggingIn = true;
+    // });
     getIt<WebViewService>().startLoginProcess(_onLoginSuccess);
   }
 
@@ -30,9 +34,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onLoginSuccess(String jwt, String cookies) {
+    // setState(() {
+    //   _loggingIn = false;
+    // });
+    if (!mounted) return;
     final sessionManager = getIt<SessionManager>();
     sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
-    Navigator.pushReplacementNamed(context, "/main");
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainScreen()),
+    );
   }
 
   @override

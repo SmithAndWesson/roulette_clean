@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:roulette_clean/core/di/service_locator.dart';
 import 'package:roulette_clean/models/roulette/roulette_game.dart';
 import 'package:roulette_clean/models/signal.dart';
+import 'package:roulette_clean/presentation/screens/login/login_screen.dart';
 import 'package:roulette_clean/services/roulette/roulette_service.dart';
 import 'package:roulette_clean/services/signals/signals_service.dart';
 import 'package:roulette_clean/services/websocket/websocket_service.dart';
@@ -128,8 +129,10 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () {
               getIt<SessionManager>().clearSession();
               signalsService.stopAutoAnalysis();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/login', (route) => false);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
             },
           ),
         ],

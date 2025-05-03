@@ -85,8 +85,13 @@ class RouletteService {
   Future<Map<String, dynamic>> _fetchGameRestrictions() async {
     final url = "$BASE_URL$BATCH_RESTRICTIONS";
     final response = await http.get(Uri.parse(url));
+    // Если неавторизован (403) — считаем, что ограничений нет
+    if (response.statusCode == 403) {
+      return {};
+    }
     if (response.statusCode != 200) {
-      throw Exception('Ошибка получения ограничений: ${response.statusCode}');
+      Logger.warning('Restrictions returned ${response.statusCode}');
+      return {};
     }
     final Map<String, dynamic> jsonData = json.decode(response.body);
     return jsonData['restrictions'] ?? {};
