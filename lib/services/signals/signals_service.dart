@@ -7,6 +7,9 @@ import 'package:roulette_clean/utils/sound_player.dart';
 class SignalsService extends ChangeNotifier {
   final NumberAnalyzer _numberAnalyzer = NumberAnalyzer();
   final Map<String, List<Signal>> _gameSignals = {};
+  String? _currentAnalyzingGameId;
+
+  String? get currentAnalyzingGameId => _currentAnalyzingGameId;
 
   List<Signal> getSignalsForGame(String gameId) {
     return _gameSignals[gameId] ?? [];
@@ -19,7 +22,7 @@ class SignalsService extends ChangeNotifier {
       _gameSignals[gameId] = signals;
 
       for (Signal signal in signals) {
-        SoundPlayer.play("alert.wav");
+        SoundPlayer.i.playPing();
       }
 
       notifyListeners();
@@ -30,6 +33,7 @@ class SignalsService extends ChangeNotifier {
   }
 
   Timer? _autoTimer;
+  int _currentGameIndex = 0;
 
   void startAutoAnalysis(
     Duration interval,
@@ -37,20 +41,42 @@ class SignalsService extends ChangeNotifier {
     Future<List<int>> Function(String) fetchResults,
   ) {
     _autoTimer?.cancel();
-    _autoTimer = Timer.periodic(interval, (_) async {
-      for (String id in gameIds) {
-        try {
-          final numbers = await fetchResults(id);
-          processResults(id, numbers);
-        } catch (_) {
-          // ignore fetch errors in auto mode
-        }
+    _currentGameIndex = 0;
+
+    Future<void> analyzeNextGame() async {
+      if (_currentGameIndex >= gameIds.length) {
+        _currentGameIndex = 0;
       }
+
+      final gameId = gameIds[_currentGameIndex];
+      _currentAnalyzingGameId = gameId;
+      notifyListeners();
+
+      try {
+        final numbers = await fetchResults(gameId);
+        processResults(gameId, numbers);
+      } catch (_) {
+        // ignore fetch errors in auto mode
+      }
+
+      _currentGameIndex++;
+    }
+
+    // Сначала анализируем первую игру
+    analyzeNextGame();
+
+    // Затем запускаем таймер для последующих игр
+    _autoTimer = Timer.periodic(interval, (_) {
+      analyzeNextGame();
     });
   }
 
   void stopAutoAnalysis() {
     _autoTimer?.cancel();
     _autoTimer = null;
+    _currentGameIndex = 0;
+    _currentAnalyzingGameId = null;
+    SoundPlayer.i.dispose();
+    notifyListeners();
   }
 }

@@ -5,6 +5,8 @@ import 'package:roulette_clean/services/session/session_manager.dart';
 import 'package:roulette_clean/services/signals/signals_service.dart';
 import 'package:roulette_clean/presentation/screens/login/login_screen.dart';
 import 'package:roulette_clean/presentation/screens/main/main_screen.dart';
+import 'package:roulette_clean/presentation/screens/expired/expired_screen.dart';
+import 'package:roulette_clean/utils/expiry_watcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +31,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: getIt<SessionManager>().isLoggedIn ? '/main' : '/login',
-        routes: {
-          '/login': (context) => LoginScreen(),
-          '/main': (context) => MainScreen(),
-        },
+        home: ExpiryWatcher.isExpired()
+            ? const ExpiredScreen()
+            : getIt<SessionManager>().isLoggedIn
+                ? const MainScreen()
+                : const LoginScreen(),
       ),
     );
   }

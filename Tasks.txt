@@ -1,0 +1,283 @@
+Enhancements to the Roulette Clean Project
+1. Global Start/Stop Auto-Analysis
+We introduce a global auto-analysis toggle on the main screen to start or stop continuous analysis of all games. A Floating Action Button (FAB) is added with a play icon (▶️) when idle and a stop icon (⏹️) when analysis is active. Tapping this FAB will start or stop a periodic task that fetches results for every game and runs signal detection. Key implementation steps:
+Extend SignalsService with an auto-analysis timer. We add methods startAutoAnalysis(...) and stopAutoAnalysis() to manage a Timer that periodically fetches results for all games and calls processResults on each. For example:
+dart
+Копировать
+Редактировать
+class SignalsService extends ChangeNotifier {
+  Timer? _autoTimer;
+  void startAutoAnalysis(Duration interval, List<String> gameIds,
+      Future<List<int>> Function(String) fetchResults) {
+    // Cancel any existing timer, then start a new periodic task
+    _autoTimer?.cancel();
+    _autoTimer = Timer.periodic(interval, (_) async {
+      for (String gameId in gameIds) {
+        try {
+          final numbers = await fetchResults(gameId);
+          processResults(gameId, numbers);
+        } catch (_) {
+          // Ignore fetch errors in auto mode and continue
+        }
+      }
+    });
+  }
+  void stopAutoAnalysis() {
+    _autoTimer?.cancel();
+    _autoTimer = null;
+  }
+  ...
+}
+This matches the intended design
+file-lcfpwggcr1xtfqx1ptvnpz
+file-lcfpwggcr1xtfqx1ptvnpz
+. The fetchResults callback will be provided by the UI (using existing services) to retrieve the latest spin numbers for a given game.
+FAB in MainScreen: In the main screen’s Scaffold, add a floating action button that toggles auto-analysis. For example, in MainScreen.build():
+dart
+Копировать
+Редактировать
+floatingActionButton: FloatingActionButton(
+  onPressed: _toggleAutoAnalysis,
+  child: Icon(_autoRunning ? Icons.stop : Icons.play_arrow),
+  tooltip: _autoRunning ? 'Stop Analysis' : 'Start Analysis',
+),
+Here _autoRunning is a boolean state in MainScreen indicating if auto-analysis is running. The _toggleAutoAnalysis() method will use SignalsService to start or stop the timer:
+dart
+Копировать
+Редактировать
+Future<void> _toggleAutoAnalysis() async {
+  final signalsService = getIt<SignalsService>();
+  final rouletteService = getIt<RouletteService>();
+  final wsService = getIt<WebSocketService>();
+  if (!_autoRunning) {
+    // Start auto-analysis: fetch all game IDs and begin periodic polling
+    final gameIds = _games.map((g) => g.id).toList();
+    signalsService.startAutoAnalysis(
+      Duration(seconds: 5),
+      gameIds,
+      (String gameId) async {
+        // Fetch latest results for the game via WebSocket
+        final game = _games.firstWhere((g) => g.id == gameId);
+        final params = await rouletteService.extractWebSocketParams(game);
+        final recent = await wsService.fetchRecentResults(params);
+        return recent?.numbers ?? <int>[];  // return the list of numbers
+      },
+    );
+  } else {
+    // Stop the ongoing analysis
+    signalsService.stopAutoAnalysis();
+  }
+  setState(() {
+    _autoRunning = !_autoRunning;
+  });
+}
+In this code, we use the existing RouletteService and WebSocketService to get the latest spins for each game. The SignalsService.startAutoAnalysis will then continually call this every few seconds to update signals. This approach reuses our services (adhering to Clean Architecture by not putting fetch logic in the UI itself). The SignalsService will notify listeners whenever new signals are detected, updating the UI in real time
+file-lcfpwggcr1xtfqx1ptvnpz
+.
+2. Back-to-Login (Logout) Functionality
+To allow the user to logout and return to the login screen, we add a Logout button on the main screen. This could be an AppBar action or a button in the UI. When tapped, it should clear the session and navigate back to the login route:
+UI Implementation: For example, add an IconButton in MainScreen AppBar actions:
+dart
+Копировать
+Редактировать
+appBar: AppBar(
+  title: Text("Roulette Signals"),
+  actions: [
+    IconButton(
+      icon: Icon(Icons.exit_to_app),
+      tooltip: 'Logout',
+      onPressed: () {
+        // Clear stored session and navigate to login
+        getIt<SessionManager>().clearSession();  :contentReference[oaicite:3]{index=3}
+        getIt<SignalsService>().stopAutoAnalysis();  // stop auto if running
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      },
+    ),
+  ],
+),
+We call SessionManager.clearSession() to remove any saved JWT token and cookies from memory (and storage)
+file-lcfpwggcr1xtfqx1ptvnpz
+. We also stop the auto-analysis timer (if it was running) to prevent background tasks after logout. Finally, we navigate to the login screen, using pushNamedAndRemoveUntil to clear the navigation stack so the user cannot go "Back" into the app without logging in again. After this, the WebView-based login process can start anew.
+3. Open Game in External Browser on Card Tap
+Each roulette game card will now open the game’s URL in the device’s default external browser when the card (background) is tapped. This is in addition to the existing "Connect" button for analysis. We utilize Flutter’s url_launcher package to achieve this:
+Update RouletteCard Widget: Wrap the card’s content in a clickable container. For example, use an InkWell or GestureDetector on the card:
+dart
+Копировать
+Редактировать
+class RouletteCard extends StatelessWidget {
+  final RouletteGame game;
+  // ... other properties (signals, isConnecting, etc.)
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: InkWell(
+        onTap: () async {
+          final url = Uri.parse(game.playUrl);
+          if (await canLaunchUrl(url)) {
+            // Launch in external browser
+            await launchUrl(url, mode: LaunchMode.externalApplication);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Cannot open ${game.title} URL"))
+            );
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Text(game.title, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(game.provider),
+              // ... (signals indicator, Connect button, etc.)
+              ElevatedButton(
+                onPressed: isConnecting ? null : onConnect,
+                child: isConnecting 
+                        ? CircularProgressIndicator(strokeWidth: 2) 
+                        : Text("Connect"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+Here, tapping anywhere on the card (except the Connect button) will trigger launchUrl with LaunchMode.externalApplication, which opens the link in the phone’s default web browser
+stackoverflow.com
+. The game’s URL (likely provided in game.playUrl) is used. We also handle the case where the URL cannot be launched by showing a brief Snackbar message. This ensures the user can quickly jump to play the actual roulette game in a browser if desired.
+4. ExpiryWatcher – Application Expiration Check
+We implement an expiry gate that prevents use of the app beyond a certain date. The requirement is to check if the current date is past May 10, 2025, and if so, lock the app to an expiration screen. This is done at startup:
+Create ExpiryWatcher Utility: In lib/utils/expiry_watcher.dart, define a simple utility class:
+dart
+Копировать
+Редактировать
+class ExpiryWatcher {
+  static final _expiryDate = DateTime(2025, 5, 10);
+  static bool isExpired() {
+    return DateTime.now().isAfter(_expiryDate);
+  }
+}
+This provides a static check that we can call during app launch.
+Integrate in main(): In main.dart, before running the app, perform the expiry check:
+dart
+Копировать
+Редактировать
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();  // set up GetIt for services
+  // ... (other init like loading session)
+  if (ExpiryWatcher.isExpired()) {
+    runApp(MaterialApp(
+      home: ExpiredAppScreen(), 
+      debugShowCheckedModeBanner: false,
+    ));
+    return;  // stop normal app launch
+  }
+  runApp(MyApp());
+}
+If the app is expired, we immediately show an ExpiredAppScreen instead of the login or main app. The ExpiredAppScreen can be a simple Scaffold with a message. For example:
+dart
+Копировать
+Редактировать
+class ExpiredAppScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          "This application has expired.",
+          style: TextStyle(fontSize: 18, color: Colors.red),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+This screen informs the user that the app is no longer usable. All navigation or interactive elements should be disabled on this screen. By doing the check in main(), we ensure the expiration is enforced globally before any other UI or logic runs
+file-lcfpwggcr1xtfqx1ptvnpz
+. Once expired, the user cannot proceed to login or main screen at all.
+5. Signal Visualization Enhancements
+When the SignalsService detects a pattern signal for a game, we enhance the UI to clearly display the details of that signal:
+Highlight Key Numbers: Each signal corresponds to a pattern of 9 unique numbers (either in a specific dozen or a column). On the game card, we now display the recent sequence of numbers and highlight those 9 numbers that form the pattern in a prominent color (for example, using Colors.amber background or text). The sequence should include all recent spins (including numbers that are not part of the pattern) to give context. Implementation on Card: We can use a row or wrap of Text/Chip widgets to show the sequence. For example, if signals is the list of signals for the game (from SignalsService), and we take the first signal for display:
+dart
+Копировать
+Редактировать
+final signal = signals.first;
+final allNums = signal.lastNumbers;       // full recent sequence
+final patternNums = <int>[];
+// Extract the 9 key numbers from the signal message (after the colon)
+final parts = signal.message.split(':');
+if (parts.length > 1) {
+  patternNums.addAll(
+    parts[1].split(',').map((s) => int.tryParse(s.trim())).whereType<int>()
+  );
+}
+// Build the sequence display with highlighted pattern numbers
+Widget sequenceWidget = Wrap(
+  spacing: 4.0,
+  children: allNums.map((n) {
+    bool isPatternNum = patternNums.contains(n);
+    return Chip(
+      label: Text('$n', style: TextStyle(color: isPatternNum ? Colors.black : Colors.white)),
+      backgroundColor: isPatternNum ? Colors.amber : Colors.grey[600],
+    );
+  }).toList(),
+);
+In this snippet, we parse the signal’s message to retrieve the list of the 9 unique numbers (since the Signal model stores the message and the full sequence, but not the unique set separately). Those numbers are considered “key” and are given an amber highlight. We render the entire sequence (signal.lastNumbers) as a series of chips: highlighted chips for pattern numbers, and a default style for others. For example, if the recent spins were 15–27–3–12–... and a pattern was detected in the 1st dozen, all numbers in that dozen (1–12) that contributed to the pattern would be highlighted in amber, while numbers outside that dozen remain in a neutral color.
+Show Full Sequence in a Modal: We provide a Details view so the user can inspect the signal more closely. On the card, next to the "SIGNAL!" indicator, we add a small button or icon (e.g., an info icon or a chip labeled "Details"). For example, in the RouletteCard:
+dart
+Копировать
+Редактировать
+if (signals.isNotEmpty) ...[
+  Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text("SIGNAL!", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+      SizedBox(width: 8),
+      GestureDetector(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(4)),
+          child: Text("Details", style: TextStyle(color: Colors.black)),
+        ),
+        onTap: () {
+          // Show modal dialog with full sequence and message
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text("Signal Details"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(signal.message, style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 10),
+                  sequenceWidget,  // the Wrap of chips created above
+                ],
+              ),
+              actions: [
+                TextButton(onPressed: () => Navigator.pop(context), child: Text("Close"))
+              ],
+            ),
+          );
+        },
+      )
+    ],
+  ),
+  SizedBox(height: 8),
+  // Display the sequence on the card as well (possibly truncated if long)
+  sequenceWidget,
+]
+In this UI snippet, when a signal is present, we insert a row showing "SIGNAL!" and a Details button. The Details button triggers an AlertDialog that displays the signal’s message (e.g. "Pattern of 9 unique (1st dozen)...") and the full sequence of recent numbers with highlights. The card itself also shows the sequence (possibly a truncated version if the sequence is very long). This way, the user gets immediate feedback on the pattern and can tap “Details” for a clearer view. The highlighted numbers allow the user to instantly identify the nine unique numbers that triggered the signal pattern. All other "irrelevant" numbers in between are still visible (for context) but not highlighted, as requested.
+6. Refactoring and Architectural Consistency
+All the above features are implemented in line with Clean Architecture principles, without breaking the existing structure:
+We reused existing services (SignalsService, RouletteService, WebSocketService, etc.) via dependency injection. For instance, the global analysis feature calls SignalsService.startAutoAnalysis and uses RouletteService/WebSocketService to fetch data – no networking logic is written in the UI layer. This keeps the separation of concerns clear. The GetIt service locator is already set up for these singletons
+file-lcfpwggcr1xtfqx1ptvnpz
+, and we continue to retrieve them with getIt<ServiceType>() as needed.
+UI updates are done through state management and the observer pattern. SignalsService is a ChangeNotifier, so the UI listens to it (using Provider or context.watch) to reactively update game cards when signals appear
+file-lcfpwggcr1xtfqx1ptvnpz
+. We preserve this pattern, ensuring that, for example, when auto-analysis finds a new signal, the corresponding card automatically reflects it (highlighting and "SIGNAL!" indicator).
+The new code is modular and testable. Each feature is added in the appropriate layer: e.g., Expiry check in a utility class and main.dart (very easy to unit test the date logic), signal visualization entirely in the presentation layer (so it can be adjusted without affecting business logic), and the auto-analysis timer in the SignalsService (which can be tested by injecting a fake fetchResults function). We did not embed any logic in the UI that breaks the single responsibility principle.
+We maintain Android-only targeting as specified. The use of url_launcher with LaunchMode.externalApplication will open the default browser on Android. No iOS-specific code is introduced (the features are platform-neutral or already supported by Android). The WebView login flow and other components remain as they were, focusing on Android behavior.
+In summary, the roulette_clean project now has enhanced functionality mirroring the legacy roulette_signals behavior, all while respecting the clean architecture setup. We added a global start/stop analysis mode, logout navigation, external browser launching for games, an app expiry safeguard, and richer signal visualization. These changes improve usability and maintainability, and they integrate seamlessly with the existing service-driven design of the app. Each enhancement was implemented with clear separation of concerns, keeping the codebase organized and aligned with Flutter’s best practices.

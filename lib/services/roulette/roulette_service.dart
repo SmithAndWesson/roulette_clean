@@ -61,7 +61,8 @@ class RouletteService {
         .where((game) =>
             game.collections.contains('online_live_casino') &&
             game.collections.contains('live_roulette') &&
-            game.slug.contains('online-live-casino'))
+            game.slug.contains('online-live-casino') &&
+            game.provider.toLowerCase() == 'evolution')
         .toList();
 
     final restrictions = await _fetchGameRestrictions();
