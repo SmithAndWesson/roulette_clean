@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:roulette_clean/utils/logger.dart';
+import 'logger.dart';
 
 class SoundPlayer {
   SoundPlayer._();
@@ -10,24 +10,22 @@ class SoundPlayer {
   static const _pingAsset = 'sounds/ping.mp3';
 
   /// Один экземпляр плеера на всё приложение.
-  final _player = AudioPlayer()..setReleaseMode(ReleaseMode.loop);
+  final _player = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
 
   /// Проиграть короткий «пинг».
   Future<void> playPing() async {
     try {
       if (_player.state == PlayerState.stopped) {
         await _player.play(AssetSource(_pingAsset), volume: 1.0);
-        // Останавливаем воспроизведение после 100мс
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          _player.stop();
-        });
+      } else {
+        await _player.resume();
       }
     } catch (e, st) {
       Logger.error('Ошибка воспроизведения звука', e, st);
     }
   }
 
-  /// Освобождаем ресурсы при уничтожении
+  /// Clean up when your app shuts down
   void dispose() {
     _player.dispose();
   }

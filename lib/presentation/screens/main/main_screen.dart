@@ -9,6 +9,7 @@ import 'package:roulette_clean/services/websocket/websocket_service.dart';
 import 'package:roulette_clean/presentation/widgets/roulette_card.dart';
 import 'package:roulette_clean/utils/logger.dart';
 import 'package:roulette_clean/services/session/session_manager.dart';
+import 'package:roulette_clean/utils/sound_player.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -113,6 +114,13 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadGames,
+          ),
+          IconButton(
+            icon: const Icon(Icons.volume_up),
+            tooltip: 'Тест звука',
+            onPressed: () {
+              SoundPlayer.i.playPing();
+            },
           ),
           IconButton(
             icon: const Icon(Icons.exit_to_app),
