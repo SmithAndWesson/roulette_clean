@@ -11,6 +11,7 @@ import 'package:roulette_clean/presentation/widgets/roulette_card.dart';
 import 'package:roulette_clean/utils/logger.dart';
 import 'package:roulette_clean/services/session/session_manager.dart';
 import 'package:roulette_clean/utils/sound_player.dart';
+import 'package:roulette_clean/services/webview/webview_service.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _loadGames() async {
     setState(() => _loadingGames = true);
     try {
+      getIt<SignalsService>().clearSignals();
       _games = await getIt<RouletteService>().fetchLiveRouletteGames();
       _gamesById = {for (var g in _games) g.id: g};
     } finally {
@@ -54,15 +56,36 @@ class _MainScreenState extends State<MainScreen> {
     final signalsService = getIt<SignalsService>();
     final rouletteService = getIt<RouletteService>();
     final wsService = getIt<WebSocketService>();
+    final webViewService = getIt<WebViewService>();
 
     try {
       final params = await rouletteService.extractWebSocketParams(game);
       final results = await wsService.fetchRecentResults(params);
 
       if (results != null) {
-        signalsService.processResults(game.id, results.numbers);
+        Logger.info(
+            "Received results for game ${game.id}, kickout: ${results.kickoutReason}");
+        if (results.kickoutReason == 'notAuthorised') {
+          // Если отключили из-за неавторизации, запускаем процесс логина
+          await webViewService.startLoginProcess((jwt, cookies) {
+            getIt<SessionManager>()
+                .saveSession(jwtToken: jwt, cookieHeader: cookies);
+            // После успешного логина пробуем подключиться снова
+            _connectGame(game);
+          });
+        } else {
+          Logger.info(
+              "Processing results for game ${game.id} with kickout: ${results.kickoutReason}");
+          signalsService.processResults(
+            game.id,
+            results.numbers,
+            kickoutReason: results.kickoutReason,
+          );
+          Logger.info("Results processed for game ${game.id}");
+        }
       }
     } catch (e) {
+      Logger.error("Error connecting to game ${game.title}", e);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Ошибка подключения к ${game.title}")),
@@ -86,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
     if (!_autoRunning) {
       final gameIds = _games.map((g) => g.id).toList();
       signalsService.startAutoAnalysis(
-        Duration(seconds: 5),
+        Duration(seconds: 20),
         gameIds,
         (String gameId) async {
           final game = _games.firstWhere((g) => g.id == gameId);
@@ -113,26 +136,59 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadGames,
+            icon: _loadingGames
+                ? Container(
+                    width: 24,
+                    height: 24,
+                    padding: const EdgeInsets.all(2),
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                : const Icon(Icons.refresh),
+            tooltip: _loadingGames ? 'Обновление...' : 'Обновить игры',
+            onPressed: _loadingGames
+                ? null
+                : () async {
+                    setState(() => _loadingGames = true);
+                    try {
+                      await _loadGames();
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Список игр обновлен'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      }
+                    } finally {
+                      if (mounted) {
+                        setState(() => _loadingGames = false);
+                      }
+                    }
+                  },
           ),
-          IconButton(
-            icon: const Icon(Icons.volume_up),
-            tooltip: 'Тест звука',
-            onPressed: () {
-              SoundPlayer.i.playPing();
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.volume_up),
+          //   tooltip: 'Тест звука',
+          //   onPressed: () {
+          //     SoundPlayer.i.playPing();
+          //   },
+          // ),
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             tooltip: 'Выйти',
-            onPressed: () {
+            onPressed: () async {
+              await getIt<WebViewService>().clearWebView();
               getIt<SessionManager>().clearSession();
               signalsService.stopAutoAnalysis();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-              );
+              if (mounted) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                );
+              }
             },
           ),
         ],
@@ -163,7 +219,22 @@ class _MainScreenState extends State<MainScreen> {
             ),
           Expanded(
             child: _loadingGames
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Загрузка игр...',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 : RefreshIndicator(
                     onRefresh: _loadGames,
                     child: GridView.builder(

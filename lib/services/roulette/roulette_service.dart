@@ -39,6 +39,11 @@ class RouletteService {
     final url = "$BASE_URL$GAMES_ENDPOINT";
     final response = await http.get(Uri.parse(url));
 
+// Если неавторизован (403) — считаем, что ограничений нет
+    if (response.statusCode == 403) {
+      return Future.value([]);
+    }
+
     if (response.statusCode == 429) {
       await Future.delayed(Duration(seconds: 5));
       return await fetchLiveRouletteGames();
@@ -97,8 +102,10 @@ class RouletteService {
     return jsonData['restrictions'] ?? {};
   }
 
-  Future<WebSocketParams> extractWebSocketParams(RouletteGame game) async {
+  Future<WebSocketParams> extractWebSocketParams(RouletteGame game,
+      {int retry = 0}) async {
     await _webViewService.initialize();
+    await _webViewService.resetDomWithoutLogout();
     final controller = _webViewService.controller;
 
     final cookies = _sessionManager.cookieHeader;
@@ -106,6 +113,9 @@ class RouletteService {
       await _webViewService.setCookies(cookies, domain: ".gizbo.casino");
       await _webViewService.setCookies(cookies, domain: ".evo-games.com");
     }
+
+    // await controller.loadRequest(Uri.parse('about:blank'));
+    // await Future.delayed(Duration(milliseconds: 500));
 
     final gamePageUrl = "${BASE_URL}${game.playUrl}";
     Logger.info("Loading game page: $gamePageUrl");
@@ -123,10 +133,28 @@ class RouletteService {
       throw Exception("Unable to get iframe src for game: $e");
     }
 
-    iframeSrc = iframeSrc.replaceAll('"', '').trim();
-    if (!iframeSrc.startsWith("http")) {
-      throw Exception("Invalid iframe src: $iframeSrc");
+    try {
+      iframeSrc = iframeSrc.replaceAll('"', '').trim();
+
+      if (!iframeSrc.startsWith("http")) {
+        throw Exception("Invalid iframe src: $iframeSrc");
+      }
+    } catch (e) {
+      if (retry < 2) {
+        Logger.warning(
+            "Retrying extractWebSocketParams due to iframe error...");
+        await Future.delayed(Duration(seconds: 1));
+        await _webViewService.resetDomWithoutLogout();
+        return await extractWebSocketParams(game, retry: retry + 1);
+      } else {
+        throw Exception("Failed to get iframe src after retries: $e");
+      }
     }
+
+    // iframeSrc = iframeSrc.replaceAll('"', '').trim();
+    // if (!iframeSrc.startsWith("http")) {
+    //   throw Exception("Invalid iframe src: $iframeSrc");
+    // }
 
     Logger.debug("Game iframe src: $iframeSrc");
 
@@ -173,6 +201,27 @@ class RouletteService {
       cookieHeader = "$rawCookies; EVOSESSIONID=$evoSessionId";
     }
 
+//     await controller.loadRequest(Uri.parse(gamePageUrl));
+//     await controller.runJavaScript('''
+//   document.body.innerHTML = '';
+// ''');
+
+//     await controller.runJavaScript('''
+//   const iframe = document.querySelector('iframe');
+//   if (iframe) iframe.src = 'about:blank';
+// ''');
+//     await controller.loadRequest(Uri.parse('about:blank'));
+//     await Future.delayed(Duration(seconds: 1));
+//     await controller.runJavaScript('''
+//   localStorage.clear();
+//   sessionStorage.clear();
+//   document.cookie.split(";").forEach(function(c) {
+//     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+//   });
+// ''');
+//     await controller.reload();
+    await Future.delayed(Duration(seconds: 1));
+    await _webViewService.resetDomWithoutLogout();
     final rnd = Random().nextInt(1 << 20).toRadixString(36);
     final shortSess = evoSessionId.substring(0, 16);
     final instance = "$rnd-$shortSess-$vtId";
@@ -186,6 +235,32 @@ class RouletteService {
       instance: instance,
       cookieHeader: cookieHeader,
     );
+  }
+
+  Future<void> _waitForIframeContextReset(
+      WebViewController controller, String oldIframeSrc) async {
+    const timeout = Duration(seconds: 10);
+    final deadline = DateTime.now().add(timeout);
+    Logger.info("Waiting for iframe src to reset...");
+
+    while (DateTime.now().isBefore(deadline)) {
+      final currentSrc = (await controller.runJavaScriptReturningResult('''
+      (function() {
+        const iframe = document.querySelector('iframe');
+        return iframe && iframe.src ? iframe.src : '';
+      })();
+    ''')).toString().replaceAll('"', '');
+
+      Logger.debug("Current iframe src: $currentSrc");
+      if (currentSrc != oldIframeSrc && currentSrc.isNotEmpty) {
+        Logger.info("Iframe context updated");
+        return;
+      }
+
+      await Future.delayed(Duration(milliseconds: 300));
+    }
+
+    Logger.warning("Timeout: iframe src did not change");
   }
 
   String _normalizeBase64(String input) {

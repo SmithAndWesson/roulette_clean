@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:roulette_clean/models/signal.dart';
 import 'package:roulette_clean/services/roulette/number_analyzer.dart';
 import 'package:roulette_clean/utils/sound_player.dart';
+import 'package:roulette_clean/utils/logger.dart';
 
 class SignalsService extends ChangeNotifier {
   final NumberAnalyzer _numberAnalyzer = NumberAnalyzer();
@@ -12,14 +13,47 @@ class SignalsService extends ChangeNotifier {
   String? get currentAnalyzingGameId => _currentAnalyzingGameId;
 
   List<Signal> getSignalsForGame(String gameId) {
-    return _gameSignals[gameId] ?? [];
+    final signals = _gameSignals[gameId] ?? [];
+    // Logger.debug("Getting signals for game $gameId: ${signals.length} signals");
+    return signals;
   }
 
-  void processResults(String gameId, List<int> recentNumbers) {
+  void clearSignals() {
+    Logger.info("Clearing all signals");
+    _gameSignals.clear();
+    notifyListeners();
+  }
+
+  void processResults(String gameId, List<int> recentNumbers,
+      {String? kickoutReason}) {
+    Logger.info("Processing results for game $gameId, kickout: $kickoutReason");
+
+    if (kickoutReason != null) {
+      // Создаем сигнал отключения
+      _gameSignals[gameId] = [
+        Signal(
+          type: SignalType.connectionKickout,
+          message: "Отключено: $kickoutReason",
+          lastNumbers: [],
+          timestamp: DateTime.now(),
+        )
+      ];
+      Logger.info("Created kickout signal for game $gameId: $kickoutReason");
+      Logger.info("Current signals state: $_gameSignals");
+      notifyListeners();
+      return;
+    }
+
+    // Очищаем сигналы для этой игры перед новым анализом
+    _gameSignals.remove(gameId);
+    Logger.info("Cleared signals for game $gameId");
+
     final signals = _numberAnalyzer.detectMissingDozenOrRow(recentNumbers);
 
     if (signals.isNotEmpty) {
       _gameSignals[gameId] = signals;
+      Logger.info("Created ${signals.length} signals for game $gameId");
+      Logger.info("Current signals state: $_gameSignals");
 
       for (Signal signal in signals) {
         SoundPlayer.i.playPing();
@@ -27,7 +61,6 @@ class SignalsService extends ChangeNotifier {
 
       notifyListeners();
     } else {
-      _gameSignals.remove(gameId);
       notifyListeners();
     }
   }
@@ -49,17 +82,29 @@ class SignalsService extends ChangeNotifier {
       }
 
       final gameId = gameIds[_currentGameIndex];
+      Logger.info("Starting analysis for game $gameId");
       _currentAnalyzingGameId = gameId;
       notifyListeners();
 
       try {
         final numbers = await fetchResults(gameId);
         processResults(gameId, numbers);
-      } catch (_) {
-        // ignore fetch errors in auto mode
+      } catch (e) {
+        Logger.error("Error analyzing game $gameId", e);
       }
 
+      // Сначала уведомляем об изменениях для текущей игры
+      notifyListeners();
+
+      // Затем обновляем индекс и ID следующей игры
       _currentGameIndex++;
+      if (_currentGameIndex >= gameIds.length) {
+        _currentGameIndex = 0;
+      }
+      final nextGameId = gameIds[_currentGameIndex];
+      Logger.info("Moving to next game: $nextGameId");
+      _currentAnalyzingGameId = nextGameId;
+      notifyListeners();
     }
 
     // Сначала анализируем первую игру

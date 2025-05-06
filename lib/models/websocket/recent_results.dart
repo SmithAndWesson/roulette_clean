@@ -1,10 +1,12 @@
 class RecentResults {
   final List<int> numbers;
   final DateTime timestamp;
+  final String? kickoutReason;
 
   RecentResults({
     required this.numbers,
     required this.timestamp,
+    this.kickoutReason,
   });
 
   factory RecentResults.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class RecentResults {
     return RecentResults(
       numbers: numbers,
       timestamp: DateTime.now(),
+      kickoutReason: json['args']?['reason'] as String?,
     );
   }
 }

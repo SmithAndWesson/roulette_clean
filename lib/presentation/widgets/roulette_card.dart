@@ -82,46 +82,49 @@ class RouletteCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     signals.first.message,
-                    style: const TextStyle(
-                      color: Colors.red,
+                    style: TextStyle(
+                      color: signals.first.type == SignalType.connectionKickout
+                          ? Colors.orange
+                          : Colors.red,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: const Text("Детали сигнала"),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(signals.first.message),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 4,
-                              children: signals.first.lastNumbers.map((n) {
-                                return Chip(
-                                  label: Text('$n'),
-                                  backgroundColor: Colors.grey[300],
-                                );
-                              }).toList(),
+                if (signals.first.type != SignalType.connectionKickout)
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Text("Детали сигнала"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(signals.first.message),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 4,
+                                children: signals.first.lastNumbers.map((n) {
+                                  return Chip(
+                                    label: Text('$n'),
+                                    backgroundColor: Colors.grey[300],
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("Закрыть"),
                             ),
                           ],
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text("Закрыть"),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  child: const Text("Детали"),
-                ),
+                      );
+                    },
+                    child: const Text("Детали"),
+                  ),
               ],
               const Spacer(),
               ElevatedButton(

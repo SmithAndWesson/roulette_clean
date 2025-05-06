@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class Logger {
-  // Форматируем единый префикс с временем (чтобы легче искать в логе)
+  // Форматируем единый префикс с временем (чтобы легче искать в логе)
   static String _ts() =>
       DateTime.now().toIso8601String().substring(11, 23); // HH:mm:ss.mmm
 
@@ -12,9 +12,7 @@ class Logger {
   }
 
   static void warning(String message) {
-    if (kDebugMode) {
-      print('[${_ts()}] ⚠️  WARNING: $message');
-    }
+    print('[${_ts()}] ⚠️  WARNING: $message');
   }
 
   static void debug(String message) {
@@ -23,10 +21,8 @@ class Logger {
     }
   }
 
-  /// Лог ошибки c опциональными `error` и `stackTrace`.
+  /// Лог ошибки c опциональными `error` и `stackTrace`.
   static void error(String message, [Object? error, StackTrace? stackTrace]) {
-    if (!kDebugMode) return;
-
     final buf = StringBuffer('[${_ts()}] ❌ ERROR: $message');
     if (error != null) buf.write('\n   ↳ $error');
     if (stackTrace != null) buf.write('\n$stackTrace');

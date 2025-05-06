@@ -58,4 +58,15 @@ class WebViewService {
           WebViewCookie(name: name, value: value, domain: domain, path: "/"));
     }
   }
+
+  Future<void> clearWebView() async {
+    await _controller.clearCache();
+    await WebViewCookieManager().clearCookies();
+    await _controller.clearLocalStorage();
+  }
+
+  Future<void> resetDomWithoutLogout() async {
+    await _controller.clearCache();
+    await WebViewCookieManager().clearCookies();
+  }
 }

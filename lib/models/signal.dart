@@ -1,4 +1,4 @@
-enum SignalType { patternDozen9, patternRow9 }
+enum SignalType { patternDozen9, patternRow9, connectionKickout }
 
 class Signal {
   final SignalType type;

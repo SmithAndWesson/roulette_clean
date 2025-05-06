@@ -1,0 +1,1099 @@
+Launching lib\main.dart on sdk gphone16k x86 64 in debug mode...
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+W/HWUI    (32353): Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+W/HWUI    (32353): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+I/Gralloc4(32353): mapper 4.x is not supported
+Connecting to VM Service at ws://127.0.0.1:60281/U3zioHg_txU=/ws
+Connected to the VM Service.
+I/Choreographer(32353): Skipped 31 frames!  The application may be doing too much work on its main thread.
+I/.roulette_clean(32353): Compiler allocated 5174KB to compile void android.view.ViewRootImpl.performTraversals()
+I/flutter (32353): [13:27:25.765] ℹ️  INFO: Clearing all signals
+I/WebViewFactory(32353): Loading com.google.android.webview version 135.0.7049.111 (code 704911138)
+V/ResourcesManager(32353): The following library key has been added: ResourcesKey{ mHash=304c3f60 mResDir=null mSplitDirs=[] mOverlayDirs=[/product/overlay/EmulationPixel8Pro/EmulationPixel8ProOverlay.apk,/product/overlay/DisplayCutoutEmulationHole/DisplayCutoutEmulationHoleOverlay.apk,/product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk,/data/resource-cache/com.android.systemui-neutral-8Ddh.frro,/data/resource-cache/com.android.systemui-accent-D4qa.frro,/data/resource-cache/com.android.systemui-dynamic-HgCk.frro] mLibDirs=[/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk,/data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.apk,/system_ext/framework/androidx.window.extensions.jar] mDisplayId=0 mOverrideConfig=v35 mCompatInfo={480dpi always-compat} mLoaders=[]}
+W/ziparchive(32353): Unable to open '/data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.dm': No such file or directory
+W/ziparchive(32353): Unable to open '/data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.dm': No such file or directory
+W/.roulette_clean(32353): Entry not found
+D/nativeloader(32353): Configuring clns-8 for other apk /data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.apk. target_sdk_version=35, uses_libraries=ALL, library_path=/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/lib/x86_64:/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk!/lib/x86_64:/data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand
+D/ApplicationLoaders(32353): Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+W/.roulette_clean(32353): Loading /data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/oat/x86_64/base.odex non-executable as it requires an image which we failed to load
+D/nativeloader(32353): Configuring clns-9 for other apk /data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk. target_sdk_version=35, uses_libraries=, library_path=/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/lib/x86_64:/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk!/lib/x86_64:/data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand
+I/cr_WVCFactoryProvider(32353): version=135.0.7049.111 (704911138) minSdkVersion=29 isBundle=false multiprocess=true packageId=2
+D/nativeloader(32353): Load /data/app/~~6CIpmqFk5yAcPJV78-3EYQ==/com.google.android.trichromelibrary_704911138-AY1gFxz0DBs8530qTOlT3g==/base.apk!/lib/x86_64/libmonochrome_64.so using ns clns-9 from class loader (caller=/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk): ok
+D/nativeloader(32353): Load /system/lib64/libwebviewchromium_plat_support.so using ns clns-9 from class loader (caller=/data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk): ok
+E/chromium(32353): [0506/132726.152967:ERROR:variations_seed_loader.cc(39)] Seed missing signature.
+I/chromium(32353): [INFO:variations_seed_loader.cc(67)] Failed to open file for reading.: No such file or directory (2)
+I/cr_LibraryLoader(32353): Successfully loaded native library
+I/cr_CachingUmaRecorder(32353): Flushed 6 samples from 6 histograms, 0 samples were dropped.
+I/cr_CombinedPProvider(32353): #registerProvider() provider:WV.V8@627e2c7 isPolicyCacheEnabled:false policyProvidersSize:0
+I/cr_PolicyProvider(32353): #setManagerAndSource() 0
+I/cr_CombinedPProvider(32353): #linkNativeInternal() 1
+I/cr_AppResProvider(32353): #getApplicationRestrictionsFromUserManager() Bundle[EMPTY_PARCEL]
+I/cr_PolicyProvider(32353): #notifySettingsAvailable() 0
+I/cr_CombinedPProvider(32353): #onSettingsAvailable() 0
+I/cr_CombinedPProvider(32353): #flushPolicies()
+W/chromium(32353): [WARNING:dns_config_service_android.cc(69)] Failed to read DnsConfig.
+I/CameraManagerGlobal(32353): Connecting to camera service
+I/Choreographer(32353): Skipped 64 frames!  The application may be doing too much work on its main thread.
+D/ProfileInstaller(32353): Installing profile for com.example.roulette_clean
+D/EGL_emulation(32353): app_time_stats: avg=77.57ms min=10.36ms max=156.41ms count=10
+D/EGL_emulation(32353): app_time_stats: avg=13.28ms min=2.35ms max=38.20ms count=14
+D/EGL_emulation(32353): app_time_stats: avg=13.89ms min=2.84ms max=47.33ms count=15
+D/EGL_emulation(32353): app_time_stats: avg=22.06ms min=4.05ms max=55.68ms count=14
+D/EGL_emulation(32353): app_time_stats: avg=17.36ms min=3.20ms max=52.00ms count=16
+D/EGL_emulation(32353): app_time_stats: avg=12.68ms min=3.50ms max=61.70ms count=13
+D/EGL_emulation(32353): app_time_stats: avg=42.82ms min=3.85ms max=230.59ms count=10
+D/EGL_emulation(32353): app_time_stats: avg=17.19ms min=3.15ms max=34.76ms count=9
+D/EGL_emulation(32353): app_time_stats: avg=32.75ms min=3.16ms max=94.29ms count=8
+D/EGL_emulation(32353): app_time_stats: avg=7.08ms min=3.49ms max=32.77ms count=13
+D/EGL_emulation(32353): app_time_stats: avg=39.74ms min=2.21ms max=375.42ms count=12
+W/.roulette_clean(32353): ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~VPE_SiwLbb5KBFYIB2GQ4A==/com.google.android.webview-UaKeOhhhsKURkbQe5AoJWA==/base.apk' with 2 weak references
+D/EGL_emulation(32353): app_time_stats: avg=371.03ms min=2.49ms max=4050.68ms count=12
+I/flutter (32353): [13:27:44.620] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+W/cr_media(32353): BLUETOOTH_CONNECT permission is missing.
+W/cr_media(32353): getBluetoothAdapter() requires BLUETOOTH permission
+W/cr_media(32353): registerBluetoothIntentsIfNeeded: Requires BLUETOOTH permission
+I/flutter (32353): [13:27:45.196] ❌ ERROR: Error connecting to game Auto-Roulette
+I/flutter (32353):    ↳ Exception: Invalid iframe src:
+D/EGL_emulation(32353): app_time_stats: avg=60.37ms min=4.54ms max=165.07ms count=11
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to multi font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Overriding game type and manifest with promotions", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Resources loaded: [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from game to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox interrupted request [object XMLHttpRequest]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object XMLHttpRequest] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object Window] [object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Attribute not restored by the application [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "document.title not restored by the application", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.event value has been changed from undefined to [object ProgressEvent]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxInstanceCount value has been changed from undefined to 1", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxGlobals value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.EVO_ECAS value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 1 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 2 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Dispose of previous instance took 59 ms", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/AAudio  (32353): AAudioStreamBuilder_openStream() called ----------------------------------------
+I/AudioStreamBuilder(32353): rate   =  44100, channels  = 1, channelMask = 0x1, format   = 5, sharing = SH, dir = OUTPUT
+I/AudioStreamBuilder(32353): device =      0, sessionId = -1, perfMode = 11, callback: ON with frames = 4360
+I/AudioStreamBuilder(32353): usage  =      1, contentType = 0, inputPreset = 0, allowedCapturePolicy = 0
+I/AudioStreamBuilder(32353): privacy sensitive = false, opPackageName = (null), attributionTag = (null)
+D/AudioStreamBuilder(32353): build() MMAP not used because AAUDIO_PERFORMANCE_MODE_LOW_LATENCY not requested.
+D/.roulette_clean(32353): PlayerBase::PlayerBase()
+D/AudioStreamTrack(32353): open(), request notificationFrames = 0, frameCount = 0
+D/AudioStreamTrack(32353): open() flags changed from 0x00000008 to 0x00000000
+D/AudioStreamTrack(32353): open() perfMode changed from 11 to 10
+D/AAudioStream(32353): setState(s#1) from 0 to 2
+I/AAudio  (32353): AAudioStreamBuilder_openStream() returns 0 = AAUDIO_OK for s#1 ----------------
+D/AAudio  (32353): AAudioStream_requestStart(s#1) called --------------
+D/AAudioStream(32353): setState(s#1) from 2 to 3
+D/AAudio  (32353): AAudioStream_requestStart(s#1) returned 0 ---------
+D/AudioStreamLegacy(32353): onAudioDeviceUpdate(deviceId = 2)
+D/AAudioStream(32353): setState(s#1) from 3 to 4
+I/chromium(32353): [INFO:CONSOLE(1)] "Permissions policy violation: accelerometer is not allowed in this document.", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "The deviceorientation events are blocked by permissions policy. See https://github.com/w3c/webappsec-permissions-policy/blob/master/features.md#sensor-features", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Mismatch between expected resource count (19) and actual. [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <path> attribute d: Expected number, "…-1.886 h13.821 v--1.886z M-11.54…".", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <svg> attribute viewBox: A negative value is not valid. ("0 0 -15.400000000000002 -28")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/cr_MediaCodecBridge(32353): create MediaCodec video decoder, mime video/avc, decoder name c2.goldfish.h264.decoder, block_model=false
+D/CCodec  (32353): allocate(c2.goldfish.h264.decoder)
+I/Codec2Client(32353): Available Codec2 services: "default" "software"
+I/CCodec  (32353): setting up 'default' as default (vendor) store
+I/CCodec  (32353): Created component [c2.goldfish.h264.decoder]
+D/CCodecConfig(32353): read media type: video/avc
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): ignored struct field coded.color-format.locations
+D/CCodecConfig(32353): ignoring local param raw.size (0xd2001800) as it is already supported
+D/CCodecConfig(32353): ignoring local param default.color (0x5200180b) as it is already supported
+D/ReflectedParamUpdater(32353): ignored struct field raw.hdr-static-info.mastering
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/CCodecConfig(32353): c2 config diff is Dict {
+D/CCodecConfig(32353):   c2::u32 coded.pl.level = 20496
+D/CCodecConfig(32353):   c2::u32 coded.pl.profile = 20481
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.range = 2
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 default.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 default.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 default.color.range = 0
+D/CCodecConfig(32353):   c2::u32 default.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 input.buffers.max-size.value = 6291456
+D/CCodecConfig(32353):   c2::u32 input.delay.value = 0
+D/CCodecConfig(32353):   string input.media-type.value = "video/avc"
+D/CCodecConfig(32353):   c2::u32 output.delay.value = 8
+D/CCodecConfig(32353):   string output.media-type.value = "video/raw"
+D/CCodecConfig(32353):   c2::u32 raw.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.range = 2
+D/CCodecConfig(32353):   c2::u32 raw.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 raw.max-size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 320
+D/CCodecConfig(32353):   c2::u32 raw.pixel-format.value = 35
+D/CCodecConfig(32353):   c2::i32 raw.rotation.flip = 0
+D/CCodecConfig(32353):   c2::i32 raw.rotation.value = 0
+D/CCodecConfig(32353):   c2::u32 raw.sar.height = 1
+D/CCodecConfig(32353):   c2::u32 raw.sar.width = 1
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 320
+D/CCodecConfig(32353):   c2:
+W/ColorUtils(32353): expected specified color aspects (2:0:0:0)
+I/MediaCodec(32353): MediaCodec will operate in async mode
+D/SurfaceUtils(32353): connecting to surface 0x72ae333ace80, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129473
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333ace80, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333ace70, reason connectToSurface(reconnect-with-listener)
+D/CCodec  (32353): [c2.goldfish.h264.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig(32353): no c2 equivalents for native-window
+D/CCodecConfig(32353): no c2 equivalents for native-window-generation
+D/CCodecConfig(32353): no c2 equivalents for flags
+D/CCodecConfig(32353): config failed => CORRUPTED
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.max-size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 864
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 864
+W/Codec2Client(32353): query -- param skipped: index = 1107298332.
+D/CCodec  (32353): client requested max input size 321408, which is smaller than what component recommended (6291456); overriding with component recommendation.
+W/CCodec  (32353): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  (32353): encoding statistics level = 0
+D/CCodec  (32353): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t level = 65536
+D/CCodec  (32353):   int32_t max-input-size = 6291456
+D/CCodec  (32353):   string mime = "video/avc"
+D/CCodec  (32353):   int32_t profile = 65536
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353): }
+D/CCodec  (32353): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t android._color-format = 2135033992
+D/CCodec  (32353):   int32_t android._video-scaling = 1
+D/CCodec  (32353):   int32_t rotation-degrees = 0
+D/CCodec  (32353):   int32_t color-standard = 1
+D/CCodec  (32353):   int32_t color-range = 2
+D/CCodec  (32353):   int32_t color-transfer = 3
+D/CCodec  (32353):   int32_t sar-height = 1
+D/CCodec  (32353):   int32_t sar-width = 1
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t max-height = 486
+D/CCodec  (32353):   int32_t max-width = 864
+D/CCodec  (32353):   string mime = "video/raw"
+D/CCodec  (32353):   int32_t android._dataspace = 260
+D/CCodec  (32353):   int32_t color-format = 2130708361
+D/CCodec  (32353): }
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/MediaCodec(32353): keep callback message for reclaim
+W/Codec2Client(32353): query -- param skipped: index = 1342179345.
+W/Codec2Client(32353): query -- param skipped: index = 2415921170.
+W/Codec2Client(32353): query -- param skipped: index = 1610614798.
+W/Codec2Client(32353): query -- param skipped: index = 2684356609.
+D/C2Store (32353): Using DMABUF Heaps
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] Created input block pool with allocatorID 16 => poolID 17 - OK (0)
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] Query output surface allocator returned 0 params => BAD_INDEX (6)
+I/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] Created output block pool with allocatorID 18 => poolID 206 - OK
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] Configured output block pool ids 206 => OK
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 0/0
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129473 consumer usage=0x900
+D/Codec2Client(32353): Surface configure completed
+I/DMABUFHEAPS(32353): Using DMA-BUF heap named: system
+D/EGL_emulation(32353): app_time_stats: avg=2005.26ms min=6.76ms max=4003.76ms count=2
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.crop.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.crop.left = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.top = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.width = 864
+D/AAudio  (32353): AAudioStream_requestStop(s#1) called
+D/AAudioStream(32353): setState(s#1) from 4 to 9
+D/AudioTrack(32353): stop(237): called with 175943 frames delivered
+D/AAudioStream(32353): setState(s#1) from 9 to 10
+D/EGL_emulation(32353): app_time_stats: avg=787.75ms min=5.39ms max=3457.36ms count=5
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af9337b4d8 : 5(31457280 size) total buffers - 4(25165824 size) used buffers - 86/91 (recycle/alloc) - 5/88 (fetch/transfer)
+I/flutter (32353): [13:27:54.849] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+I/flutter (32353): [13:27:54.865] 🐛 DEBUG: Game iframe src: https://cdn-3.launcher.a8r.games/index.html?options=eyJsYXVuY2hfb3B0aW9ucyI6eyJnYW1lX3VybCI6Imh0dHBzOi8vcm95YWwuZXZvLWdhbWVzLmNvbS9lbnRyeT9KU0VTU0lPTklEPXN5ZnBzdXpmdDRicmlxcHBzMnM0cDI2bnE2YWRzaW1sMjkzZjI4MmJcdTAwMjZwYXJhbXM9WTJGemFXNXZYMmxrUFhKdmVEQXdNREF3TURBd01EQXdNREVLWjJGdFpUMXliM1ZzWlhSMFpRcHphV2R1WVhSMWNtVTlUM2hJTW14VFJYcDRUVFpTVldSV1MxVlBTbWx1ZFRWMFNsSkxlRzl3TmpGcVpsUnRNbGR3VTNWVE5UazRlVUV3V0ZkdFV6VkhYMG93YjBkaGJHMDVWRW90WWs5T1pFNUZaRTh6VDFWT2RFNWxWRUprYUhjS2RXRmZiR0YxYm1Ob1gybGtQVEU0TTJObU16RmtZMk5tT0RnME5qZGhaamxrTnpnMllncDJkRjlwWkQxeU5XdzFaVzF4YUhCa2VXeHBhSGhyQ25SaFlteGxYMmxrUFRRNGVqVndhbkJ6TTI1MGRuRmpNV0lLWjJGdFpVbHVkR1Z5Wm1GalpUMTJhV1YzTWdwemFYUmxQVFkyQ21wM2MyZzlaWGxLY21GWFVXbFBhVWw0VG5wTk5VNUVVVFJPUkVGNFRucHJNVWxwZDJsWlYzaHVTV3B2YVZKV1RYbE9WRmxwWmxFS2NHeGhlVjl0YjJSbFBYSmxkMkZ5WkY5bllXMWxjd28iLCJzdHJhdGVneSI6InJlZGlyZWN0In0sImxhdW5jaGVyX3ZlcnNpb24iOiJtYXN0ZXIiLCJsb2JieV90b2tlbiI6IjM1ODdkNTBmLWQ5ZWYtNDA4ZC04ZDc4LTBkOTYwNDExNDdkZSIsImxvYmJ5X3VybCI6Imh0dHB
+I/flutter (32353): [13:27:54.889] 🐛 DEBUG: Parsed game_url: https://royal.evo-games.com/entry?JSESSIONID=syfpsuzft4briqpps2s4p26nq6adsiml293f282b&params=Y2FzaW5vX2lkPXJveDAwMDAwMDAwMDAwMDEKZ2FtZT1yb3VsZXR0ZQpzaWduYXR1cmU9T3hIMmxTRXp4TTZSVWRWS1VPSmludTV0SlJLeG9wNjFqZlRtMldwU3VTNTk4eUEwWFdtUzVHX0owb0dhbG05VEotYk9OZE5FZE8zT1VOdE5lVEJkaHcKdWFfbGF1bmNoX2lkPTE4M2NmMzFkY2NmODg0NjdhZjlkNzg2Ygp2dF9pZD1yNWw1ZW1xaHBkeWxpaHhrCnRhYmxlX2lkPTQ4ejVwanBzM250dnFjMWIKZ2FtZUludGVyZmFjZT12aWV3MgpzaXRlPTY2Cmp3c2g9ZXlKcmFXUWlPaUl4TnpNNU5EUTROREF4TnprMUlpd2lZV3huSWpvaVJWTXlOVFlpZlEKcGxheV9tb2RlPXJld2FyZF9nYW1lcwo
+I/flutter (32353): [13:27:54.896] ℹ️  INFO: Loading provider URL to obtain session...
+D/EGL_emulation(32353): app_time_stats: avg=53.37ms min=4.56ms max=191.83ms count=9
+W/cr_MediaCodecBridge(32353): Releasing: c2.goldfish.h264.decoder
+D/SurfaceUtils(32353): connecting to surface 0x72ae333eaa50, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129474
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333eaa50, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333eaa40, reason connectToSurface(reconnect-with-listener)
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 4/4
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129474 consumer usage=0x900
+D/Codec2Client(32353): Surface configure completed
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333ace80, reason disconnectFromSurface
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#929] MediaCodec discarded an unknown buffer
+W/cr_MediaCodecBridge(32353): Codec released
+I/hw-BpHwBinder(32353): onLastStrongRef automatically unlinking death recipients
+W/chromium(32353): [WARNING:spdy_session.cc(2712)] Received RST for invalid stream3
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333eaa50, reason disconnectFromSurface
+W/chromium(32353): [WARNING:spdy_session.cc(2980)] Received HEADERS for invalid stream 33
+D/EGL_emulation(32353): app_time_stats: avg=107.33ms min=8.47ms max=298.31ms count=7
+I/flutter (32353): [13:27:56.346] 🐛 DEBUG: WS ⇠ {"subscribe":{"status":"success","channel":"table-48z5pjps3ntvqc1b"},"time":1746538075954}
+I/flutter (32353): [13:27:56.346] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:27:56.346] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:27:56.348] 🐛 DEBUG: WS ⇠ {"id":"1746538075954-4026","type":"balanceUpdated","args":{"balance":0.00,"balances":[{"id":"combined","version":1746538075951,"amount":0.00}],"currencySymbol":"₴","currencyCode":"UAH","tableId":"48z5pjps3ntvqc1b"},"time":1746538075954}
+I/flutter (32353): [13:27:56.349] 🐛 DEBUG: Decoded message type: balanceUpdated
+I/flutter (32353): [13:27:56.350] 🐛 DEBUG: Ignoring message of type: balanceUpdated
+I/flutter (32353): [13:27:56.356] 🐛 DEBUG: WS ⇠ {"id":"1746538075961-5569","type":"roulette.tableState","args":{"state":"BETS_CLOSED_ANNOUNCED","gameId":"183cf31bd8d89f97f7ad5879","gameNumber":"13:27:36","idleRounds":0,"betState":{"spinNowAllowed":false,"balanceId":"combined"}},"time":1746538075961}
+I/flutter (32353): [13:27:56.356] 🐛 DEBUG: Decoded message type: roulette.tableState
+I/flutter (32353): [13:27:56.356] 🐛 DEBUG: Ignoring message of type: roulette.tableState
+I/flutter (32353): [13:27:56.364] 🐛 DEBUG: WS ⇠ {"id":"1746538075961-9828","type":"appInfo","args":{"version":"1.5","tableId":"48z5pjps3ntvqc1b","supportedFeatures":[]},"time":1746538075961}
+I/flutter (32353): [13:27:56.364] 🐛 DEBUG: Decoded message type: appInfo
+I/flutter (32353): [13:27:56.365] 🐛 DEBUG: Ignoring message of type: appInfo
+I/flutter (32353): [13:27:56.366] 🐛 DEBUG: WS ⇠ {"id":"1746538075961-2838","type":"tableState","args":{"balanceId":"combined","playerBalanceId":"combined"},"time":1746538075961}
+I/flutter (32353): [13:27:56.367] 🐛 DEBUG: Decoded message type: tableState
+I/flutter (32353): [13:27:56.367] 🐛 DEBUG: Ignoring message of type: tableState
+I/flutter (32353): [13:27:56.367] 🐛 DEBUG: WS ⇠ {"dealer":"Auto","time":1746538075961}
+I/flutter (32353): [13:27:56.368] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:27:56.369] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:27:56.375] 🐛 DEBUG: WS ⇠ {"id":"1746538075961-4855","type":"roulette.recentResults","args":{"recentResults":[["9"],["23"],["6"],["5"],["33"],["33"],["24"],["22"],["29"],["36"],["13"],["26"],["23"],["13"],["12"],["34"],["32"],["17"],["8"],["15"],["35"],["22"],["12"],["12"],["19"],["16"],["18"],["2"],["35"],["21"],["4"],["28"],["22"],["7"],["19"],["9"],["23"],["2"],["15"],["35"],["21"],["29"],["22"],["3"],["23"],["11"],["16"],["2"],["6"],["19"],["2"],["32"],["4"],["34"],["20"],["31"],["2"],["3"],["22"],["4"],["22"],["26"],["16"],["19"],["24"],["24"],["28"],["8"],["24"],["35"],["21"],["29"],["24"],["14"],["33"],["21"],["31"],["27"],["4"],["19"],["9"],["8"],["25"],["29"],["1"],["13"],["0"],["2"],["24"],["18"],["8"],["26"],["13"],["33"],["6"],["16"],["19"],["0"],["29"],["31"],["22"],["2"],["17"],["15"],["27"],["12"],["0"],["16"],["4"],["35"],["24"],["14"],["32"],["19"],["19"],["8"],["19"],["3"],["6"],["13"],["32"],["4"],["30"],["24"],["31"],["20"],["18"],["35"],["9"],["20"],["26"],["27"],["10"],["4"],["3
+I/flutter (32353): [13:27:56.377] 🐛 DEBUG: Decoded message type: roulette.recentResults
+I/flutter (32353): [13:27:56.381] ℹ️  INFO: Completing with recent results
+I/flutter (32353): [13:27:56.381] ℹ️  INFO: Closing WebSocket connection after results
+I/flutter (32353): [13:27:56.394] ℹ️  INFO: Received results for game 199440, kickout: null
+I/flutter (32353): [13:27:56.394] ℹ️  INFO: Processing results for game 199440 with kickout: null
+I/flutter (32353): [13:27:56.397] ℹ️  INFO: Processing results for game 199440, kickout: null
+I/flutter (32353): [13:27:56.398] ℹ️  INFO: Cleared signals for game 199440
+I/flutter (32353): [13:27:56.406] ℹ️  INFO: Results processed for game 199440
+I/flutter (32353): [13:27:56.485] ℹ️  INFO: WebSocket closed
+D/AAudio  (32353): AAudioStream_requestStop(s#1) called
+D/AAudio  (32353): AAudioStream_close(s#1) called ---------------
+D/AAudioStream(32353): setState(s#1) from 10 to 11
+D/AAudioStream(32353): setState(s#1) from 11 to 12
+D/AAudioStream(32353): ~AudioStream(s#1) mPlayerBase strongCount = 2
+D/AAudio  (32353): AAudioStream_close(s#1) returned 0 ---------
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af9337b4d8 : 0(0 size) total buffers - 0(0 size) used buffers - 102/107 (recycle/alloc) - 5/103 (fetch/transfer)
+D/BufferPoolAccessor2.0(32353): evictor expired: 1, evicted: 1
+D/EGL_emulation(32353): app_time_stats: avg=733.08ms min=2.16ms max=7912.23ms count=11
+I/flutter (32353): [13:28:04.782] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+I/flutter (32353): [13:28:04.799] ❌ ERROR: Error connecting to game Auto-Roulette
+I/flutter (32353):    ↳ Exception: Invalid iframe src:
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to multi font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Overriding game type and manifest with promotions", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Resources loaded: [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from game to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox interrupted request [object XMLHttpRequest]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object XMLHttpRequest] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object Window] [object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Attribute not restored by the application [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "document.title not restored by the application", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.event value has been changed from undefined to [object ProgressEvent]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxInstanceCount value has been changed from undefined to 1", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxGlobals value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.EVO_ECAS value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 1 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 2 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Dispose of previous instance took 34 ms", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Unable to load existing Autoplay state from session storage: AutoPlay: Autoplay state contains stale data from a non-current session.", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Unable to load existing Autoplay state from session storage: AutoPlay: Autoplay state contains stale data from a non-current session.", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/AAudio  (32353): AAudioStreamBuilder_openStream() called ----------------------------------------
+I/AudioStreamBuilder(32353): rate   =  44100, channels  = 1, channelMask = 0x1, format   = 5, sharing = SH, dir = OUTPUT
+I/AudioStreamBuilder(32353): device =      0, sessionId = -1, perfMode = 11, callback: ON with frames = 4360
+I/AudioStreamBuilder(32353): usage  =      1, contentType = 0, inputPreset = 0, allowedCapturePolicy = 0
+I/AudioStreamBuilder(32353): privacy sensitive = false, opPackageName = (null), attributionTag = (null)
+D/AudioStreamBuilder(32353): build() MMAP not used because AAUDIO_PERFORMANCE_MODE_LOW_LATENCY not requested.
+D/.roulette_clean(32353): PlayerBase::PlayerBase()
+D/AudioStreamTrack(32353): open(), request notificationFrames = 0, frameCount = 0
+D/AudioStreamTrack(32353): open() flags changed from 0x00000008 to 0x00000000
+D/AudioStreamTrack(32353): open() perfMode changed from 11 to 10
+D/AAudioStream(32353): setState(s#2) from 0 to 2
+I/AAudio  (32353): AAudioStreamBuilder_openStream() returns 0 = AAUDIO_OK for s#2 ----------------
+D/AAudio  (32353): AAudioStream_requestStart(s#2) called --------------
+D/AAudioStream(32353): setState(s#2) from 2 to 3
+D/AudioStreamLegacy(32353): onAudioDeviceUpdate(deviceId = 2)
+D/AAudio  (32353): AAudioStream_requestStart(s#2) returned 0 ---------
+D/AAudioStream(32353): setState(s#2) from 3 to 4
+I/chromium(32353): [INFO:CONSOLE(1)] "Resources loaded: [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Permissions policy violation: accelerometer is not allowed in this document.", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "The deviceorientation events are blocked by permissions policy. See https://github.com/w3c/webappsec-permissions-policy/blob/master/features.md#sensor-features", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <path> attribute d: Expected number, "…-1.886 h13.821 v--1.886z M-11.54…".", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <svg> attribute viewBox: A negative value is not valid. ("0 0 -15.400000000000002 -28")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/cr_MediaCodecBridge(32353): create MediaCodec video decoder, mime video/avc, decoder name c2.goldfish.h264.decoder, block_model=false
+D/CCodec  (32353): allocate(c2.goldfish.h264.decoder)
+I/CCodec  (32353): setting up 'default' as default (vendor) store
+I/CCodec  (32353): Created component [c2.goldfish.h264.decoder]
+D/CCodecConfig(32353): read media type: video/avc
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): ignored struct field coded.color-format.locations
+D/CCodecConfig(32353): ignoring local param raw.size (0xd2001800) as it is already supported
+D/CCodecConfig(32353): ignoring local param default.color (0x5200180b) as it is already supported
+D/ReflectedParamUpdater(32353): ignored struct field raw.hdr-static-info.mastering
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/CCodecConfig(32353): c2 config diff is Dict {
+D/CCodecConfig(32353):   c2::u32 coded.pl.level = 20496
+D/CCodecConfig(32353):   c2::u32 coded.pl.profile = 20481
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.range = 2
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 default.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 default.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 default.color.range = 0
+D/CCodecConfig(32353):   c2::u32 default.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 input.buffers.max-size.value = 6291456
+D/CCodecConfig(32353):   c2::u32 input.delay.value = 0
+D/CCodecConfig(32353):   string input.media-type.value = "video/avc"
+D/CCodecConfig(32353):   c2::u32 output.delay.value = 8
+D/CCodecConfig(32353):   string output.media-type.value = "video/raw"
+D/CCodecConfig(32353):   c2::u32 raw.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.range = 2
+D/CCodecConfig(32353):   c2::u32 raw.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 raw.max-size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 320
+D/CCodecConfig(32353):   c2::u32 raw.pixel-format.value = 35
+D/CCodecConfig(32353):   c2::i32 raw.rotation.flip = 0
+D/CCodecConfig(32353):   c2::i32 raw.rotation.value = 0
+D/CCodecConfig(32353):   c2::u32 raw.sar.height = 1
+D/CCodecConfig(32353):   c2::u32 raw.sar.width = 1
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 320
+D/CCodecConfig(32353):   c2:
+W/ColorUtils(32353): expected specified color aspects (2:0:0:0)
+I/MediaCodec(32353): MediaCodec will operate in async mode
+D/SurfaceUtils(32353): connecting to surface 0x72ae333eaa50, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129475
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333eaa50, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333eaa40, reason connectToSurface(reconnect-with-listener)
+D/CCodec  (32353): [c2.goldfish.h264.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig(32353): no c2 equivalents for native-window
+D/CCodecConfig(32353): no c2 equivalents for native-window-generation
+D/CCodecConfig(32353): no c2 equivalents for flags
+D/CCodecConfig(32353): config failed => CORRUPTED
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.max-size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 864
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 864
+W/Codec2Client(32353): query -- param skipped: index = 1107298332.
+D/CCodec  (32353): client requested max input size 321408, which is smaller than what component recommended (6291456); overriding with component recommendation.
+W/CCodec  (32353): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  (32353): encoding statistics level = 0
+D/CCodec  (32353): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t level = 65536
+D/CCodec  (32353):   int32_t max-input-size = 6291456
+D/CCodec  (32353):   string mime = "video/avc"
+D/CCodec  (32353):   int32_t profile = 65536
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353): }
+D/CCodec  (32353): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t android._color-format = 2135033992
+D/CCodec  (32353):   int32_t android._video-scaling = 1
+D/CCodec  (32353):   int32_t rotation-degrees = 0
+D/CCodec  (32353):   int32_t color-standard = 1
+D/CCodec  (32353):   int32_t color-range = 2
+D/CCodec  (32353):   int32_t color-transfer = 3
+D/CCodec  (32353):   int32_t sar-height = 1
+D/CCodec  (32353):   int32_t sar-width = 1
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t max-height = 486
+D/CCodec  (32353):   int32_t max-width = 864
+D/CCodec  (32353):   string mime = "video/raw"
+D/CCodec  (32353):   int32_t android._dataspace = 260
+D/CCodec  (32353):   int32_t color-format = 2130708361
+D/CCodec  (32353): }
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/MediaCodec(32353): keep callback message for reclaim
+W/Codec2Client(32353): query -- param skipped: index = 1342179345.
+W/Codec2Client(32353): query -- param skipped: index = 2415921170.
+W/Codec2Client(32353): query -- param skipped: index = 1610614798.
+W/Codec2Client(32353): query -- param skipped: index = 2684356609.
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] Created input block pool with allocatorID 16 => poolID 18 - OK (0)
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] Query output surface allocator returned 0 params => BAD_INDEX (6)
+I/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] Created output block pool with allocatorID 18 => poolID 207 - OK
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] Configured output block pool ids 207 => OK
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 0/0
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129475 consumer usage=0x900
+D/AAudio  (32353): AAudioStream_requestStop(s#2) called
+D/AAudioStream(32353): setState(s#2) from 4 to 9
+D/AudioTrack(32353): stop(238): called with 50150 frames delivered
+D/AAudioStream(32353): setState(s#2) from 9 to 10
+D/Codec2Client(32353): Surface configure completed
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af9337b4d8 : 0(0 size) total buffers - 0(0 size) used buffers - 102/107 (recycle/alloc) - 5/103 (fetch/transfer)
+D/BufferPoolAccessor2.0(32353): Destruction - bufferpool2 0x72af9337b4d8 cached: 0/0M, 0/0% in use; allocs: 107, 95% recycled; transfers: 103, 95% unfetched
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.crop.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.crop.left = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.top = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.width = 864
+D/EGL_emulation(32353): app_time_stats: avg=333.87ms min=2.97ms max=3737.51ms count=12
+D/AAudio  (32353): AAudioStream_requestStop(s#2) called
+D/AAudio  (32353): AAudioStream_close(s#2) called ---------------
+D/AAudioStream(32353): setState(s#2) from 10 to 11
+D/AAudioStream(32353): setState(s#2) from 11 to 12
+D/AAudioStream(32353): ~AudioStream(s#2) mPlayerBase strongCount = 2
+D/AAudio  (32353): AAudioStream_close(s#2) returned 0 ---------
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af933bf3b8 : 5(31457280 size) total buffers - 5(31457280 size) used buffers - 63/68 (recycle/alloc) - 5/64 (fetch/transfer)
+D/BufferPoolAccessor2.0(32353): evictor expired: 1, evicted: 0
+I/.roulette_clean(32353): Background concurrent mark compact GC freed 3636KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 3923KB/7847KB, paused 1.397ms,1.336ms total 336.751ms
+D/EGL_emulation(32353): app_time_stats: avg=1578.36ms min=3.08ms max=7293.69ms count=5
+I/flutter (32353): [13:28:17.334] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+I/flutter (32353): [13:28:17.354] 🐛 DEBUG: Game iframe src: https://cdn-3.launcher.a8r.games/index.html?options=eyJsYXVuY2hfb3B0aW9ucyI6eyJnYW1lX3VybCI6Imh0dHBzOi8vcm95YWwuZXZvLWdhbWVzLmNvbS9lbnRyeT9KU0VTU0lPTklEPXN5ZnBzdXpmdDRicmlxcHBzMnM0cW9oN2Nlb2Zpc3VzM2MxN2U4NDBcdTAwMjZwYXJhbXM9WTJGemFXNXZYMmxrUFhKdmVEQXdNREF3TURBd01EQXdNREVLWjJGdFpUMXliM1ZzWlhSMFpRcHphV2R1WVhSMWNtVTlOVTB0T0VaTVRUSkpVbHByVTBoMWJYQnBMVW8wUjB4MmVXRjZYMlJrVGxab1JHNU5NR05xVEU4d2MySnZWVVE1WTJjNWJVOVhPR2huYUV0amJVOUtSV1pWT0dwd1dERTRlbWx3V2s0MVYwSnBOVXhSUVZFS2RXRmZiR0YxYm1Ob1gybGtQVEU0TTJObU16SXlOalppTVRZeU9EZ3pOREJqWm1Kak5BcDJkRjlwWkQxeU5XdzFaVzF4YUhCa2VXeHBhSGhyQ25SaFlteGxYMmxrUFRRNGVqVndhbkJ6TTI1MGRuRmpNV0lLWjJGdFpVbHVkR1Z5Wm1GalpUMTJhV1YzTWdwemFYUmxQVFkyQ21wM2MyZzlaWGxLY21GWFVXbFBhVWw0VG5wTk5VNUVVVFJPUkVGNFRucHJNVWxwZDJsWlYzaHVTV3B2YVZKV1RYbE9WRmxwWmxFS2NHeGhlVjl0YjJSbFBYSmxkMkZ5WkY5bllXMWxjd28iLCJzdHJhdGVneSI6InJlZGlyZWN0In0sImxhdW5jaGVyX3ZlcnNpb24iOiJtYXN0ZXIiLCJsb2JieV90b2tlbiI6IjVhMmIyYjRhLTY3M2MtNGM3MC04NzY1LTBjOTg1ZDQ0MTA3NiIsImxvYmJ5X3VybCI6Imh0dHB
+I/flutter (32353): [13:28:17.356] 🐛 DEBUG: Parsed game_url: https://royal.evo-games.com/entry?JSESSIONID=syfpsuzft4briqpps2s4qoh7ceofisus3c17e840&params=Y2FzaW5vX2lkPXJveDAwMDAwMDAwMDAwMDEKZ2FtZT1yb3VsZXR0ZQpzaWduYXR1cmU9NU0tOEZMTTJJUlprU0h1bXBpLUo0R0x2eWF6X2RkTlZoRG5NMGNqTE8wc2JvVUQ5Y2c5bU9XOGhnaEtjbU9KRWZVOGpwWDE4emlwWk41V0JpNUxRQVEKdWFfbGF1bmNoX2lkPTE4M2NmMzIyNjZiMTYyODgzNDBjZmJjNAp2dF9pZD1yNWw1ZW1xaHBkeWxpaHhrCnRhYmxlX2lkPTQ4ejVwanBzM250dnFjMWIKZ2FtZUludGVyZmFjZT12aWV3MgpzaXRlPTY2Cmp3c2g9ZXlKcmFXUWlPaUl4TnpNNU5EUTROREF4TnprMUlpd2lZV3huSWpvaVJWTXlOVFlpZlEKcGxheV9tb2RlPXJld2FyZF9nYW1lcwo
+I/flutter (32353): [13:28:17.356] ℹ️  INFO: Loading provider URL to obtain session...
+W/chromium(32353): [WARNING:spdy_session.cc(2980)] Received HEADERS for invalid stream 11
+W/cr_MediaCodecBridge(32353): Releasing: c2.goldfish.h264.decoder
+D/SurfaceUtils(32353): connecting to surface 0x72ae333d77c0, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129476
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333d77c0, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333d77b0, reason connectToSurface(reconnect-with-listener)
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 0/0
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129476 consumer usage=0x900
+W/chromium(32353): [WARNING:spdy_session.cc(2935)] Received WINDOW_UPDATE for invalid stream 3
+W/chromium(32353): [WARNING:spdy_session.cc(2712)] Received RST for invalid stream3
+D/Codec2Client(32353): Surface configure completed
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333eaa50, reason disconnectFromSurface
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#64] MediaCodec discarded an unknown buffer
+W/cr_MediaCodecBridge(32353): Codec released
+I/hw-BpHwBinder(32353): onLastStrongRef automatically unlinking death recipients
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333d77c0, reason disconnectFromSurface
+W/chromium(32353): [WARNING:spdy_session.cc(2980)] Received HEADERS for invalid stream 69
+I/flutter (32353): [13:28:18.012] 🐛 DEBUG: WS ⇠ {"subscribe":{"status":"success","channel":"table-48z5pjps3ntvqc1b"},"time":1746538097624}
+I/flutter (32353): [13:28:18.013] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:28:18.014] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:28:18.015] 🐛 DEBUG: WS ⇠ {"id":"1746538097624-4663","type":"balanceUpdated","args":{"balance":0.00,"balances":[{"id":"combined","version":1746538097607,"amount":0.00}],"currencySymbol":"₴","currencyCode":"UAH","tableId":"48z5pjps3ntvqc1b"},"time":1746538097624}
+I/flutter (32353): [13:28:18.016] 🐛 DEBUG: Decoded message type: balanceUpdated
+I/flutter (32353): [13:28:18.017] 🐛 DEBUG: Ignoring message of type: balanceUpdated
+I/flutter (32353): [13:28:18.024] 🐛 DEBUG: WS ⇠ {"id":"1746538097627-8588","type":"roulette.tableState","args":{"state":"BETS_OPEN","gameId":"183cf32567331ac6614b6bca","gameNumber":"13:28:17","idleRounds":0,"betState":{"closeInMillis":18858,"spinNowAllowed":false,"balanceId":"combined"}},"time":1746538097484}
+I/flutter (32353): [13:28:18.025] 🐛 DEBUG: Decoded message type: roulette.tableState
+I/flutter (32353): [13:28:18.026] 🐛 DEBUG: Ignoring message of type: roulette.tableState
+I/flutter (32353): [13:28:18.030] 🐛 DEBUG: WS ⇠ {"id":"1746538097627-5253","type":"appInfo","args":{"version":"1.5","tableId":"48z5pjps3ntvqc1b","supportedFeatures":[]},"time":1746538097627}
+I/flutter (32353): [13:28:18.031] 🐛 DEBUG: Decoded message type: appInfo
+I/flutter (32353): [13:28:18.031] 🐛 DEBUG: Ignoring message of type: appInfo
+I/flutter (32353): [13:28:18.034] 🐛 DEBUG: WS ⇠ {"id":"1746538097627-6514","type":"tableState","args":{"balanceId":"combined","playerBalanceId":"combined"},"time":1746538097627}
+I/flutter (32353): [13:28:18.035] 🐛 DEBUG: Decoded message type: tableState
+I/flutter (32353): [13:28:18.036] 🐛 DEBUG: Ignoring message of type: tableState
+I/flutter (32353): [13:28:18.037] 🐛 DEBUG: WS ⇠ {"dealer":"Auto","time":1746538097627}
+I/flutter (32353): [13:28:18.040] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:28:18.040] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:28:18.044] 🐛 DEBUG: WS ⇠ {"id":"1746538097627-3552","type":"roulette.recentResults","args":{"recentResults":[["17"],["9"],["23"],["6"],["5"],["33"],["33"],["24"],["22"],["29"],["36"],["13"],["26"],["23"],["13"],["12"],["34"],["32"],["17"],["8"],["15"],["35"],["22"],["12"],["12"],["19"],["16"],["18"],["2"],["35"],["21"],["4"],["28"],["22"],["7"],["19"],["9"],["23"],["2"],["15"],["35"],["21"],["29"],["22"],["3"],["23"],["11"],["16"],["2"],["6"],["19"],["2"],["32"],["4"],["34"],["20"],["31"],["2"],["3"],["22"],["4"],["22"],["26"],["16"],["19"],["24"],["24"],["28"],["8"],["24"],["35"],["21"],["29"],["24"],["14"],["33"],["21"],["31"],["27"],["4"],["19"],["9"],["8"],["25"],["29"],["1"],["13"],["0"],["2"],["24"],["18"],["8"],["26"],["13"],["33"],["6"],["16"],["19"],["0"],["29"],["31"],["22"],["2"],["17"],["15"],["27"],["12"],["0"],["16"],["4"],["35"],["24"],["14"],["32"],["19"],["19"],["8"],["19"],["3"],["6"],["13"],["32"],["4"],["30"],["24"],["31"],["20"],["18"],["35"],["9"],["20"],["26"],["27"],["10"],["
+I/flutter (32353): [13:28:18.047] 🐛 DEBUG: Decoded message type: roulette.recentResults
+I/flutter (32353): [13:28:18.052] ℹ️  INFO: Completing with recent results
+I/flutter (32353): [13:28:18.054] ℹ️  INFO: Closing WebSocket connection after results
+I/flutter (32353): [13:28:18.057] ℹ️  INFO: Received results for game 199440, kickout: null
+I/flutter (32353): [13:28:18.058] ℹ️  INFO: Processing results for game 199440 with kickout: null
+I/flutter (32353): [13:28:18.061] ℹ️  INFO: Processing results for game 199440, kickout: null
+I/flutter (32353): [13:28:18.063] ℹ️  INFO: Cleared signals for game 199440
+I/flutter (32353): [13:28:18.063] ℹ️  INFO: Results processed for game 199440
+I/flutter (32353): [13:28:18.126] ℹ️  INFO: WebSocket closed
+D/EGL_emulation(32353): app_time_stats: avg=13.72ms min=2.95ms max=51.75ms count=15
+D/EGL_emulation(32353): app_time_stats: avg=1540.08ms min=2.52ms max=3077.64ms count=2
+I/flutter (32353): [13:28:21.556] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+I/flutter (32353): [13:28:21.581] ❌ ERROR: Error connecting to game Auto-Roulette
+I/flutter (32353):    ↳ Exception: Invalid iframe src:
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'browsing-topics'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'hid'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'interest-cohort'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'payment'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'serial'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'usb'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'browsing-topics'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'hid'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'interest-cohort'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'payment'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'serial'.", source:  (0)
+I/chromium(32353): [INFO:CONSOLE(0)] "Error with Permissions-Policy header: Unrecognized feature: 'usb'.", source:  (0)
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af933bf3b8 : 0(0 size) total buffers - 0(0 size) used buffers - 137/142 (recycle/alloc) - 5/138 (fetch/transfer)
+D/BufferPoolAccessor2.0(32353): evictor expired: 1, evicted: 1
+I/chromium(32353): [INFO:CONSOLE(1)] "Error", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "erRn", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "erRn", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "xMaB", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "xMaB", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "[object HTMLAnchorElement]", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "[object HTMLAnchorElement]", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "
+I/chromium(32353): [INFO:CONSOLE(1)] "
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] " Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] " Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent Rquq: mnsG", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c%d font-size:0;color:transparent NaN", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+D/EGL_emulation(32353): app_time_stats: avg=356.37ms min=2.42ms max=3688.82ms count=11
+I/chromium(32353): [INFO:CONSOLE(1)] "Request for the Private Access Token challenge.", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "The next request for the Private Access Token challenge may return a 401 and show a warning in console.", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/orchestrate/chl_api/v1?ray=93b8d2028994eeb9&lang=auto (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to multi font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from empty to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Overriding game type and manifest with promotions", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Resources loaded: [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "%c📁 Application switch from game to tableId=48z5pjps3ntvqc1b, vtId=r5l5emqhpdylihxk font-size: 120%;", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox interrupted request [object XMLHttpRequest]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "setTimeout/setInterval has not been cleared up by application code. Error", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object XMLHttpRequest] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "addEventListener has not been cleared up by application code. [object Window] [object Object],[object Object],[object Object],[object Object],[object Object],[object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Attribute not restored by the application [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "document.title not restored by the application", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.event value has been changed from undefined to [object ProgressEvent]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxInstanceCount value has been changed from undefined to 1", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.__mobxGlobals value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.EVO_ECAS value has been changed from undefined to [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 1 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Event handler not removed [object HTMLBodyElement] [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "window.onerror value has been changed from function(i,y,a,K,u){return D("error",{column:K,error:u,line:a,msg:i,url:y}),!!L&&L.apply(this,arguments)} to null", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Sandbox cleanup phase 2 done.", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Dispose of previous instance took 20 ms", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "console.groupEnd", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Unable to load existing Autoplay state from session storage: AutoPlay: Autoplay state contains stale data from a non-current session.", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Unable to load existing Autoplay state from session storage: AutoPlay: Autoplay state contains stale data from a non-current session.", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/AAudio  (32353): AAudioStreamBuilder_openStream() called ----------------------------------------
+I/AudioStreamBuilder(32353): rate   =  44100, channels  = 1, channelMask = 0x1, format   = 5, sharing = SH, dir = OUTPUT
+I/AudioStreamBuilder(32353): device =      0, sessionId = -1, perfMode = 11, callback: ON with frames = 4360
+I/AudioStreamBuilder(32353): usage  =      1, contentType = 0, inputPreset = 0, allowedCapturePolicy = 0
+I/AudioStreamBuilder(32353): privacy sensitive = false, opPackageName = (null), attributionTag = (null)
+D/AudioStreamBuilder(32353): build() MMAP not used because AAUDIO_PERFORMANCE_MODE_LOW_LATENCY not requested.
+D/.roulette_clean(32353): PlayerBase::PlayerBase()
+D/AudioStreamTrack(32353): open(), request notificationFrames = 0, frameCount = 0
+D/AudioStreamTrack(32353): open() flags changed from 0x00000008 to 0x00000000
+D/AudioStreamTrack(32353): open() perfMode changed from 11 to 10
+D/AAudioStream(32353): setState(s#3) from 0 to 2
+I/AAudio  (32353): AAudioStreamBuilder_openStream() returns 0 = AAUDIO_OK for s#3 ----------------
+D/AAudio  (32353): AAudioStream_requestStart(s#3) called --------------
+D/AAudioStream(32353): setState(s#3) from 2 to 3
+D/AAudio  (32353): AAudioStream_requestStart(s#3) returned 0 ---------
+D/AudioStreamLegacy(32353): onAudioDeviceUpdate(deviceId = 2)
+D/AAudioStream(32353): setState(s#3) from 3 to 4
+I/chromium(32353): [INFO:CONSOLE(1)] "Resources loaded: [object Object]", source: https://royal.evo-games.com/frontend/evo/r2/ (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Permissions policy violation: accelerometer is not allowed in this document.", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "The deviceorientation events are blocked by permissions policy. See https://github.com/w3c/webappsec-permissions-policy/blob/master/features.md#sensor-features", source: https://static.egcdn.com/frontend/cvi/evo-video-components/video_wf4hfb_v13.js? (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-7.625")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-4.607")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-1.886")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-30.5")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute width: A negative value is not valid. ("-1.54")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <rect> attribute height: A negative value is not valid. ("-15.25")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <path> attribute d: Expected number, "…-1.886 h13.821 v--1.886z M-11.54…".", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Error: <svg> attribute viewBox: A negative value is not valid. ("0 0 -15.400000000000002 -28")", source: https://static.egcdn.com/frontend/evo/r2/js/vendor.3ae21932.js (1)
+I/chromium(32353): [INFO:CONSOLE(1)] "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently", source: https://static.egcdn.com/frontend/evo/r2/js/roulette.18f33c14.js (1)
+I/cr_MediaCodecBridge(32353): create MediaCodec video decoder, mime video/avc, decoder name c2.goldfish.h264.decoder, block_model=false
+D/CCodec  (32353): allocate(c2.goldfish.h264.decoder)
+I/CCodec  (32353): setting up 'default' as default (vendor) store
+I/CCodec  (32353): Created component [c2.goldfish.h264.decoder]
+D/CCodecConfig(32353): read media type: video/avc
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.max-count.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.subscribed-indices.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: input.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.allocator-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: output.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): extent() != 1 for single value type: algo.buffers.pool-ids.values
+D/ReflectedParamUpdater(32353): ignored struct field coded.color-format.locations
+D/CCodecConfig(32353): ignoring local param raw.size (0xd2001800) as it is already supported
+D/CCodecConfig(32353): ignoring local param default.color (0x5200180b) as it is already supported
+D/ReflectedParamUpdater(32353): ignored struct field raw.hdr-static-info.mastering
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/CCodecConfig(32353): c2 config diff is Dict {
+D/CCodecConfig(32353):   c2::u32 coded.pl.level = 20496
+D/CCodecConfig(32353):   c2::u32 coded.pl.profile = 20481
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.range = 2
+D/CCodecConfig(32353):   c2::u32 coded.vui.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 default.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 default.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 default.color.range = 0
+D/CCodecConfig(32353):   c2::u32 default.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 input.buffers.max-size.value = 6291456
+D/CCodecConfig(32353):   c2::u32 input.delay.value = 0
+D/CCodecConfig(32353):   string input.media-type.value = "video/avc"
+D/CCodecConfig(32353):   c2::u32 output.delay.value = 8
+D/CCodecConfig(32353):   string output.media-type.value = "video/raw"
+D/CCodecConfig(32353):   c2::u32 raw.color.matrix = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.primaries = 0
+D/CCodecConfig(32353):   c2::u32 raw.color.range = 2
+D/CCodecConfig(32353):   c2::u32 raw.color.transfer = 0
+D/CCodecConfig(32353):   c2::u32 raw.max-size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 320
+D/CCodecConfig(32353):   c2::u32 raw.pixel-format.value = 35
+D/CCodecConfig(32353):   c2::i32 raw.rotation.flip = 0
+D/CCodecConfig(32353):   c2::i32 raw.rotation.value = 0
+D/CCodecConfig(32353):   c2::u32 raw.sar.height = 1
+D/CCodecConfig(32353):   c2::u32 raw.sar.width = 1
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 240
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 320
+D/CCodecConfig(32353):   c2:
+W/ColorUtils(32353): expected specified color aspects (2:0:0:0)
+I/MediaCodec(32353): MediaCodec will operate in async mode
+D/SurfaceUtils(32353): connecting to surface 0x72ae333d77c0, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129477
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333d77c0, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333d77b0, reason connectToSurface(reconnect-with-listener)
+D/CCodec  (32353): [c2.goldfish.h264.decoder] buffers are bound to CCodec for this session
+D/CCodecConfig(32353): no c2 equivalents for native-window
+D/CCodecConfig(32353): no c2 equivalents for native-window-generation
+D/CCodecConfig(32353): no c2 equivalents for flags
+D/CCodecConfig(32353): config failed => CORRUPTED
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.max-size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.max-size.width = 864
+D/CCodecConfig(32353):   c2::u32 raw.size.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.size.width = 864
+W/Codec2Client(32353): query -- param skipped: index = 1107298332.
+D/CCodec  (32353): client requested max input size 321408, which is smaller than what component recommended (6291456); overriding with component recommendation.
+W/CCodec  (32353): This behavior is subject to change. It is recommended that app developers double check whether the requested max input size is in reasonable range.
+D/CCodec  (32353): encoding statistics level = 0
+D/CCodec  (32353): setup formats input: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t level = 65536
+D/CCodec  (32353):   int32_t max-input-size = 6291456
+D/CCodec  (32353):   string mime = "video/avc"
+D/CCodec  (32353):   int32_t profile = 65536
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353): }
+D/CCodec  (32353): setup formats output: AMessage(what = 0x00000000) = {
+D/CCodec  (32353):   int32_t android._color-format = 2135033992
+D/CCodec  (32353):   int32_t android._video-scaling = 1
+D/CCodec  (32353):   int32_t rotation-degrees = 0
+D/CCodec  (32353):   int32_t color-standard = 1
+D/CCodec  (32353):   int32_t color-range = 2
+D/CCodec  (32353):   int32_t color-transfer = 3
+D/CCodec  (32353):   int32_t sar-height = 1
+D/CCodec  (32353):   int32_t sar-width = 1
+D/CCodec  (32353):   Rect crop(0, 0, 863, 485)
+D/CCodec  (32353):   int32_t width = 864
+D/CCodec  (32353):   int32_t height = 486
+D/CCodec  (32353):   int32_t max-height = 486
+D/CCodec  (32353):   int32_t max-width = 864
+D/CCodec  (32353):   string mime = "video/raw"
+D/CCodec  (32353):   int32_t android._dataspace = 260
+D/CCodec  (32353):   int32_t color-format = 2130708361
+D/CCodec  (32353): }
+I/CCodecConfig(32353): query failed after returning 12 values (BAD_INDEX)
+D/MediaCodec(32353): keep callback message for reclaim
+W/Codec2Client(32353): query -- param skipped: index = 1342179345.
+W/Codec2Client(32353): query -- param skipped: index = 2415921170.
+W/Codec2Client(32353): query -- param skipped: index = 1610614798.
+W/Codec2Client(32353): query -- param skipped: index = 2684356609.
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] Created input block pool with allocatorID 16 => poolID 19 - OK (0)
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] Query output surface allocator returned 0 params => BAD_INDEX (6)
+I/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] Created output block pool with allocatorID 18 => poolID 208 - OK
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] Configured output block pool ids 208 => OK
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 0/0
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129477 consumer usage=0x900
+D/Codec2Client(32353): Surface configure completed
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af933bf3b8 : 0(0 size) total buffers - 0(0 size) used buffers - 137/142 (recycle/alloc) - 5/138 (fetch/transfer)
+D/BufferPoolAccessor2.0(32353): Destruction - bufferpool2 0x72af933bf3b8 cached: 0/0M, 0/0% in use; allocs: 142, 96% recycled; transfers: 138, 96% unfetched
+D/CCodecConfig(32353): c2 config diff is   c2::u32 raw.crop.height = 486
+D/CCodecConfig(32353):   c2::u32 raw.crop.left = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.top = 0
+D/CCodecConfig(32353):   c2::u32 raw.crop.width = 864
+D/EGL_emulation(32353): app_time_stats: avg=939.45ms min=2.65ms max=7383.25ms count=8
+D/EGL_emulation(32353): app_time_stats: avg=144.30ms min=3.38ms max=432.96ms count=6
+I/flutter (32353): [13:28:35.133] ℹ️  INFO: Loading game page: https://gizbo.casino/games/evolution/auto_roulette/199420
+I/flutter (32353): [13:28:35.150] 🐛 DEBUG: Game iframe src: https://cdn-3.launcher.a8r.games/index.html?options=eyJsYXVuY2hfb3B0aW9ucyI6eyJnYW1lX3VybCI6Imh0dHBzOi8vcm95YWwuZXZvLWdhbWVzLmNvbS9lbnRyeT9KU0VTU0lPTklEPXN5ZnBzdXpmdDRicmlxcHBzMnM0cmZldzRubmpjcXd1YzY2NzcwMDJcdTAwMjZwYXJhbXM9WTJGemFXNXZYMmxrUFhKdmVEQXdNREF3TURBd01EQXdNREVLWjJGdFpUMXliM1ZzWlhSMFpRcHphV2R1WVhSMWNtVTlOV2RxYnpKUGRVMXlPSEE1TFZacVp6aFVMVEE0ZW5aUlgyVkdSMFZrVDBnMlRraGpVazh0ZDJNMFNWVk5TSGcyTFhZMFNtNHRNVkZ4YnpZMVoweEtla2RsV1hkUFRsZEdUazh5ZEdKVVIwVkhTMlIwZWxFS2RXRmZiR0YxYm1Ob1gybGtQVEU0TTJObU16STNaR00zT1RSa05qa3hZVFV6TkRrM09BcDJkRjlwWkQxeU5XdzFaVzF4YUhCa2VXeHBhSGhyQ25SaFlteGxYMmxrUFRRNGVqVndhbkJ6TTI1MGRuRmpNV0lLWjJGdFpVbHVkR1Z5Wm1GalpUMTJhV1YzTWdwemFYUmxQVFkyQ21wM2MyZzlaWGxLY21GWFVXbFBhVWw0VG5wTk5VNUVVVFJPUkVGNFRucHJNVWxwZDJsWlYzaHVTV3B2YVZKV1RYbE9WRmxwWmxFS2NHeGhlVjl0YjJSbFBYSmxkMkZ5WkY5bllXMWxjd28iLCJzdHJhdGVneSI6InJlZGlyZWN0In0sImxhdW5jaGVyX3ZlcnNpb24iOiJtYXN0ZXIiLCJsb2JieV90b2tlbiI6ImVkY2Y0OWM3LWE2MGYtNDY4Ni05YTMxLTM3MzZkNjgwOTFmZSIsImxvYmJ5X3VybCI6Imh0dHB
+I/flutter (32353): [13:28:35.154] 🐛 DEBUG: Parsed game_url: https://royal.evo-games.com/entry?JSESSIONID=syfpsuzft4briqpps2s4rfew4nnjcqwuc6677002&params=Y2FzaW5vX2lkPXJveDAwMDAwMDAwMDAwMDEKZ2FtZT1yb3VsZXR0ZQpzaWduYXR1cmU9NWdqbzJPdU1yOHA5LVZqZzhULTA4enZRX2VGR0VkT0g2TkhjUk8td2M0SVVNSHg2LXY0Sm4tMVFxbzY1Z0xKekdlWXdPTldGTk8ydGJUR0VHS2R0elEKdWFfbGF1bmNoX2lkPTE4M2NmMzI3ZGM3OTRkNjkxYTUzNDk3OAp2dF9pZD1yNWw1ZW1xaHBkeWxpaHhrCnRhYmxlX2lkPTQ4ejVwanBzM250dnFjMWIKZ2FtZUludGVyZmFjZT12aWV3MgpzaXRlPTY2Cmp3c2g9ZXlKcmFXUWlPaUl4TnpNNU5EUTROREF4TnprMUlpd2lZV3huSWpvaVJWTXlOVFlpZlEKcGxheV9tb2RlPXJld2FyZF9nYW1lcwo
+I/flutter (32353): [13:28:35.161] ℹ️  INFO: Loading provider URL to obtain session...
+D/EGL_emulation(32353): app_time_stats: avg=92.85ms min=2.81ms max=205.60ms count=7
+W/cr_MediaCodecBridge(32353): Releasing: c2.goldfish.h264.decoder
+D/SurfaceUtils(32353): connecting to surface 0x72ae333ace80, reason connectToSurface
+I/MediaCodec(32353): [c2.goldfish.h264.decoder] setting surface generation to 33129478
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333ace80, reason connectToSurface(reconnect)
+D/SurfaceUtils(32353): connecting to surface 0x72ae333ace70, reason connectToSurface(reconnect-with-listener)
+D/Codec2-OutputBufferQueue(32353): remote graphic buffer migration 0/0
+D/Codec2Client(32353): setOutputSurface -- failed to set consumer usage (6/BAD_INDEX)
+D/Codec2Client(32353): setOutputSurface -- generation=33129478 consumer usage=0x900
+W/chromium(32353): [WARNING:sync_reader.cc(148)] ASR: No room in socket buffer.: Broken pipe (32)
+D/Codec2Client(32353): Surface configure completed
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333d77c0, reason disconnectFromSurface
+W/cr_MediaCodecBridge(32353): Codec released
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] MediaCodec discarded an unknown buffer
+D/CCodecBufferChannel(32353): [c2.goldfish.h264.decoder#712] MediaCodec discarded an unknown buffer
+D/AAudio  (32353): AAudioStream_requestStop(s#3) called
+D/AAudioStream(32353): setState(s#3) from 4 to 9
+D/AudioTrack(32353): stop(239): called with 211928 frames delivered
+D/AAudioStream(32353): setState(s#3) from 9 to 10
+W/chromium(32353): [WARNING:spdy_session.cc(2712)] Received RST for invalid stream3
+D/BufferPoolAccessor2.0(32353): evictor expired: 1, evicted: 0
+I/hw-BpHwBinder(32353): onLastStrongRef automatically unlinking death recipients
+D/SurfaceUtils(32353): disconnecting from surface 0x72ae333ace80, reason disconnectFromSurface
+D/BufferPoolAccessor2.0(32353): bufferpool2 0x72af933cbf38 : 0(0 size) total buffers - 0(0 size) used buffers - 77/82 (recycle/alloc) - 6/81 (fetch/transfer)
+D/EGL_emulation(32353): app_time_stats: avg=119.18ms min=4.32ms max=476.01ms count=7
+I/flutter (32353): [13:28:37.009] 🐛 DEBUG: WS ⇠ {"subscribe":{"status":"success","channel":"table-48z5pjps3ntvqc1b"},"time":1746538116627}
+I/flutter (32353): [13:28:37.009] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:28:37.010] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:28:37.014] 🐛 DEBUG: WS ⇠ {"id":"1746538116627-1098","type":"balanceUpdated","args":{"balance":0.00,"balances":[{"id":"combined","version":1746538116580,"amount":0.00}],"currencySymbol":"₴","currencyCode":"UAH","tableId":"48z5pjps3ntvqc1b"},"time":1746538116627}
+I/flutter (32353): [13:28:37.014] 🐛 DEBUG: Decoded message type: balanceUpdated
+I/flutter (32353): [13:28:37.014] 🐛 DEBUG: Ignoring message of type: balanceUpdated
+I/flutter (32353): [13:28:37.026] 🐛 DEBUG: WS ⇠ {"id":"1746538116633-849","type":"roulette.tableState","args":{"state":"BETS_CLOSING_SOON","gameId":"183cf32567331ac6614b6bca","gameNumber":"13:28:17","idleRounds":0,"betState":{"spinNowAllowed":false,"balanceId":"combined"}},"time":1746538116633}
+I/flutter (32353): [13:28:37.026] 🐛 DEBUG: Decoded message type: roulette.tableState
+I/flutter (32353): [13:28:37.026] 🐛 DEBUG: Ignoring message of type: roulette.tableState
+I/flutter (32353): [13:28:37.030] 🐛 DEBUG: WS ⇠ {"id":"1746538116633-6902","type":"appInfo","args":{"version":"1.5","tableId":"48z5pjps3ntvqc1b","supportedFeatures":[]},"time":1746538116633}
+I/flutter (32353): [13:28:37.030] 🐛 DEBUG: Decoded message type: appInfo
+I/flutter (32353): [13:28:37.031] 🐛 DEBUG: Ignoring message of type: appInfo
+I/flutter (32353): [13:28:37.032] 🐛 DEBUG: WS ⇠ {"id":"1746538116633-8437","type":"tableState","args":{"balanceId":"combined","playerBalanceId":"combined"},"time":1746538116633}
+I/flutter (32353): [13:28:37.033] 🐛 DEBUG: Decoded message type: tableState
+I/flutter (32353): [13:28:37.034] 🐛 DEBUG: Ignoring message of type: tableState
+I/flutter (32353): [13:28:37.034] 🐛 DEBUG: WS ⇠ {"dealer":"Auto","time":1746538116633}
+I/flutter (32353): [13:28:37.034] 🐛 DEBUG: Decoded message type: null
+I/flutter (32353): [13:28:37.034] 🐛 DEBUG: Ignoring message of type: null
+I/flutter (32353): [13:28:37.039] 🐛 DEBUG: WS ⇠ {"id":"1746538116638-4198","type":"roulette.recentResults","args":{"recentResults":[["17"],["9"],["23"],["6"],["5"],["33"],["33"],["24"],["22"],["29"],["36"],["13"],["26"],["23"],["13"],["12"],["34"],["32"],["17"],["8"],["15"],["35"],["22"],["12"],["12"],["19"],["16"],["18"],["2"],["35"],["21"],["4"],["28"],["22"],["7"],["19"],["9"],["23"],["2"],["15"],["35"],["21"],["29"],["22"],["3"],["23"],["11"],["16"],["2"],["6"],["19"],["2"],["32"],["4"],["34"],["20"],["31"],["2"],["3"],["22"],["4"],["22"],["26"],["16"],["19"],["24"],["24"],["28"],["8"],["24"],["35"],["21"],["29"],["24"],["14"],["33"],["21"],["31"],["27"],["4"],["19"],["9"],["8"],["25"],["29"],["1"],["13"],["0"],["2"],["24"],["18"],["8"],["26"],["13"],["33"],["6"],["16"],["19"],["0"],["29"],["31"],["22"],["2"],["17"],["15"],["27"],["12"],["0"],["16"],["4"],["35"],["24"],["14"],["32"],["19"],["19"],["8"],["19"],["3"],["6"],["13"],["32"],["4"],["30"],["24"],["31"],["20"],["18"],["35"],["9"],["20"],["26"],["27"],["10"],["
+I/flutter (32353): [13:28:37.039] 🐛 DEBUG: Decoded message type: roulette.recentResults
+I/flutter (32353): [13:28:37.040] ℹ️  INFO: Completing with recent results
+I/flutter (32353): [13:28:37.041] ℹ️  INFO: Closing WebSocket connection after results
+I/flutter (32353): [13:28:37.041] ℹ️  INFO: Received results for game 199440, kickout: null
+I/flutter (32353): [13:28:37.041] ℹ️  INFO: Processing results for game 199440 with kickout: null
+I/flutter (32353): [13:28:37.044] ℹ️  INFO: Processing results for game 199440, kickout: null
+I/flutter (32353): [13:28:37.045] ℹ️  INFO: Cleared signals for game 199440
+I/flutter (32353): [13:28:37.046] ℹ️  INFO: Results processed for game 199440
+I/flutter (32353): [13:28:37.120] ℹ️  INFO: WebSocket closed
