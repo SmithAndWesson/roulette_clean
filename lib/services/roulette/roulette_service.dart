@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:roulette_clean/core/constants/app_constants.dart';
 import 'package:roulette_clean/models/roulette/roulette_game.dart';
 import 'package:roulette_clean/models/websocket/websocket_params.dart';
+import 'package:roulette_clean/models/websocket/websocket_params_new.dart';
 import 'package:roulette_clean/services/webview/webview_service.dart';
 import 'package:roulette_clean/services/session/session_manager.dart';
 import 'package:roulette_clean/utils/logger.dart';
@@ -102,10 +104,9 @@ class RouletteService {
     return jsonData['restrictions'] ?? {};
   }
 
-  Future<WebSocketParams> extractWebSocketParams(RouletteGame game,
+  Future<dynamic> extractWebSocketParams(RouletteGame game,
       {int retry = 0}) async {
     await _webViewService.initialize();
-    await _webViewService.resetDomWithoutLogout();
     final controller = _webViewService.controller;
 
     final cookies = _sessionManager.cookieHeader;
@@ -114,128 +115,162 @@ class RouletteService {
       await _webViewService.setCookies(cookies, domain: ".evo-games.com");
     }
 
-    // await controller.loadRequest(Uri.parse('about:blank'));
-    // await Future.delayed(Duration(milliseconds: 500));
-
     final gamePageUrl = "${BASE_URL}${game.playUrl}";
     Logger.info("Loading game page: $gamePageUrl");
-    await controller.loadRequest(Uri.parse(gamePageUrl));
 
-    String iframeSrc = "";
-    try {
-      iframeSrc = (await controller.runJavaScriptReturningResult("""
-          (function() {
-            const iframe = document.querySelector('iframe');
-            return iframe && iframe.src ? iframe.src : '';
+    const timeout = Duration(seconds: 20);
+    for (var attempt = 0; attempt < 3; attempt++) {
+      final deadline = DateTime.now().add(timeout);
+      while (DateTime.now().isBefore(deadline)) {
+        final iframeSrc = (await controller.runJavaScriptReturningResult(r'''
+          (() => {
+            const f = document.querySelector('iframe');
+            return f && f.src ? f.src : '';
           })();
-          """)).toString();
-    } catch (e) {
-      throw Exception("Unable to get iframe src for game: $e");
+        ''')).toString().replaceAll('"', '').trim();
+
+        if (iframeSrc.startsWith('http') && iframeSrc.contains('?options=')) {
+          Logger.debug('Game iframe src ready: $iframeSrc');
+          return _buildParams(iframeSrc, game, controller, retry);
+        }
+
+        await Future.delayed(const Duration(milliseconds: 300));
+      }
+
+      // iframe не появился — попробуем ещё раз
+      await controller.loadRequest(Uri.parse('about:blank'));
+      await Future.delayed(const Duration(seconds: 1));
+      await controller.loadRequest(Uri.parse(gamePageUrl));
     }
 
-    try {
-      iframeSrc = iframeSrc.replaceAll('"', '').trim();
+    throw TimeoutException(
+        'launcher iframe src not ready for game ${game.identifier}');
+  }
 
-      if (!iframeSrc.startsWith("http")) {
-        throw Exception("Invalid iframe src: $iframeSrc");
-      }
-    } catch (e) {
-      if (retry < 2) {
-        Logger.warning(
-            "Retrying extractWebSocketParams due to iframe error...");
-        await Future.delayed(Duration(seconds: 1));
-        await _webViewService.resetDomWithoutLogout();
-        return await extractWebSocketParams(game, retry: retry + 1);
-      } else {
-        throw Exception("Failed to get iframe src after retries: $e");
-      }
-    }
+  Future<bool> _loadEntryAndCheckAuth(WebViewController c, String url) async {
+    final Completer<bool> ok =
+        Completer(); // «true» – всё норм, «false» – EV.12
 
-    // iframeSrc = iframeSrc.replaceAll('"', '').trim();
-    // if (!iframeSrc.startsWith("http")) {
-    //   throw Exception("Invalid iframe src: $iframeSrc");
-    // }
+    // временный делегат
+    c.setNavigationDelegate(
+      NavigationDelegate(
+        onPageFinished: (_) async {
+          final body = (await c.runJavaScriptReturningResult(
+                  'document.body && document.body.innerText ? document.body.innerText : ""'))
+              .toString()
+              .replaceAll('"', '')
+              .toLowerCase();
 
-    Logger.debug("Game iframe src: $iframeSrc");
+          final isEv12 = body.contains('ev.12') ||
+              body.contains('user authentication failed');
 
+          if (!ok.isCompleted) ok.complete(!isEv12);
+        },
+        onWebResourceError: (WebResourceError e) {
+          // safety‑net: если придёт 403 в onWebResourceError
+          if (!ok.isCompleted) ok.complete(false);
+        },
+      ),
+    );
+
+    await c.loadRequest(Uri.parse(url));
+
+    // ждём, но не дольше 15 с
+    return ok.future
+        .timeout(const Duration(seconds: 15), onTimeout: () => false);
+  }
+
+  Future<dynamic> _buildParams(
+    String iframeSrc,
+    RouletteGame game,
+    WebViewController controller,
+    int retry,
+  ) async {
+    // 1) разбираем launch_options (остаётся для загрузки gameUrl)
     final iframeUri = Uri.parse(iframeSrc);
-    final optionsEncoded = iframeUri.queryParameters['options'];
-    if (optionsEncoded == null) {
-      throw Exception("Missing 'options' param in iframe URL");
-    }
-
+    final optionsEncoded = iframeUri.queryParameters['options']!;
     final optionsJson =
         utf8.decode(base64.decode(_normalizeBase64(optionsEncoded)));
     final optionsMap = json.decode(optionsJson) as Map<String, dynamic>;
-    final launchOpts = optionsMap['launch_options'] as Map<String, dynamic>?;
-    if (launchOpts == null || launchOpts['game_url'] == null) {
-      throw Exception("No game_url in launch_options");
-    }
-
+    final launchOpts = optionsMap['launch_options'] as Map<String, dynamic>;
     final gameUrl = launchOpts['game_url'] as String;
     Logger.debug("Parsed game_url: $gameUrl");
 
-    // Парсим params из gameUrl
-    final gameUri = Uri.parse(gameUrl);
-    final paramsEncoded = gameUri.queryParameters['params'];
-    if (paramsEncoded == null) {
-      throw Exception('Параметр params не найден в game_url');
-    }
-    final paramsNorm = _normalizeBase64(paramsEncoded);
-    final paramsJson = utf8.decode(base64.decode(paramsNorm));
-    final paramsMap = _parseKeyValueString(paramsJson);
-
-    final tableId = paramsMap['table_id']!;
-    final vtId = paramsMap['vt_id']!;
-    final uaLaunchId = paramsMap['ua_launch_id'] ?? '';
-
+    // // 2) переходим на provider‑страницу, чтобы в localStorage появился EvoLastAppUri
+    // Logger.info("Loading provider URL to obtain session...");
+    // await controller.loadRequest(Uri.parse(gameUrl));
+// 2) переходим на provider‑страницу, чтобы в localStorage появился EvoLastAppUri
     Logger.info("Loading provider URL to obtain session...");
-    await controller.loadRequest(Uri.parse(gameUrl));
 
+    final ok = await _loadEntryAndCheckAuth(controller, gameUrl);
+
+    if (!ok) {
+      // получили EV.12 – пытаемся перелогиниться один раз
+      if (retry >= 1) {
+        throw Exception('EV.12 even after relogin');
+      }
+      Logger.warning('EV.12 detected ➜ relogin & retry');
+
+      await _webViewService.startLoginProcess((jwt, cookies) {
+        _sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
+      });
+
+      // небольшая пауза, чтобы куки установились
+      await Future.delayed(const Duration(seconds: 1));
+
+      return extractWebSocketParams(game, retry: retry + 1);
+    }
+
+    // 3) ждём evo.video.sessionId (как раньше)
     final evoSessionId = await _waitForEvoSessionId(controller);
+
+    // 4) читаем EvoLastAppUri из localStorage royal.evo-games.com
+    final evoLastUriRaw = await controller.runJavaScriptReturningResult('''
+    localStorage.getItem("EvoLastAppUri") ?? ""
+  ''');
+    final evoLastUri = _normalizeString(evoLastUriRaw.toString());
+    if (evoLastUri.isEmpty) {
+      throw Exception("EvoLastAppUri not found in localStorage");
+    }
+    final evoUri = Uri.parse(evoLastUri);
+    // параметры находятся после '#'
+    final frag = evoUri.fragment; // "provider=evolution&vt_id=…&table_id=…"
+    final fragParams = Uri.splitQueryString(frag);
+
+    final tableId =
+        fragParams['table_id'] ?? (throw Exception('table_id missing'));
+    final tableConfig =
+        fragParams['vt_id'] ?? (throw Exception('vt_id missing'));
+    // final uaLaunchId = fragParams['ua_launch_id'] ?? '';
+
+    // 5) собираем cookie‑header
     final rawCookies =
         (await controller.runJavaScriptReturningResult('document.cookie'))
             .toString();
-    String cookieHeader = rawCookies;
-    if (!rawCookies.contains('EVOSESSIONID=')) {
-      cookieHeader = "$rawCookies; EVOSESSIONID=$evoSessionId";
-    }
+    final cookieHeader = rawCookies.contains('EVOSESSIONID=')
+        ? rawCookies
+        : '$rawCookies; EVOSESSIONID=$evoSessionId';
 
-//     await controller.loadRequest(Uri.parse(gamePageUrl));
-//     await controller.runJavaScript('''
-//   document.body.innerHTML = '';
-// ''');
-
-//     await controller.runJavaScript('''
-//   const iframe = document.querySelector('iframe');
-//   if (iframe) iframe.src = 'about:blank';
-// ''');
-//     await controller.loadRequest(Uri.parse('about:blank'));
-//     await Future.delayed(Duration(seconds: 1));
-//     await controller.runJavaScript('''
-//   localStorage.clear();
-//   sessionStorage.clear();
-//   document.cookie.split(";").forEach(function(c) {
-//     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-//   });
-// ''');
-//     await controller.reload();
-    await Future.delayed(Duration(seconds: 1));
-    await _webViewService.resetDomWithoutLogout();
+    // 6) client_version фиксируем (из network‑логов)
+    const clientVersion = '6.20250506.72419.51567-44abfa1805';
     final rnd = Random().nextInt(1 << 20).toRadixString(36);
-    final shortSess = evoSessionId.substring(0, 16);
-    final instance = "$rnd-$shortSess-$vtId";
+    final instance = '$rnd-${evoSessionId.substring(0, 16)}-$tableConfig';
 
-    return WebSocketParams(
+    // 7) возвращаем новый params
+    return WebSocketParamsNew(
       tableId: tableId,
-      vtId: vtId,
-      uaLaunchId: uaLaunchId,
-      clientVersion: "6.20250415.70424.51183-8793aee83a",
+      tableConfig: tableConfig,
       evoSessionId: evoSessionId,
+      clientVersion: clientVersion,
       instance: instance,
       cookieHeader: cookieHeader,
     );
   }
+
+// вспомогательный — убирает кавычки / null
+  String _normalizeString(String v) => v.replaceAll('"', '').trim() == 'null'
+      ? ''
+      : v.replaceAll('"', '').trim();
 
   Future<void> _waitForIframeContextReset(
       WebViewController controller, String oldIframeSrc) async {

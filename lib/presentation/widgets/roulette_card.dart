@@ -10,6 +10,7 @@ class RouletteCard extends StatelessWidget {
   final bool isConnecting;
   final bool isAnalyzing;
   final VoidCallback onConnect;
+  final bool connectEnabled;
 
   const RouletteCard({
     super.key,
@@ -18,6 +19,7 @@ class RouletteCard extends StatelessWidget {
     required this.isConnecting,
     required this.isAnalyzing,
     required this.onConnect,
+    this.connectEnabled = true,
   });
 
   @override
@@ -48,6 +50,7 @@ class RouletteCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -126,9 +129,11 @@ class RouletteCard extends StatelessWidget {
                     child: const Text("Детали"),
                   ),
               ],
+              const SizedBox(height: 8),
               const Spacer(),
+              const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: isConnecting ? null : onConnect,
+                onPressed: (isConnecting || !connectEnabled) ? null : onConnect,
                 child: isConnecting
                     ? const SizedBox(
                         width: 16,

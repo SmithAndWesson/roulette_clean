@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
             : getIt<SessionManager>().isLoggedIn
                 ? const MainScreen()
                 : const LoginScreen(),
+        // home: ExpiryWatcher.isExpired()
+        //     ? const ExpiredScreen()
+        //     : const LoginScreen(),
       ),
     );
   }

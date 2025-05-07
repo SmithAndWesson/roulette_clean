@@ -47,83 +47,134 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  Future<void> _cleanupWebView(WebViewService web) async {
+    try {
+      await web.controller.runJavaScript('''
+        (function(){
+          (window.__audioCtxs||[]).forEach(c=>c.close && c.close());
+          document.querySelectorAll('audio,iframe').forEach(el=>el.remove());
+        })();
+      ''');
+    } catch (_) {}
+    await web.resetDomWithoutLogout();
+  }
+
+  Future<void> _handleResults(
+    RouletteGame game,
+    SignalsService signals,
+    WebViewService webView,
+    List<int> numbers, {
+    String? kickout,
+  }) async {
+    Logger.info("Processing results for game ${game.id}, kickout: $kickout");
+
+    // Если выкинули из‑за отсутствия авторизации – залогинимся и повторим анализ
+    if (kickout == 'notAuthorised') {
+      await webView.startLoginProcess((jwt, cookies) {
+        getIt<SessionManager>().saveSession(
+          jwtToken: jwt,
+          cookieHeader: cookies,
+        );
+        // запускаем повторный анализ ТОЛЬКО для текущей игры
+        _connectGame(game);
+      });
+      return; // ждём логина, дальше не обрабатываем
+    }
+
+    // обычная обработка чисел
+    signals.processResults(
+      game.id,
+      numbers,
+      kickoutReason: kickout,
+    );
+    Logger.info("Results processed for game ${game.id}");
+
+    // очищаем WebView после обработки
+    await _cleanupWebView(webView);
+  }
+
   Future<void> _connectGame(RouletteGame game) async {
+    final roulette = getIt<RouletteService>();
+    final wsService = getIt<WebSocketService>();
+    final signals = context.read<SignalsService>();
+    final webView = getIt<WebViewService>();
+
     setState(() {
       _connectingGame = true;
       _activeGameId = game.id;
     });
 
-    final signalsService = getIt<SignalsService>();
-    final rouletteService = getIt<RouletteService>();
-    final wsService = getIt<WebSocketService>();
-    final webViewService = getIt<WebViewService>();
-
     try {
-      final params = await rouletteService.extractWebSocketParams(game);
+      final params = await roulette.extractWebSocketParams(game);
       final results = await wsService.fetchRecentResults(params);
 
       if (results != null) {
-        Logger.info(
-            "Received results for game ${game.id}, kickout: ${results.kickoutReason}");
-        if (results.kickoutReason == 'notAuthorised') {
-          // Если отключили из-за неавторизации, запускаем процесс логина
-          await webViewService.startLoginProcess((jwt, cookies) {
-            getIt<SessionManager>()
-                .saveSession(jwtToken: jwt, cookieHeader: cookies);
-            // После успешного логина пробуем подключиться снова
-            _connectGame(game);
-          });
-        } else {
-          Logger.info(
-              "Processing results for game ${game.id} with kickout: ${results.kickoutReason}");
-          signalsService.processResults(
-            game.id,
-            results.numbers,
-            kickoutReason: results.kickoutReason,
-          );
-          Logger.info("Results processed for game ${game.id}");
-        }
-      }
-    } catch (e) {
-      Logger.error("Error connecting to game ${game.title}", e);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Ошибка подключения к ${game.title}")),
+        await _handleResults(
+          game,
+          signals,
+          webView,
+          results.numbers,
+          kickout: results.kickoutReason,
         );
       }
-    }
-
-    if (mounted) {
-      setState(() {
-        _connectingGame = false;
-        _activeGameId = null;
-      });
+    } catch (e, st) {
+      Logger.error("Error connecting to game ${game.title}", e, st);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка подключения: $e')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _connectingGame = false;
+          _activeGameId = null;
+        });
+      }
     }
   }
 
   Future<void> _toggleAutoAnalysis() async {
-    final signalsService = getIt<SignalsService>();
-    final rouletteService = getIt<RouletteService>();
+    final signals = getIt<SignalsService>();
+    final roulette = getIt<RouletteService>();
     final wsService = getIt<WebSocketService>();
+    final webView = getIt<WebViewService>();
 
     if (!_autoRunning) {
       final gameIds = _games.map((g) => g.id).toList();
-      signalsService.startAutoAnalysis(
-        Duration(seconds: 20),
+
+      signals.startAutoAnalysis(
+        const Duration(seconds: 5), // интервал между анализами
         gameIds,
         (String gameId) async {
-          final game = _games.firstWhere((g) => g.id == gameId);
-          final params = await rouletteService.extractWebSocketParams(game);
-          final recent = await wsService.fetchRecentResults(params);
-          return recent?.numbers ?? <int>[];
+          final game = _gamesById[gameId]!;
+
+          try {
+            final params = await roulette.extractWebSocketParams(game);
+            final res = await wsService.fetchRecentResults(params);
+            if (res == null) return null; // пропускаем
+
+            await _handleResults(
+              game,
+              signals,
+              webView,
+              res.numbers,
+              kickout: res.kickoutReason,
+            );
+
+            // если кикнуло за notAuthorised – числа уже не нужны
+            return res.kickoutReason == 'notAuthorised' ? null : res.numbers;
+          } catch (e, st) {
+            Logger.error('Auto‑analysis error for ${game.id}', e, st);
+            return null; // не останавливаем цикл
+          }
         },
       );
     } else {
-      signalsService.stopAutoAnalysis();
+      signals.stopAutoAnalysis();
     }
-    setState(() {
-      _autoRunning = !_autoRunning;
-    });
+
+    if (mounted) {
+      setState(() => _autoRunning = !_autoRunning);
+    }
   }
 
   @override
@@ -260,6 +311,7 @@ class _MainScreenState extends State<MainScreen> {
                               _connectingGame && _activeGameId == game.id,
                           isAnalyzing: isAnalyzing,
                           onConnect: () => _connectGame(game),
+                          connectEnabled: !_autoRunning,
                         );
                       },
                     ),

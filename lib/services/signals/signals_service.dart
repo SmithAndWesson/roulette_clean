@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:roulette_clean/models/signal.dart';
 import 'package:roulette_clean/services/roulette/number_analyzer.dart';
 import 'package:roulette_clean/utils/sound_player.dart';
@@ -21,7 +22,8 @@ class SignalsService extends ChangeNotifier {
   void clearSignals() {
     Logger.info("Clearing all signals");
     _gameSignals.clear();
-    notifyListeners();
+    // notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
   }
 
   void processResults(String gameId, List<int> recentNumbers,
@@ -71,49 +73,39 @@ class SignalsService extends ChangeNotifier {
   void startAutoAnalysis(
     Duration interval,
     List<String> gameIds,
-    Future<List<int>> Function(String) fetchResults,
+    Future<List<int>?> Function(String) fetchResults, // ← nullable
   ) {
-    _autoTimer?.cancel();
+    stopAutoAnalysis(); // отменяем прежний, если был
     _currentGameIndex = 0;
 
-    Future<void> analyzeNextGame() async {
-      if (_currentGameIndex >= gameIds.length) {
-        _currentGameIndex = 0;
-      }
+    _autoTimer = Timer(
+      Duration.zero,
+      () async {
+        while (_autoTimer != null) {
+          final gameId = gameIds[_currentGameIndex];
+          Logger.info("Starting analysis for game $gameId");
+          _currentAnalyzingGameId = gameId;
+          notifyListeners();
 
-      final gameId = gameIds[_currentGameIndex];
-      Logger.info("Starting analysis for game $gameId");
-      _currentAnalyzingGameId = gameId;
-      notifyListeners();
+          try {
+            final numbers = await fetchResults(gameId);
 
-      try {
-        final numbers = await fetchResults(gameId);
-        processResults(gameId, numbers);
-      } catch (e) {
-        Logger.error("Error analyzing game $gameId", e);
-      }
+            // ⚠️ обрабатываем только когда пришли числа
+            if (numbers != null && numbers.isNotEmpty) {
+              processResults(gameId, numbers);
+            }
+          } catch (e) {
+            Logger.error("Error analyzing game $gameId", e);
+          }
 
-      // Сначала уведомляем об изменениях для текущей игры
-      notifyListeners();
+          _currentGameIndex = (_currentGameIndex + 1) % gameIds.length;
+          final nextGameId = gameIds[_currentGameIndex];
+          Logger.info("Moving to next game: $nextGameId");
 
-      // Затем обновляем индекс и ID следующей игры
-      _currentGameIndex++;
-      if (_currentGameIndex >= gameIds.length) {
-        _currentGameIndex = 0;
-      }
-      final nextGameId = gameIds[_currentGameIndex];
-      Logger.info("Moving to next game: $nextGameId");
-      _currentAnalyzingGameId = nextGameId;
-      notifyListeners();
-    }
-
-    // Сначала анализируем первую игру
-    analyzeNextGame();
-
-    // Затем запускаем таймер для последующих игр
-    _autoTimer = Timer.periodic(interval, (_) {
-      analyzeNextGame();
-    });
+          await Future.delayed(interval); // ждём перед следующим запуском
+        }
+      },
+    );
   }
 
   void stopAutoAnalysis() {

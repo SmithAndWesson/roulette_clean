@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:web_socket_channel/io.dart';
 import 'package:roulette_clean/models/websocket/websocket_params.dart';
+import 'package:roulette_clean/models/websocket/websocket_params_new.dart';
 import 'package:roulette_clean/models/websocket/recent_results.dart';
 import 'package:roulette_clean/utils/logger.dart';
 import 'package:roulette_clean/core/constants/app_constants.dart';
@@ -10,13 +11,26 @@ class WebSocketService {
   IOWebSocketChannel? _channel;
   Timer? _timeoutTimer;
 
-  Future<RecentResults?> fetchRecentResults(WebSocketParams params) async {
+  Future<RecentResults?> fetchRecentResults(dynamic params) async {
     try {
       await disconnect();
+
+      // params может быть старым или новым
+      Uri uri;
+      String cookies;
+
+      if (params is WebSocketParamsNew) {
+        uri = params.buildUri();
+        cookies = params.cookieHeader;
+      } else {
+        uri = Uri.parse(params.webSocketUrl);
+        cookies = params.cookieHeader;
+      }
+
       _channel = IOWebSocketChannel.connect(
-        Uri.parse(params.webSocketUrl),
+        uri,
         headers: {
-          'Cookie': params.cookieHeader,
+          'Cookie': cookies,
           'Origin': WS_ORIGIN,
         },
       );
@@ -116,7 +130,7 @@ class WebSocketService {
   Future<void> disconnect() async {
     if (_channel != null) {
       Logger.info("Manually closing existing WebSocket connection");
-      await _channel!.sink.close(); // можно также передать статус close
+      await _channel!.sink.close();
       _channel = null;
     }
     _timeoutTimer?.cancel();

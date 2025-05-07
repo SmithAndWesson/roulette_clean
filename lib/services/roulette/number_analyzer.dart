@@ -1,7 +1,7 @@
 import 'package:roulette_clean/models/signal.dart';
 
 class NumberAnalyzer {
-  static const int _numbersToAnalyze = 300;
+  static const int _numbersToAnalyze = 60;
 
   List<Signal> detectMissingDozenOrRow(List<int> numbers) {
     if (numbers.length < _numbersToAnalyze) return [];
