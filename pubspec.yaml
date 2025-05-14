@@ -34,16 +34,24 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  
   get_it: ^7.6.7
   provider: ^6.1.1
   http: ^1.2.0
   web_socket_channel: ^2.4.0
-  webview_flutter: ^4.7.0
+  webview_flutter: ^4.11.0
+  webview_flutter_android: ^4.4.2 # webview_cookie_manager: ^2.0.6
+  flutter_ringtone_player: ^4.0.0+4
+  webview_cookie_manager:
+    git:
+      url: https://github.com/fryette/webview_cookie_manager.git
+      ref: e03954491a6952e04d7fceeae4c4d074392c0fe2
   shared_preferences: ^2.2.2
   audioplayers: ^5.2.1
   url_launcher: ^6.2.5
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
 
@@ -56,7 +64,11 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_launcher_icons:
+  image_path: "assets/iconForRoulett.png"
+  android: true        # adaptive icon сделается сам
+  ios: true
+  remove_alpha_ios: true
 # The following section is specific to Flutter packages.
 flutter:
 

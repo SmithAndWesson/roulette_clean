@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roulette_clean/core/di/service_locator.dart';
 import 'package:roulette_clean/models/roulette/roulette_game.dart';
+import 'package:roulette_clean/models/websocket/no_game_exception.dart';
 import 'package:roulette_clean/models/signal.dart';
 import 'package:roulette_clean/presentation/screens/login/login_screen.dart';
 import 'package:roulette_clean/services/roulette/roulette_service.dart';
@@ -69,17 +70,17 @@ class _MainScreenState extends State<MainScreen> {
     Logger.info("Processing results for game ${game.id}, kickout: $kickout");
 
     // Если выкинули из‑за отсутствия авторизации – залогинимся и повторим анализ
-    if (kickout == 'notAuthorised') {
-      await webView.startLoginProcess((jwt, cookies) {
-        getIt<SessionManager>().saveSession(
-          jwtToken: jwt,
-          cookieHeader: cookies,
-        );
-        // запускаем повторный анализ ТОЛЬКО для текущей игры
-        _connectGame(game);
-      });
-      return; // ждём логина, дальше не обрабатываем
-    }
+    // if (kickout == 'notAuthorised') {
+    //   await webView.startLoginProcess((jwt, cookies) {
+    //     getIt<SessionManager>().saveSession(
+    //       jwtToken: jwt,
+    //       cookieHeader: cookies,
+    //     );
+    //     // запускаем повторный анализ ТОЛЬКО для текущей игры
+    //     _connectGame(game);
+    //   });
+    //   return; // ждём логина, дальше не обрабатываем
+    // }
 
     // обычная обработка чисел
     signals.processResults(
@@ -90,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
     Logger.info("Results processed for game ${game.id}");
 
     // очищаем WebView после обработки
-    await _cleanupWebView(webView);
+    // await _cleanupWebView(webView);
   }
 
   Future<void> _connectGame(RouletteGame game) async {
@@ -117,11 +118,16 @@ class _MainScreenState extends State<MainScreen> {
           kickout: results.kickoutReason,
         );
       }
+    } on NoGameException catch (e) {
+      Logger.info('Skip disabled game (${game.id}): $e');
+      await _handleResults(game, signals, webView, [], kickout: null);
+      return; // просто переходим к следующей
     } catch (e, st) {
       Logger.error("Error connecting to game ${game.title}", e, st);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ошибка подключения: $e')),
       );
+      await _handleResults(game, signals, webView, [], kickout: null);
     } finally {
       if (mounted) {
         setState(() {
@@ -142,7 +148,7 @@ class _MainScreenState extends State<MainScreen> {
       final gameIds = _games.map((g) => g.id).toList();
 
       signals.startAutoAnalysis(
-        const Duration(seconds: 5), // интервал между анализами
+        const Duration(seconds: 2), // интервал между анализами
         gameIds,
         (String gameId) async {
           final game = _gamesById[gameId]!;
@@ -150,7 +156,10 @@ class _MainScreenState extends State<MainScreen> {
           try {
             final params = await roulette.extractWebSocketParams(game);
             final res = await wsService.fetchRecentResults(params);
-            if (res == null) return null; // пропускаем
+            if (res == null) {
+              await _handleResults(game, signals, webView, [], kickout: null);
+              return null; // пропускаем
+            }
 
             await _handleResults(
               game,
@@ -162,8 +171,12 @@ class _MainScreenState extends State<MainScreen> {
 
             // если кикнуло за notAuthorised – числа уже не нужны
             return res.kickoutReason == 'notAuthorised' ? null : res.numbers;
+            // } on NoGameException catch (e) {
+            //   Logger.info('Skip disabled game (${game.id}): $e');
+            //   return null; // просто переходим к следующей
           } catch (e, st) {
             Logger.error('Auto‑analysis error for ${game.id}', e, st);
+            await _handleResults(game, signals, webView, [], kickout: null);
             return null; // не останавливаем цикл
           }
         },
@@ -183,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Рулетка Сигналы"),
+        title: const Text(" Сигналы рулеток"),
         centerTitle: true,
         actions: [
           IconButton(
@@ -293,7 +306,7 @@ class _MainScreenState extends State<MainScreen> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.72,
                         crossAxisSpacing: 8,
                         mainAxisSpacing: 8,
                       ),

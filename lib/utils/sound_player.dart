@@ -1,32 +1,35 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'logger.dart';
 
 class SoundPlayer {
   SoundPlayer._();
-
-  /// Глобальный доступ: `SoundPlayer.i.playPing();`
   static final SoundPlayer i = SoundPlayer._();
 
-  static const _pingAsset = 'sounds/ping.mp3';
-
-  /// Один экземпляр плеера на всё приложение.
-  final _player = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
-
-  /// Проиграть короткий «пинг».
+  /// Проиграть системный звук уведомления.
   Future<void> playPing() async {
     try {
-      if (_player.state == PlayerState.stopped) {
-        await _player.play(AssetSource(_pingAsset), volume: 1.0);
-      } else {
-        await _player.resume();
-      }
+      // FlutterRingtonePlayer().playAlarm(
+      //   volume: 1.0,
+      //   looping: false,
+      //   asAlarm: false,
+      // );
+      // FlutterRingtonePlayer().playNotification(volume: 1.0, looping: false);
+      await FlutterRingtonePlayer().play(
+        android:
+            AndroidSounds.notification, // стандартный звук уведомления Android
+        ios: IosSounds.glass, // любой из предустановленных на iOS
+        looping: false,
+        volume: 1.0,
+        asAlarm: false, // если true — звук как будильник
+      );
     } catch (e, st) {
-      Logger.error('Ошибка воспроизведения звука', e, st);
+      Logger.error('Ошибка проигрывания системного звука', e, st);
     }
   }
 
-  /// Clean up when your app shuts down
+  /// При необходимости вы можете «отрубить» плеер,
+  /// но flutter_ringtone_player это не требует.
   void dispose() {
-    _player.dispose();
+    // ничего не делаем
   }
 }

@@ -18,7 +18,50 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  late Widget _startScreen;
+  final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _startScreen = _chooseStartScreen(); // первичная проверка
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  // слушаем «возврат» приложения
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      final newScreen = _chooseStartScreen();
+      if (newScreen.runtimeType != _startScreen.runtimeType) {
+        _navKey.currentState?.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => newScreen),
+          (_) => false,
+        );
+        _startScreen = newScreen;
+      }
+    }
+  }
+
+  Widget _chooseStartScreen() {
+    if (ExpiryWatcher.isExpired()) return const ExpiredScreen();
+    return const LoginScreen();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -26,19 +69,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => getIt<SignalsService>()),
       ],
       child: MaterialApp(
+        navigatorKey: _navKey,
         title: 'Сигналы рулетки',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: ExpiryWatcher.isExpired()
-            ? const ExpiredScreen()
-            : getIt<SessionManager>().isLoggedIn
-                ? const MainScreen()
-                : const LoginScreen(),
-        // home: ExpiryWatcher.isExpired()
-        //     ? const ExpiredScreen()
-        //     : const LoginScreen(),
+        home: _startScreen,
       ),
     );
   }

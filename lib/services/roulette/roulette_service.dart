@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:get_it/get_it.dart';
+
+import 'dart:io';
 import 'dart:math';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -7,9 +10,15 @@ import 'package:roulette_clean/core/constants/app_constants.dart';
 import 'package:roulette_clean/models/roulette/roulette_game.dart';
 import 'package:roulette_clean/models/websocket/websocket_params.dart';
 import 'package:roulette_clean/models/websocket/websocket_params_new.dart';
+import 'package:roulette_clean/models/websocket/no_game_exception.dart';
 import 'package:roulette_clean/services/webview/webview_service.dart';
 import 'package:roulette_clean/services/session/session_manager.dart';
 import 'package:roulette_clean/utils/logger.dart';
+
+class TooManyRequestsException implements Exception {
+  @override
+  String toString() => 'Too many requests (HTTP 429)';
+}
 
 class RouletteService {
   final SessionManager _sessionManager;
@@ -106,78 +115,183 @@ class RouletteService {
 
   Future<dynamic> extractWebSocketParams(RouletteGame game,
       {int retry = 0}) async {
-    await _webViewService.initialize();
-    final controller = _webViewService.controller;
-
-    final cookies = _sessionManager.cookieHeader;
-    if (cookies != null && cookies.isNotEmpty) {
-      await _webViewService.setCookies(cookies, domain: ".gizbo.casino");
-      await _webViewService.setCookies(cookies, domain: ".evo-games.com");
-    }
+    // await _webViewService.initialize();
+    // final controller = _webViewService.controller;
+    var webViewService = GetIt.I<WebViewService>();
+    var controller = webViewService.controller;
+    await webViewService.resetDomWithoutLogout();
+    await Future.delayed(const Duration(seconds: 1));
+    // await controller.loadRequest(Uri.parse(BASE_URL));
 
     final gamePageUrl = "${BASE_URL}${game.playUrl}";
     Logger.info("Loading game page: $gamePageUrl");
+    try {
+      // for (var attempt = 0; attempt < 3; attempt++) {
+      // await controller.loadRequest(Uri.parse(gamePageUrl));
+      await _loadOrError(controller, gamePageUrl);
 
-    const timeout = Duration(seconds: 20);
-    for (var attempt = 0; attempt < 3; attempt++) {
+      // ─── сразу после loadRequest(gamePageUrl) ─────────────────────────────
+      // await Future.delayed(const Duration(seconds: 3));
+
+      // await Future.delayed(const Duration(seconds: 5));
+      const pollInterval = Duration(milliseconds: 150);
+      const timeout = Duration(seconds: 10);
       final deadline = DateTime.now().add(timeout);
       while (DateTime.now().isBefore(deadline)) {
-        final iframeSrc = (await controller.runJavaScriptReturningResult(r'''
-          (() => {
-            const f = document.querySelector('iframe');
-            return f && f.src ? f.src : '';
-          })();
-        ''')).toString().replaceAll('"', '').trim();
+        final currentUrl = (await controller
+                .runJavaScriptReturningResult('window.location.href'))
+            .toString()
+            .replaceAll('"', '');
 
-        if (iframeSrc.startsWith('http') && iframeSrc.contains('?options=')) {
+        if (currentUrl.contains('/errors/no-game') ||
+            currentUrl
+                .contains('/restricted?reason=game_restricted_in_country')) {
+          Logger.warning('Game ${game.id} is disabled → skip');
+          throw NoGameException(currentUrl);
+        }
+        final iframeSrc = (await controller.runJavaScriptReturningResult(r'''
+      (() => {
+        const f = document.querySelector('iframe');
+        return f && f.src ? f.src : '';
+      })();
+    ''')).toString().replaceAll('"', '').trim();
+
+        if (iframeSrc.startsWith('https://cdn-3.launcher') &&
+            iframeSrc.contains('?options=')) {
           Logger.debug('Game iframe src ready: $iframeSrc');
-          return _buildParams(iframeSrc, game, controller, retry);
+
+          // ───── ДОБАВЛЯЕМ ЭТО ↓ ─────
+          final evoSessionId = await _waitForEvoSessionId(controller);
+          // await _webViewService.logCookies('https://royal.evo-games.com');
+
+          Logger.debug('✅ EVOSESSIONID=$evoSessionId');
+
+          return _buildParams(
+            iframeSrc,
+            game,
+            controller,
+            retry,
+            evoSessionId, // передадим вниз
+          );
         }
 
-        await Future.delayed(const Duration(milliseconds: 300));
+        await Future.delayed(pollInterval);
       }
+      // }
 
-      // iframe не появился — попробуем ещё раз
-      await controller.loadRequest(Uri.parse('about:blank'));
-      await Future.delayed(const Duration(seconds: 1));
-      await controller.loadRequest(Uri.parse(gamePageUrl));
+      throw TimeoutException(
+          'launcher iframe src not ready for game ${game.identifier}');
+    } on TimeoutException catch (e) {
+      // если это первый раз и мы не прошли CF-challenge, перезапускаем логин и пробуем ещё раз
+      if (retry == 0) {
+        Logger.warning('Timeout waiting for iframe → re-login & retry');
+        await _loadOrError(controller, BASE_URL);
+
+        // await _webViewService.startLoginProcess((jwt, cookies) {
+        //   _sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
+        // });
+        // небольшая пауза, чтобы куки устаканились
+        // await Future.delayed(const Duration(seconds: 1));
+        // // рекурсивно вызываем с retry=1
+        return extractWebSocketParams(game, retry: 1);
+      }
+      rethrow;
+    } on TooManyRequestsException catch (e) {
+      if (retry == 0) {
+        Logger.error('429 — пересоздаём WebViewService и ре-логинимся');
+
+        // a) удаляем старый сервис
+        GetIt.I.unregister<WebViewService>();
+        // б) регистрируем заново
+        GetIt.I.registerLazySingleton<WebViewService>(() => WebViewService());
+
+        // в) берём свежий экземпляр
+        webViewService = GetIt.I<WebViewService>();
+        controller = webViewService.controller;
+
+        // г) делаем полный flow логина, чтобы восстановить куки/JWT
+        await webViewService.startLoginProcess((jwt, cookies) {
+          _sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
+        });
+        await Future.delayed(const Duration(seconds: 1));
+
+        // д) и пробуем ещё раз уже на новом контроллере
+        return extractWebSocketParams(game, retry: 1);
+      }
+      rethrow;
     }
-
-    throw TimeoutException(
-        'launcher iframe src not ready for game ${game.identifier}');
   }
 
-  Future<bool> _loadEntryAndCheckAuth(WebViewController c, String url) async {
-    final Completer<bool> ok =
-        Completer(); // «true» – всё норм, «false» – EV.12
+  Future<void> _loadOrError(WebViewController controller, String url) async {
+    final comp = Completer<void>();
 
-    // временный делегат
-    c.setNavigationDelegate(
+    controller.setNavigationDelegate(
       NavigationDelegate(
-        onPageFinished: (_) async {
-          final body = (await c.runJavaScriptReturningResult(
-                  'document.body && document.body.innerText ? document.body.innerText : ""'))
-              .toString()
-              .replaceAll('"', '')
-              .toLowerCase();
-
-          final isEv12 = body.contains('ev.12') ||
-              body.contains('user authentication failed');
-
-          if (!ok.isCompleted) ok.complete(!isEv12);
+        onPageFinished: (_) {
+          if (!comp.isCompleted) {
+            comp.complete();
+          }
         },
-        onWebResourceError: (WebResourceError e) {
-          // safety‑net: если придёт 403 в onWebResourceError
-          if (!ok.isCompleted) ok.complete(false);
+        onHttpError: (HttpResponseError err) {
+          final reqUrl = err.request?.uri.toString();
+          final code = err.response?.statusCode ?? -1;
+
+          if (reqUrl == url && code == 400) {
+            Future.delayed(const Duration(seconds: 5), () {
+              if (!comp.isCompleted) {
+                comp.completeError(TimeoutException(url)); //NoGameException
+              }
+            });
+          }
+          if (code == 429) {
+            // вместо ошибки — ждём 5 сек и повторяем загрузку
+            Logger.warning('HTTP 429 on $url → retrying in 5s');
+            Future.delayed(const Duration(seconds: 5), () {
+              if (!comp.isCompleted) {
+                comp.completeError(TooManyRequestsException());
+              }
+            });
+          }
+        },
+        onWebResourceError: (_) {
+          // можно по желанию comp.completeError(...)
         },
       ),
     );
 
-    await c.loadRequest(Uri.parse(url));
+    await controller.loadRequest(Uri.parse(url));
+    // ждём либо onPageFinished, либо completeError
+    return comp.future.timeout(
+      const Duration(seconds: 7),
+      onTimeout: () => throw TimeoutException('Load timed out for $url'),
+    );
+  }
 
-    // ждём, но не дольше 15 с
-    return ok.future
-        .timeout(const Duration(seconds: 15), onTimeout: () => false);
+  Future<String> _waitForEvoSessionId(WebViewController c) async {
+    const timeout = Duration(seconds: 3);
+    final deadline = DateTime.now().add(timeout);
+
+    while (DateTime.now().isBefore(deadline)) {
+      // 1) сначала смотрим куки WebView (есть HttpOnly)
+      final cookies = await _webViewService.cookieManager
+          .getCookies('https://royal.evo-games.com');
+      final evo = cookies.firstWhere(
+        (ck) => ck.name == 'EVOSESSIONID' && ck.value.isNotEmpty,
+        orElse: () => Cookie('', ''),
+      );
+      if (evo != null) return evo.value;
+
+      // 2) fallback ­— берём из localStorage (старый способ)
+      final ls = (await c.runJavaScriptReturningResult(
+        'localStorage.getItem("evo.video.sessionId") ?? ""',
+      ))
+          .toString()
+          .replaceAll('"', '');
+      if (ls.isNotEmpty) return ls;
+
+      await Future.delayed(const Duration(milliseconds: 250));
+    }
+    throw TimeoutException('Не получили EVOSESSIONID за $timeout');
   }
 
   Future<dynamic> _buildParams(
@@ -185,6 +299,7 @@ class RouletteService {
     RouletteGame game,
     WebViewController controller,
     int retry,
+    String evoSessionId,
   ) async {
     // 1) разбираем launch_options (остаётся для загрузки gameUrl)
     final iframeUri = Uri.parse(iframeSrc);
@@ -196,52 +311,23 @@ class RouletteService {
     final gameUrl = launchOpts['game_url'] as String;
     Logger.debug("Parsed game_url: $gameUrl");
 
-    // // 2) переходим на provider‑страницу, чтобы в localStorage появился EvoLastAppUri
-    // Logger.info("Loading provider URL to obtain session...");
-    // await controller.loadRequest(Uri.parse(gameUrl));
-// 2) переходим на provider‑страницу, чтобы в localStorage появился EvoLastAppUri
     Logger.info("Loading provider URL to obtain session...");
 
-    final ok = await _loadEntryAndCheckAuth(controller, gameUrl);
-
-    if (!ok) {
-      // получили EV.12 – пытаемся перелогиниться один раз
-      if (retry >= 1) {
-        throw Exception('EV.12 even after relogin');
-      }
-      Logger.warning('EV.12 detected ➜ relogin & retry');
-
-      await _webViewService.startLoginProcess((jwt, cookies) {
-        _sessionManager.saveSession(jwtToken: jwt, cookieHeader: cookies);
-      });
-
-      // небольшая пауза, чтобы куки установились
-      await Future.delayed(const Duration(seconds: 1));
-
-      return extractWebSocketParams(game, retry: retry + 1);
+    final gameUri = Uri.parse(gameUrl);
+    final paramsEncoded = gameUri.queryParameters['params'];
+    if (paramsEncoded == null) {
+      throw Exception('Параметр params не найден в game_url');
     }
+    final paramsNorm = _normalizeBase64(paramsEncoded);
+    final paramsJson = utf8.decode(base64.decode(paramsNorm));
+    final paramsMap = _parseKeyValueString(paramsJson);
 
-    // 3) ждём evo.video.sessionId (как раньше)
-    final evoSessionId = await _waitForEvoSessionId(controller);
-
-    // 4) читаем EvoLastAppUri из localStorage royal.evo-games.com
-    final evoLastUriRaw = await controller.runJavaScriptReturningResult('''
-    localStorage.getItem("EvoLastAppUri") ?? ""
-  ''');
-    final evoLastUri = _normalizeString(evoLastUriRaw.toString());
-    if (evoLastUri.isEmpty) {
-      throw Exception("EvoLastAppUri not found in localStorage");
-    }
-    final evoUri = Uri.parse(evoLastUri);
-    // параметры находятся после '#'
-    final frag = evoUri.fragment; // "provider=evolution&vt_id=…&table_id=…"
-    final fragParams = Uri.splitQueryString(frag);
-
+    final gameStr =
+        paramsMap['game'] ?? (throw NoGameException('game missing'));
     final tableId =
-        fragParams['table_id'] ?? (throw Exception('table_id missing'));
+        paramsMap['table_id'] ?? (throw NoGameException('table_id missing'));
     final tableConfig =
-        fragParams['vt_id'] ?? (throw Exception('vt_id missing'));
-    // final uaLaunchId = fragParams['ua_launch_id'] ?? '';
+        paramsMap['vt_id'] ?? (throw NoGameException('vt_id missing'));
 
     // 5) собираем cookie‑header
     final rawCookies =
@@ -255,9 +341,15 @@ class RouletteService {
     const clientVersion = '6.20250506.72419.51567-44abfa1805';
     final rnd = Random().nextInt(1 << 20).toRadixString(36);
     final instance = '$rnd-${evoSessionId.substring(0, 16)}-$tableConfig';
+    await controller.loadRequest(Uri.parse('about:blank'));
+    // если у вас уже открыт канал к этому tableId → закрыть
+    await _webViewService.closeCurrentWebSocket();
 
+// 1-секундная пауза, чтобы iframe успел зарегистрироваться
+    await Future.delayed(const Duration(seconds: 1));
     // 7) возвращаем новый params
     return WebSocketParamsNew(
+      game: gameStr,
       tableId: tableId,
       tableConfig: tableConfig,
       evoSessionId: evoSessionId,
@@ -271,32 +363,6 @@ class RouletteService {
   String _normalizeString(String v) => v.replaceAll('"', '').trim() == 'null'
       ? ''
       : v.replaceAll('"', '').trim();
-
-  Future<void> _waitForIframeContextReset(
-      WebViewController controller, String oldIframeSrc) async {
-    const timeout = Duration(seconds: 10);
-    final deadline = DateTime.now().add(timeout);
-    Logger.info("Waiting for iframe src to reset...");
-
-    while (DateTime.now().isBefore(deadline)) {
-      final currentSrc = (await controller.runJavaScriptReturningResult('''
-      (function() {
-        const iframe = document.querySelector('iframe');
-        return iframe && iframe.src ? iframe.src : '';
-      })();
-    ''')).toString().replaceAll('"', '');
-
-      Logger.debug("Current iframe src: $currentSrc");
-      if (currentSrc != oldIframeSrc && currentSrc.isNotEmpty) {
-        Logger.info("Iframe context updated");
-        return;
-      }
-
-      await Future.delayed(Duration(milliseconds: 300));
-    }
-
-    Logger.warning("Timeout: iframe src did not change");
-  }
 
   String _normalizeBase64(String input) {
     var cleaned = input.replaceAll(RegExp(r'[^A-Za-z0-9+/]'), '');
@@ -315,21 +381,5 @@ class RouletteService {
       result[key] = value;
     }
     return result;
-  }
-
-  Future<String> _waitForEvoSessionId(WebViewController controller) async {
-    const timeout = Duration(seconds: 10);
-    final deadline = DateTime.now().add(timeout);
-    while (DateTime.now().isBefore(deadline)) {
-      final sessionId = (await controller.runJavaScriptReturningResult(
-              'localStorage.getItem("evo.video.sessionId") ?? ""'))
-          .toString()
-          .replaceAll('"', '');
-      if (sessionId.isNotEmpty) {
-        return sessionId;
-      }
-      await Future.delayed(Duration(milliseconds: 250));
-    }
-    throw Exception("Timeout waiting for evo.video.sessionId");
   }
 }

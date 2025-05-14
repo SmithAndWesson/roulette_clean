@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:roulette_clean/models/websocket/websocket_params.dart';
 import 'package:roulette_clean/models/websocket/websocket_params_new.dart';
 import 'package:roulette_clean/models/websocket/recent_results.dart';
+import 'package:roulette_clean/models/websocket/kickout_exception.dart';
 import 'package:roulette_clean/utils/logger.dart';
 import 'package:roulette_clean/core/constants/app_constants.dart';
 
@@ -19,21 +22,43 @@ class WebSocketService {
       Uri uri;
       String cookies;
 
-      if (params is WebSocketParamsNew) {
-        uri = params.buildUri();
-        cookies = params.cookieHeader;
-      } else {
-        uri = Uri.parse(params.webSocketUrl);
-        cookies = params.cookieHeader;
+      // if (params is WebSocketParamsNew) {
+      //   uri = params.buildUri();
+      //   cookies = params.cookieHeader;
+      // } else {
+      //   uri = Uri.parse(params.webSocketUrl);
+      //   cookies = params.cookieHeader;
+      // }
+      uri = params.buildUri();
+      cookies = params.cookieHeader;
+
+      // 1) Хендшейк – там, где WebSocketException гарантированно бросается в await
+      WebSocket rawSocket;
+      try {
+        rawSocket = await WebSocket.connect(
+          uri.toString(),
+          headers: {
+            'Origin': WS_ORIGIN,
+            'Cookie': cookies,
+          },
+        );
+      } on WebSocketException catch (e, st) {
+        Logger.error('WS.connect handshake failed', e, st);
+        return null;
+      } catch (e, st) {
+        Logger.error('Unexpected error during WS.connect', e, st);
+        return null;
       }
 
-      _channel = IOWebSocketChannel.connect(
-        uri,
-        headers: {
-          'Cookie': cookies,
-          'Origin': WS_ORIGIN,
-        },
-      );
+      // 2) Если дошли сюда – handshake прошёл успешно
+      _channel = IOWebSocketChannel(rawSocket);
+      // _channel = IOWebSocketChannel.connect(
+      //   uri,
+      //   headers: {
+      //     'Cookie': cookies,
+      //     'Origin': WS_ORIGIN,
+      //   },
+      // );
 
       final completer = Completer<RecentResults?>();
       _timeoutTimer = Timer(WS_TIMEOUT, () {
@@ -45,13 +70,13 @@ class WebSocketService {
       });
 
       _channel!.stream.listen(
-        (message) {
+        (message) async {
           Logger.debug("WS ⇠ $message");
           Map<String, dynamic>? decoded;
           try {
             final tmp = jsonDecode(message);
             if (tmp is Map<String, dynamic>) decoded = tmp;
-            Logger.debug("Decoded message type: ${decoded?['type']}");
+            // Logger.debug("Decoded message type: ${decoded?['type']}");
           } catch (e) {
             Logger.error("Failed to decode message", e);
             return;
@@ -63,24 +88,12 @@ class WebSocketService {
           }
 
           if (decoded['type'] == 'connection.kickout') {
-            final reason = decoded['args']?['reason'] as String? ?? 'unknown';
-            Logger.warning("WebSocket kickout: $reason");
-            if (!completer.isCompleted) {
-              Logger.info("Completing with kickout reason: $reason");
-              completer.complete(RecentResults(
-                numbers: [],
-                timestamp: DateTime.now(),
-                kickoutReason: reason,
-              ));
-              Logger.info("Closing WebSocket connection after kickout");
-              _channel?.sink.close();
-              _channel = null;
-            } else {
-              Logger.warning("Completer already completed, ignoring kickout");
-            }
-          } else if (decoded['type'] != 'roulette.recentResults') {
-            Logger.debug("Ignoring message of type: ${decoded['type']}");
-          } else {
+            final reason = decoded['args']?['reason']?.toString() ?? 'unknown';
+            await _channel?.sink.close();
+            Logger.debug('KickoutException: $reason');
+            // } else if (decoded['type'] != '${params.game}.recentResults') {
+            //   Logger.debug("Ignoring message of type: ${decoded['type']}");
+          } else if (decoded['type'].toString().contains('.recentResults')) {
             try {
               final results = RecentResults.fromJson(decoded);
               if (!completer.isCompleted) {
@@ -116,7 +129,8 @@ class WebSocketService {
       return await completer.future;
     } catch (e) {
       Logger.error("WebSocket connection failed", e);
-      rethrow;
+      return null; // gracefully exit
+      // rethrow;
     } finally {
       _timeoutTimer?.cancel();
       if (_channel != null) {

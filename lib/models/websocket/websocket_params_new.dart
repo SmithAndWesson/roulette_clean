@@ -1,4 +1,5 @@
 class WebSocketParamsNew {
+  final String game;
   final String tableId;
   final String tableConfig; // бывший vt_id
   final String evoSessionId;
@@ -7,6 +8,7 @@ class WebSocketParamsNew {
   final String cookieHeader;
 
   WebSocketParamsNew({
+    required this.game,
     required this.tableId,
     required this.tableConfig,
     required this.evoSessionId,
@@ -18,7 +20,7 @@ class WebSocketParamsNew {
   Uri buildUri() => Uri(
         scheme: 'wss',
         host: 'royal.evo-games.com',
-        path: '/public/roulette/player/game/$tableId/socket',
+        path: '/public/$game/player/game/$tableId/socket',
         queryParameters: {
           'messageFormat': 'json',
           'tableConfig': tableConfig,

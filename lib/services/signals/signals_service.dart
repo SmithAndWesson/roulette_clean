@@ -37,6 +37,8 @@ class SignalsService extends ChangeNotifier {
           type: SignalType.connectionKickout,
           message: "Отключено: $kickoutReason",
           lastNumbers: [],
+          uniqNumbers: [],
+          patternPositions: [],
           timestamp: DateTime.now(),
         )
       ];
@@ -55,14 +57,29 @@ class SignalsService extends ChangeNotifier {
     if (signals.isNotEmpty) {
       _gameSignals[gameId] = signals;
       Logger.info("Created ${signals.length} signals for game $gameId");
-      Logger.info("Current signals state: $_gameSignals");
 
       for (Signal signal in signals) {
+        Logger.info("Current signals state: ${signal.message}");
         SoundPlayer.i.playPing();
       }
 
       notifyListeners();
     } else {
+      final first3 = recentNumbers.take(3).join(', ');
+      _gameSignals[gameId] = [
+        Signal(
+          type: recentNumbers.isEmpty
+              ? SignalType.errorImConnection
+              : SignalType.emptyAnalysis,
+          message: recentNumbers.isEmpty
+              ? "Нет соединения"
+              : "Проанализирована ($first3)",
+          lastNumbers: recentNumbers.take(60).toList(),
+          uniqNumbers: [],
+          patternPositions: [],
+          timestamp: DateTime.now(),
+        )
+      ];
       notifyListeners();
     }
   }

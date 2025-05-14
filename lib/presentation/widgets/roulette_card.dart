@@ -24,6 +24,19 @@ class RouletteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ── 1. Определяем цвет сообщения ────────────────────────────────
+    Color msgColor = Colors.red; // дефолт
+    if (signals.isNotEmpty) {
+      final Signal first = signals.first;
+      msgColor = switch (first.type) {
+        SignalType.emptyAnalysis => Colors.green, // анализ без паттерна
+        SignalType.connectionKickout => Colors.orange, // кик-аут
+        SignalType.errorImConnection => Colors.grey, // кик-аут
+        _ => Colors.red, // «боевые» сигналы
+      };
+    }
+
+    // ── 2. Дальше идёт тот же build-код карточки ─────────────────────
     return Card(
       margin: const EdgeInsets.all(8),
       elevation: isAnalyzing ? 4 : 1,
@@ -50,7 +63,7 @@ class RouletteCard extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Row(
                 children: [
@@ -82,15 +95,15 @@ class RouletteCard extends StatelessWidget {
               const SizedBox(height: 8),
               if (signals.isNotEmpty) ...[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     signals.first.message,
                     style: TextStyle(
-                      color: signals.first.type == SignalType.connectionKickout
-                          ? Colors.orange
-                          : Colors.red,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
+                      color: msgColor,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -106,14 +119,45 @@ class RouletteCard extends StatelessWidget {
                             children: [
                               Text(signals.first.message),
                               const SizedBox(height: 8),
-                              Wrap(
-                                spacing: 4,
-                                children: signals.first.lastNumbers.map((n) {
-                                  return Chip(
-                                    label: Text('$n'),
-                                    backgroundColor: Colors.grey[300],
+                              Builder(
+                                builder: (context) {
+                                  final all = signals.first.lastNumbers;
+                                  final patternPositions =
+                                      signals.first.patternPositions;
+
+                                  return Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: List.generate(all.length, (i) {
+                                      final n = all[i];
+                                      final isHighlight =
+                                          patternPositions.contains(i);
+                                      return Container(
+                                        width: 28,
+                                        height: 28,
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: isHighlight
+                                              ? Colors.orange
+                                              : Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(14),
+                                        ),
+                                        child: Text(
+                                          '$n',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: isHighlight
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                   );
-                                }).toList(),
+                                },
                               ),
                             ],
                           ),
@@ -131,7 +175,6 @@ class RouletteCard extends StatelessWidget {
               ],
               const SizedBox(height: 8),
               const Spacer(),
-              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: (isConnecting || !connectEnabled) ? null : onConnect,
                 child: isConnecting
